@@ -1,0 +1,6 @@
+*cmd at C:\Program Files\MongoDB\Server\3.4\bin
+
+
+import database
+
+command : mongorestore -d SaasDatabaseRealProj <directory/database folder the one i sent you> 

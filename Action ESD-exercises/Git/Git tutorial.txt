@@ -1,0 +1,195 @@
+Git tutorial
+
+References:
+https://try.github.io/levels/1/challenges/1
+https://www.tutorialspoint.com/git/index.htm
+
+Introduction:
+Git allows groups of people to work on the same documents (often code) at the same time, and without stepping on each other's toes. It's a distributed version control system.
+
+Basic Concepts
+
+
+Version Control System (VCS) is a software that helps software developers to work together and maintain a complete history of their work.
+
+Listed below are the functions of a VCS:
+
+- Allows developers to work simultaneously.
+- Does not allow overwriting each other’s changes.
+- Maintains a history of every version.
+
+Following are the types of VCS:
+
+- Centralized version control system (CVCS).
+- Distributed/Decentralized version control system (DVCS).
+
+First, you need to create your Git repository
+
+How to create you Git Repository
+
+Go to github.com. If you already have the GitHub account, then login using that account or create a new one. Follow the steps from github.com website to create a new repository.
+
+
+Basic Git commands to commit changes to the GitHub Repository
+
+1. $ git clone '#Git repository address in github page#'
+
+Run git bash on desktop or in any directory you want.
+
+Run this command in git bash cmd to export the git repository to your desktop
+
+The above command produces the following result like this.
+
+######
+Cloning into 'test_repo'...
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (3/3), done.
+######
+
+Open git bash command in your local working directory
+
+2. $ git status
+
+You should run the git command to see how the repository status has changed
+
+It will then print the following lines regarding the status about the changes in the repository
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	octocat.txt
+nothing added to commit but untracked files present (use "git add" to track)
+
+3. $ git add 'octocat.txt'
+
+When you run this command octocat.txt is now in the staging area
+
+4. $ git commit -m 'Your comment of your changes'
+
+The files listed here are in the Staging Area, and they are not in our repository yet. We could add or remove files from the stage before we store them in the repository.
+
+To store our staged changes we run the commit command with a message describing what we've changed. 
+
+When you run this command it will print the following message that describes the change
+
+######
+[master (root-commit) 20b5ccd] Add cute octocat story
+ 1 file changed, 1 insertion(+)
+ create mode 100644 octocat.txt
+
+Success!
+######
+
+5. $ git reset 'file'
+
+This command will remove the file you want to unstage
+
+Let's say that you have run the command $ git add 'octodog.txt'. which you have made a mistake on staging an
+unnessecary file. You want to unstage the file 'octodog.txt' to remove this file from the staged files for commit
+
+if you run '$ git reset', it will unstage all your files changed.
+
+6. $ git log
+
+This command prints all the commits being made. This is the history of all repository changes in chronological order
+
+######
+commit 3852b4db1634463d0bb4d267edb7b3f9cd02ace1
+Author: Try Git <try_git@github.com>
+Date:   Sat Oct 10 08:30:00 2020 -0500
+
+    Add all the octocat txt files
+
+commit b652edfd888cd3d5e7fcb857d0dabc5a0fcb5e28
+Author: Try Git <try_git@github.com>
+Date:   Sat Oct 10 08:30:00 2020 -0500
+
+    Added cute octocat story
+
+Success!
+#######
+
+7. $ git push origin master
+
+The push command tells Git where to put our commits when we're ready, and now we're ready. It pushes our local changes to the original repository (on GitHub).
+
+Push operation will ask for GitHub user name and password. After successful authentication, the operation will succeed.
+
+The above commant will produce the following result like this.
+
+######
+Username for 'https://github.com': kangralkar
+Password for 'https://kangralkar@github.com': 
+Counting objects: 3, done.
+Writing objects: 100% (3/3), 214 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/kangralkar/test_repo.git
+ * [new branch]      master −> master
+ Branch master set up to track remote branch master from origin.
+######
+
+Branching and Merging
+
+References: https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+
+Basic Branching and Merging
+Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+
+- Do some work on a website.
+
+- Create a branch for a new story you’re working on.
+
+- Do some work in that branch.
+
+At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+
+- Switch to your production branch.
+
+- Create a branch to add the hotfix.
+
+- After it’s tested, merge the hotfix branch, and push to production.
+
+- Switch back to your original story and continue working.
+
+
+You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To create a new branch and switch to it at the same time, you can run the git checkout command with the -b switch:
+
+$ git checkout -b iss53
+Switched to a new branch "iss53"
+This is shorthand for:
+
+$ git branch iss53
+$ git checkout iss53
+
+You work on your website and do some commits. Doing so moves the iss53 branch forward, because you have it checked out (that is, your HEAD is pointing to it):
+
+$ vim index.html
+$ git commit -a -m 'added a new footer [issue 53]'
+
+At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: when you switch branches, Git resets your working directory to look like it did the last time you committed on that branch. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+
+Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed:
+
+$ git checkout -b hotfix
+Switched to a new branch 'hotfix'
+$ vim index.html
+$ git commit -a -m 'fixed the broken email address'
+[hotfix 1fb7853] fixed the broken email address
+ 1 file changed, 2 insertions(+)
+
+You can run your tests, make sure the hotfix is what you want, and finally merge the hotfix branch back into your master branch to deploy to production. You do this with the git merge command:
+
+$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast-forward
+ index.html | 2 ++
+ 1 file changed, 2 insertions(+)
+
+
+
+
