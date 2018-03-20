@@ -1,0 +1,53 @@
+[33mcommit bce689a5e5ef735ad64c4e84d993b2f5d98cfc27[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Abe Dominic Daguno <abe.daguno@awsys-i.com>
+Date:   Tue Mar 20 15:32:23 2018 +0800
+
+     Chanel is the most the beautiful the dog.
+
+[33mcommit 84c072e0d098c28a78e2fdca2450101901acaf7c[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Tue Mar 20 14:37:05 2018 +0800
+
+    added test app for dummy data
+
+[33mcommit fcb5c7af6a8e8c34f5364a5e41172ebf8958d955[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Tue Mar 20 13:52:08 2018 +0800
+
+    added for configuration
+
+[33mcommit 4422e1453793cf90fde93fec947865cd054f4e66[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Tue Mar 20 13:48:03 2018 +0800
+
+    added OJT Exercises
+
+[33mcommit 0530efb0f8a1d235061e45e5bc030caf1cd75e6a[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Thu Mar 15 15:01:57 2018 +0800
+
+    added
+
+[33mcommit 1a3a5ccc094a4408dfcc623195e70b57ec8a4e7c[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Thu Mar 15 13:28:52 2018 +0800
+
+    added error handling when device gets turned off
+
+[33mcommit 214bfd95272348d273a693a777e436455e97cfa1[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Thu Mar 15 10:41:05 2018 +0800
+
+    added bug fixes
+
+[33mcommit d82e1026084f736bab91bffe6b931e571ff056e4[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Thu Mar 15 09:44:57 2018 +0800
+
+    bug fix
+
+[33mcommit 5765aa997349afe24ef432f1c2a2841c51d3164a[m
+Author: Macku Sanchez <mackusanchez@gmail.com>
+Date:   Wed Mar 14 17:30:14 2018 +0800
+
+    Real-Project copy for OJT
