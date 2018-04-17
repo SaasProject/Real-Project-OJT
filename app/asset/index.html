@@ -22,10 +22,10 @@
                     {{flash.message}}
                 </div>
                 <form>
-					<div ng-repeat = "field in fields">
+                    <div ng-repeat = "field in fields">
                         <label for = "{{field.name}}"> {{field.name}} </label>
                         <span style = "color:red" ng-if="field.required">*</span>
-						<!--<input type = "{{field.type}}" id = "{{field.name}}" ng-model = "newAsset[field.name]" class = "form-control" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" required="{{field.required}}"><br>-->
+                        <!--<input type = "{{field.type}}" id = "{{field.name}}" ng-model = "newAsset[field.name]" class = "form-control" ng-readOnly = "type != 'add' && (readOnly || field.name == 'asset_tag')" required="{{field.required}}"><br>-->
                         <!--<div ng-show="showCheckBox(field.type) && type != 'add'" ng-repeat="options in newAsset[field.name] track by $index" style="float:left">
                             {{options}}.&nbsp;
                         </div><br ng-show="showCheckBox(field.type) && !readOnly"><br ng-show="showCheckBox(field.type) && readOnly">-->
@@ -74,17 +74,17 @@
                         </select>
 
                         
-					</div>
-					
-					<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span>{{selectedLanguage.commons.requiredLabel2}}</i></small>
+                    </div>
+                    
+                    <small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span>{{selectedLanguage.commons.requiredLabel2}}</i></small>
                 
-			</div>
-					<div class = "modal-footer">
+            </div>
+                    <div class = "modal-footer">
                     <button class="btn btn-primary" ng-click="addOrUpdateAsset()" ng-if = "type == 'add'">{{selectedLanguage.commons.add}}</button>
-					<button class="btn btn-primary" ng-click="addOrUpdateAsset()" ng-if = "type != 'add' && readOnly">{{selectedLanguage.commons.edit}}</button>
-					<button class="btn btn-primary" ng-if = "type != 'add' && !readOnly" ng-click="saveUpdate()">{{selectedLanguage.commons.save}}</button>
+                    <button class="btn btn-primary" ng-click="addOrUpdateAsset()" ng-if = "type != 'add' && readOnly">{{selectedLanguage.commons.edit}}</button>
+                    <button class="btn btn-primary" ng-if = "type != 'add' && !readOnly" ng-click="saveUpdate()">{{selectedLanguage.commons.save}}</button>
                     <button type="button" class="btn btn-danger" ng-click="restart()" data-dismiss="modal">{{selectedLanguage.commons.close}}</button>
-					</div>
+                    </div>
                 </form>
            
             </div>
@@ -102,7 +102,7 @@
             <div class="modal-body">
                 {{selectedLanguage.assets.labels.selectColumns}}
                 <form>
-					<select ng-model="reportColumns" class="form-control" multiple>
+                    <select ng-model="reportColumns" class="form-control" multiple>
                         <option ng-repeat="field in fields">{{field.name}}</option>
                     </select>
                 </form>
@@ -166,7 +166,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>  
-                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id'" ng-class="sortClass(field.name)">{{field.name}}</th>       
+                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id'" ng-class="sortClass(field.name)">{{field.title}}</th>       
                         <th ng-click="setTo('updated_date')" ng-class="sortClass('updated_date')">updated_date</th>                    
                     </tr>
                     

@@ -178,6 +178,7 @@
                 "asset": "Asset",
                 "rfid_scanner": "RFID Scanner",
                 "warehouse": "Warehouse",
+                "showTable": "Show Table",
                 "addField": "Add field here",
 				"required": "Required",
 				"notRequired": "Not Required",
