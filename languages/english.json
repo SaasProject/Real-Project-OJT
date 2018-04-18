@@ -17,7 +17,9 @@
 			"confirmPass" : "Confirm Password doesn't match.",
 			"containPass" : "Passwords should contain lowercase, uppercase, numbers and at least 8 characters",
 			"invalidEmail" : "Please Input valid email.",
-			"invalidNo" : "Please Input numbers only to number fields."
+			"invalidNo" : "Please Input numbers only to number fields.",
+			"hiUser1" : "Hi ",
+			"hiUser2" : "!"
 		},
 		"loginPage" : {
 			"login": "Login",
@@ -178,7 +180,6 @@
                 "asset": "Asset",
                 "rfid_scanner": "RFID Scanner",
                 "warehouse": "Warehouse",
-                "showTable": "Show Table",
                 "addField": "Add field here",
 				"required": "Required",
 				"notRequired": "Not Required",
@@ -198,7 +199,7 @@
                 "default": "DEFAULT"
             },
             "flashMessages":{
-				"updated": "Field successfully added",
+				"added": "Field successfully added",
 				"deleted": "Field successfully deleted",
 				"dbError": "Failed to get fields",
 				"empty": "Field must not be empty",
@@ -209,9 +210,6 @@
         },
         "home":{
             "labels":{
-            	"line": "Line Graph",
-            	"pie": "Pie Chart",
-            	"notifs": "Notifications",
                 "warehouses": "Warehouses",
                 "totalCap": "Total Warehouse Capacity",
                 "totalStored": "Total Assets Stored",

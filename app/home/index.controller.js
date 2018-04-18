@@ -245,7 +245,8 @@
             //console.log($scope.latest_assets);
 
         };
+
+
     };
 
 })();
-

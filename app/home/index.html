@@ -1,8 +1,9 @@
+
 <div style = "text-align:center" class = "spinner" ng-show = "loading"> 
         <img src="loader.gif"/>
 </div>
 
-<div style="width:100%; margin-left: auto; margin-right: auto;" ng-hide = "loading">
+<div style="width:90%; margin-left: auto; margin-right: auto;" ng-hide = "loading">
     <div class="container">
         <div class="row">
             <div class="panel-group col-sm-7" style="table-layout: fixed;">
@@ -21,112 +22,15 @@
                 </div>
                 </div>
             </div>
-            <div class="panel-group col-sm-5" style="table-layout: fixed;">
-                <div class="panel panel-danger">
-                <div class="panel-heading"><h4>{{selectedLanguage.home.labels.notifs}}</h4></div>
-                <div class="panel-body" style="max-height: 70vh; overflow-y: scroll;">
-                    <table class="table table-striped">
-                        <thead></thead>
-                        <tbody>
-                            <tr >
-                                <td></td>
-                                <td style="text-align: right;"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-        <div class="panel-group col-sm-7" style="table-layout: fixed;">
-            <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" style="text-align: center">{{current_warehouse.name}} <span class="glyphicon {{current_warehouse.icon}}" style="color: {{current_warehouse.color}};"></span></h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table">
-                            <big>
-                            <tbody>
-                                <tr>
-                                    <td><b>{{selectedLanguage.home.labels.totalCap}}</b></td>
-                                    <td>{{current_warehouse.capacity}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>{{selectedLanguage.home.labels.totalStored}}</b></td>
-                                    <td>{{current_warehouse.quantity}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>{{selectedLanguage.home.labels.types}}</b></td>
-                                    <td>{{current_warehouse.asset_types}}</td>
-                                </tr>
-                            </tbody>
-                            </big>
-                        </table>
-                        <big><b>{{selectedLanguage.home.labels.latest}} </b></big>
-                        <table class="table table-striped">
-                            <thead>
-                                <th style="text-align: center">{{selectedLanguage.home.labels.tag}}</th>
-                                <th style="text-align: center">{{selectedLanguage.home.labels.date}}</th>
-                            </thead>
-                            <tbody style="text-align: center"> 
-                                <tr ng-repeat="asset in latest_assets">
-                                    <td><a ui-sref="asset({asset_tag: asset.asset_tag})">{{asset.asset_tag}}</a></td>
-                                    <td>{{asset.updated_date}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeModal()">{{selectedLanguage.commons.close}}</button>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-group col-sm-5" style="table-layout: fixed;">
-                <div class="panel panel-success">
-                <div class="panel-heading"><h4>{{selectedLanguage.home.labels.pie}}</h4></div>
-                <br>
-                 <br>
-                 <br>
-                 <br>  
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                </div>
-                </div>
-            </div>
-
-            <div class="row">
-        <div class="panel-group col-sm-13" style="table-layout: fixed;">
-                <div class="panel panel-warning">
-                <div class="panel-heading"><h4>{{selectedLanguage.home.labels.line}}</h4></div>
-                <br>
-                 <br>
-                 <br>
-                 <br>  
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
-
-
-
-<!--to be changed  modal
 <div id="jeremy">
     <div class="modal fade" id="warehouseModal" role="dialog">
         <div class="modal-dialog">
-                    -->
+                    
                 <!-- Modal content-->
-                <!--
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" style="text-align: center">{{current_warehouse.name}} <span class="glyphicon {{current_warehouse.icon}}" style="color: {{current_warehouse.color}};"></span></h4>
@@ -171,4 +75,3 @@
         </div>
     </div>
 </div>
--->

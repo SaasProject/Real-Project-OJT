@@ -10,7 +10,7 @@ var config = require('config.json');
 var net = require('net'),
     JsonSocket = require('json-socket');
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://127.0.0.1:27017/";
+var url = "mongodb://192.168.223.65:27017/";
 var ObjectID = require('mongodb').ObjectID;
  
 //added by dyan0 --socket.io for realtime

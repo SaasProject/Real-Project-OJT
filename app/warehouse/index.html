@@ -76,7 +76,8 @@
     </div>
   </div>
   
-      <!-- Modal for Edit Device -->
+  
+    <!-- Modal for Edit Device -->
   <div class="modal fade" id="editModal" role="dialog">
 		<div class="modal-dialog">
 		
@@ -183,7 +184,7 @@
 	<table class="table table-striped table-condensed table-hover">
 		<thread>
 			<tr>
-				<th ng-repeat="field in fields" ng-click='sortColumn(field.name)' ng-class='setWidth(field.name) + " " + sortClass(field.name)'>{{field.title}}</th>
+				<th ng-repeat="field in fields" ng-click='sortColumn(field.name)' ng-class='setWidth(field.name) + " " + sortClass(field.name)'>{{field.name}}</th>
 				<th ng-click = "sortColumn('quantity')" ng-class="setWidth('quantity') + ' ' + sortClass('quantity')">quantity</th>
 			</tr>
 		</thread>
