@@ -1,0 +1,55 @@
+{
+  "_from": "zingchart",
+  "_id": "zingchart@2.7.0",
+  "_inBundle": false,
+  "_integrity": "sha512-fKEtGLfvTnnXdjHB/+VGeNraex8z0tIwaBbeXRxfKONQJx8AJAHn1Za1v/uVob0OSE5kk93crgbRv1L/eS2+tw==",
+  "_location": "/zingchart",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "zingchart",
+    "name": "zingchart",
+    "escapedName": "zingchart",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/zingchart/-/zingchart-2.7.0.tgz",
+  "_shasum": "c38015e736f8af42b6f62c4011688fc26a49b597",
+  "_spec": "zingchart",
+  "_where": "C:\\Users\\sherine.ortaleza\\Desktop\\New Project\\Real-Project-OJT",
+  "author": {
+    "name": "ZingChart"
+  },
+  "bugs": {
+    "url": "https://github.com/zingchart/ZingChart/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A npm package for easy downloading of ZingChart.",
+  "homepage": "https://github.com/zingchart/ZingChart",
+  "keywords": [
+    "zingchart",
+    "chart",
+    "charting",
+    "javascript",
+    "charts",
+    "html5",
+    "charts"
+  ],
+  "main": "index.js",
+  "name": "zingchart",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zingchart/ZingChart.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.7.0"
+}
