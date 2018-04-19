@@ -211,6 +211,9 @@
         },
         "home":{
             "labels":{
+            	"line": "折れ線グラフ",
+            	"pie": "円グラフ",
+            	"notifs": "通知",
                 "warehouses": "ウエアハウス",
                 "totalCap": "ウエアハウスの容量",
                 "totalStored": "資産合計",

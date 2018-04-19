@@ -210,6 +210,9 @@
         },
         "home":{
             "labels":{
+            	"line": "Line Graph",
+            	"pie": "Pie Chart",
+            	"notifs": "Notifications",
                 "warehouses": "Warehouses",
                 "totalCap": "Total Warehouse Capacity",
                 "totalStored": "Total Assets Stored",

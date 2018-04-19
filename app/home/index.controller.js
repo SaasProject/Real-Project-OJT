@@ -14,7 +14,7 @@
         .module('app')
         .controller('Home.IndexController', Controller);
  
-     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService) {
+     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService) {
  
         //initialization
         $scope.assets = [];
@@ -33,8 +33,24 @@
             }
             return size;
         };
-        
+        $scope.name = 'user';
 
+
+
+        function getLogs(){
+            LogsService.getAllLogs($scope.name).then(function(response){
+                
+               console.log(response);
+               $scope.logss = response;
+                
+            }).catch(function(err){
+                alert(err.msg_error);
+            });
+        }
+
+
+
+        getLogs();
         /*
             Author: Jano, Jeremy
 			Function name: getAllWHInfo
@@ -243,10 +259,7 @@
             //display only the first 5 elements
             $scope.latest_assets = $scope.latest_assets.slice(0, 5);
             //console.log($scope.latest_assets);
-
         };
-
-
     };
 
 })();
