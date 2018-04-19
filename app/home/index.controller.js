@@ -56,6 +56,9 @@
 
         }]
       };
+
+
+        $scope.myData=[1,4,5,5,10, 9,19, 10, 18];
         
         $scope.current_warehouse = {};
         var isModalOpened = false;
