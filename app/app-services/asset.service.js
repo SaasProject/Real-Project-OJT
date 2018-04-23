@@ -9,6 +9,7 @@
         var service = {};
  
         service.GetAll = GetAll;
+        service.GetAllAssetType = GetAllAssetType;
         service.addAsset = addAsset;
         service.updateAsset = updateAsset;
         service.Delete = Delete;
@@ -17,6 +18,10 @@
  
         function GetAll() {
             return $http.get('/api/assets/getAll').then(handleSuccess, handleError);
+        }
+
+        function GetAllAssetType() {
+            return $http.get('/api/assets/getAssetType').then(handleSuccess, handleError);
         }
 
         function addAsset(assets) {

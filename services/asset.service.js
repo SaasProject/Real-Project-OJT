@@ -8,11 +8,35 @@ db.bind('assets');
 var service = {};
 
 service.getAll = getAll;
+service.getAssetType = getAssetType;
 service.addAsset = addAsset;
 service.updateAsset = updateAsset;
 service.delete = _delete;
 
 module.exports = service;
+/*
+        Function name: getAssetType
+        Author(s): Ortaleza, Sherine
+        Date Modified: 04/19/2018
+        Description: service function for getting asset type
+        Parameter(s): 
+        Return: none
+    */
+
+function getAssetType() {
+     var deferred = Q.defer();
+    /*console.log('HI');
+   
+        db.collection('assets').aggregate([{$group : {"_id":"$type", "count":{ $sum : 1 }}}]).toArray(function(err, types){
+            console.log(types);
+            if(err) deferred.reject(err);
+            deferred.resolve(types);
+        }); */
+    return deferred.promise;
+}
+
+
+
 /*
         Function name: get all asset
         Author(s): Reccion, Jeremy
@@ -22,6 +46,7 @@ module.exports = service;
         Return: none
     */
 function getAll(){
+    console.log('hi');
     //imitate angular promise. start by initializing this
     var deferred = Q.defer();
 
@@ -124,9 +149,7 @@ function updateAsset(_id, assetParam){
                 }
             });            
         
-        return deferred.promise;
-    
-      
+        return deferred.promise;    
     }
 
     /*
@@ -150,3 +173,5 @@ function _delete(_id) {
  
     return deferred.promise;
 }
+
+
