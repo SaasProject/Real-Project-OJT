@@ -7,19 +7,59 @@
     
  */
 
+
+
+
+
+
+
 (function () {
     'use strict';
  
     angular
         .module('app')
         .controller('Home.IndexController', Controller);
+
+      
+
+
  
      function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService) {
  
         //initialization
         $scope.assets = [];
         $scope.warehouses = [];
+        $scope.myJson = {
+        type: "pie",
+        title: {
+          textAlign: 'center',
+          text: "Type of Assets",
+          fontSize: 15,
+          fontStyle: 'normal',
+          fontFamily: "Verdana",
+          fontWeight: "100"
 
+        },
+        series: [{
+          values: [3],
+          text: "Total Commits",
+          backgroundColor: "#D2D6DE"
+
+        }, {
+          values: [8],
+          text: "Issues Submitted",
+          backgroundColor: "#FA6E6E #FA9494"
+        }, {
+          values: [7],
+          text: "Number of Clones",
+          backgroundColor: "#28C2D1"
+
+        }]
+      };
+
+
+        $scope.myData=[1,4,5,5,10, 9,19, 10, 18];
+        
         $scope.current_warehouse = {};
         var isModalOpened = false;
         
@@ -33,6 +73,8 @@
             }
             return size;
         };
+
+
         $scope.name = 'user';
 
 

@@ -84,19 +84,20 @@
             <div class="panel-group col-sm-5" style="table-layout: fixed;">
                 <div class="panel panel-success">
                 <div class="panel-heading"><h4>{{selectedLanguage.home.labels.pie}}</h4></div>
-                
-
-
-                <div id="chartContainerz" style="height: 300px; width: 100%; background-color: blue;"></div>
-                </div>
+                <div zingchart id="chart-1" zc-json="myJson"  zc-height="300px" zc-width="100%" ></div>
                 </div>
             </div>
 
+            </div>
             <div class="row">
-        <div class="panel-group col-sm-13" style="table-layout: fixed;">
+            <div class="panel-group col-sm-13" style="table-layout: fixed;">
                 <div class="panel panel-warning">
                 <div class="panel-heading"><h4>{{selectedLanguage.home.labels.line}}</h4></div>
+ 
+                 <div zingchart id="chart-2" zc-values="myData"  zc-height="500px" zc-width="100%" ></div>
+                           
                 </div>
+
                 </div>
             </div>
         </div>

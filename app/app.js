@@ -8,7 +8,7 @@
     'use strict';
  
     angular
-        .module('app', ['ui.router', 'ui.sortable', 'ngSanitize', 'ngCsv', 'ui.bootstrap', 'btford.socket-io'])
+        .module('app', ['ui.router', 'ui.sortable', 'ngSanitize', 'ngCsv', 'ui.bootstrap', 'btford.socket-io', 'zingchart-angularjs'])
         .config(config)
         .run(run);
  
