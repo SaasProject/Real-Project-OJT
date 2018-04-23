@@ -8,7 +8,7 @@
     'use strict';
  
     angular
-        .module('app', ['ui.router', 'ui.sortable', 'ngSanitize', 'ngCsv', 'ui.bootstrap', 'btford.socket-io'])
+        .module('app', ['ui.router', 'ui.sortable', 'ngSanitize', 'ngCsv', 'ui.bootstrap', 'btford.socket-io', 'zingchart-angularjs'])
         .config(config)
         .run(run);
  
@@ -132,6 +132,7 @@
         //initialize
         $rootScope.user = {};
         $rootScope.selectedLanguage = {};
+        $rootScope.defaultLanguage = {};
         $rootScope.greet = false;
 		$rootScope.changePasswordModal = false;
 
@@ -140,25 +141,12 @@
 
         //added by glenn
         //get current user and set details to rootScope
-        $http.get('/api/users/isAdmin').success(function(response){
+        /* $http.get('/api/users/isAdmin').success(function(response){
             //response is true if user is admin from api/users.controller.js
-            //console.log(response);
-            if(response){
-
-                // Determine if user is admin
-                if(true){
-                    // User can manage users
-                    $rootScope.isAdmin = true;
-                } else {
-
-                    //User cannot manage users
-                    $rootScope.isAdmin = false;
-                }
-            }
-            else{
-                return false;
-            }
-        });
+            console.log('first time');
+            $rootScope.isAdmin = response.data;
+            //console.log($rootScope.isAdmin);
+        }); */
  
         //added by jeremy
         // update active tab on state change
@@ -166,11 +154,21 @@
             //console.log($rootScope.isAdmin);
             //console.log(toState);
             //restrict 'Users' when accessing states other than the specified and redirect to login page
-            if(!$rootScope.isAdmin && (toState.name != 'asset' && toState.name != 'home' && toState.name != 'account')){
-                event.preventDefault();
-                //alert('Unauthorized');
-                $state.transitionTo('home');
-            }
+
+
+            $http.get('/api/users/isAdmin').then(function(response){
+                //response is true if user is admin from api/users.controller.js
+                $rootScope.isAdmin = response.data;
+                //console.log($rootScope.isAdmin);
+
+                //need to place code here. putting it outside will not work
+                if(!$rootScope.isAdmin && (toState.name != 'asset' && toState.name != 'home' && toState.name != 'account')){
+                    event.preventDefault();
+                    //alert('Unauthorized');
+                    $state.transitionTo('home');
+                }
+                
+            });
 
             //get token from server every route change to determine if session in server is still alive
             $http.get('/app/token').then(function(res){
@@ -180,6 +178,7 @@
                 //so check the res.data for '<html>'. if found, load whole login page
                 if(res.data.indexOf('<html>') != -1){
                         event.preventDefault();
+                        //alert('oi');
                         //var fullpath = $window.location.href;
                         //var returnUrl = fullpath.substring(fullpath.indexOf($window.location.pathname));
                         //alert('error on @statechange');
@@ -194,32 +193,23 @@
             $rootScope.activeTab = toState.data.activeTab;
         });
 
-        //get languages
-        LanguageService.getEnglishLanguage()
-            .then(function(res) {
-                $rootScope.englishLanguage = res;
-            })
-            .catch(function (error) {
-                FlashService.Error(error);
-            });
+        function getLanguages(){
+            //get default language
+            LanguageService.getDefaultLanguage()
+                .then(function(res) {
+                    //console.log(res);
+                    $rootScope.defaultLanguage = res;
 
-        LanguageService.getNihongoLanguage()
-            .then(function(res) {
-                $rootScope.nihongoLanguage = res;
-            })
-            .catch(function (error) {
-                FlashService.Error(error);
-            });
-
-        //get default language
-        LanguageService.getDefaultLanguage()
-            .then(function(res) {
-                //console.log(res);
-                $rootScope.defaultLanguage = res;
-            })
-            .catch(function (error) {
-                FlashService.Error(error);
-            });
+                    //add this conditions when adding new language json files
+                    if(res.value == 'nihongo'){
+                        $rootScope.dropDefLangSel = '日本語';
+                    }else if(res.value == 'english'){
+                        $rootScope.dropDefLangSel = 'English';
+                    }
+                })
+                .catch(function (error) {
+                });
+        }
       
         //execute when loaded
         getUserInfos();
@@ -230,13 +220,23 @@
         }
 
         function changeLang(option){
-            if(option == 'nihongo'){
-                $rootScope.selectedLanguage = $rootScope.nihongoLanguage.nihongo;
-                $rootScope.hiUser = "こんにちは, "+$rootScope.user.firstName+"さん!";
-            } else if (option == 'english') {
-                $rootScope.selectedLanguage = $rootScope.englishLanguage.english;
-                $rootScope.hiUser = "Hi "+$rootScope.user.firstName+"!";
-            }
+            LanguageService.getSpecificLanguage(option)
+                .then(function(res) {
+                    $rootScope.selectedLanguage = res[Object.keys(res)[0]];
+                    $rootScope.hiUser = $rootScope.selectedLanguage.commons.hiUser1+$rootScope.user.firstName
+                    +$rootScope.selectedLanguage.commons.hiUser2;
+
+                    //add this conditions when adding new language json files
+                    if(option == 'nihongo'){
+                        $rootScope.dropLangSel = '日本語';
+                    } else if (option == 'english') {
+                        $rootScope.dropLangSel = 'English';
+                    } else {
+                        $rootScope.dropLangSel = $rootScope.selectedLanguage.accountSettings.labels.selectLanguage;
+                    }
+                })
+                .catch(function (error) {
+                });
             //save selected language to database
             UserService.saveLanguage(option, $rootScope.user);
         }
@@ -248,6 +248,13 @@
         $rootScope.changeDefaultLanguage = function(option) {
             //save selected default language to database
             LanguageService.saveDefaultLanguage($rootScope.user, option);
+
+            //add this conditions when adding new language json files
+            if(option == 'nihongo'){
+                $rootScope.dropDefLangSel = '日本語';
+            } else if (option == 'english') {
+                $rootScope.dropDefLangSel = 'English';
+            }
         }
 
         /*
@@ -266,20 +273,29 @@
                 var str = user._id;
                 $rootScope.user = user;
                 $rootScope.fName = user.firstName;
+                $rootScope.dropLangSel = '';
+                $rootScope.dropDefLangSel = '';
 
+                getLanguages();
                 //get language settings from current user
                 var setLanguage = user.setLanguage;
-                if(setLanguage == undefined){
-                    setLanguage = $rootScope.defaultLanguage.value;
-                }
+                LanguageService.getSpecificLanguage(setLanguage)
+                    .then(function(res) {
+                        $rootScope.selectedLanguage = res[Object.keys(res)[0]];
+                        $rootScope.hiUser = $rootScope.selectedLanguage.commons.hiUser1+user.firstName
+                        +$rootScope.selectedLanguage.commons.hiUser2;
 
-                if(setLanguage == 'nihongo'){
-                    $rootScope.selectedLanguage = $rootScope.nihongoLanguage.nihongo;
-                    $rootScope.hiUser = "こんにちは, "+user.firstName+"さん!";
-                } else if (setLanguage == 'english') {
-                    $rootScope.selectedLanguage = $rootScope.englishLanguage.english;
-                    $rootScope.hiUser = "Hi "+user.firstName+"!";
-                }
+                        //add this conditions when adding new language json files
+                        if(setLanguage == 'nihongo'){
+                            $rootScope.dropLangSel = '日本語';
+                        } else if (setLanguage == 'english') {
+                            $rootScope.dropLangSel = 'English';
+                        } else {
+                            $rootScope.dropLangSel = $rootScope.selectedLanguage.accountSettings.labels.selectLanguage;
+                        }
+                    })
+                    .catch(function (error) {
+                    });
 
                 if (user.firstName == null){
                     $rootScope.initials = "new";

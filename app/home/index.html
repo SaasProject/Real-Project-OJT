@@ -1,8 +1,9 @@
+
 <div style = "text-align:center" class = "spinner" ng-show = "loading"> 
         <img src="loader.gif"/>
 </div>
 
-<div style="width:100%; margin-left: auto; margin-right: auto;" ng-hide = "loading">
+<div style="width:90%; margin-left: auto; margin-right: auto;" ng-hide = "loading">
     <div class="container">
         <div class="row">
             <div class="panel-group col-sm-7" style="table-layout: fixed;">
@@ -21,16 +22,16 @@
                 </div>
                 </div>
             </div>
-            <div class="panel-group col-sm-5" style="table-layout: fixed;">
+        <div class="panel-group col-sm-5" style="table-layout: fixed;">
                 <div class="panel panel-danger">
                 <div class="panel-heading"><h4>{{selectedLanguage.home.labels.notifs}}</h4></div>
                 <div class="panel-body" style="max-height: 70vh; overflow-y: scroll;">
+
                     <table class="table table-striped">
                         <thead></thead>
                         <tbody>
-                            <tr >
-                                <td></td>
-                                <td style="text-align: right;"></td>
+                            <tr ng-repeat="response in logss" >
+                                <td>{{response.message}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -78,39 +79,24 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeModal()">{{selectedLanguage.commons.close}}</button>
-                    </div>
                 </div>
             </div>
             <div class="panel-group col-sm-5" style="table-layout: fixed;">
                 <div class="panel panel-success">
-                <div class="panel-heading"><h4>{{selectedLanguage.home.labels.pie}}</h4></div>
-                <br>
-                 <br>
-                 <br>
-                 <br>  
-                 <br>
-                 <br>
-                 <br>
-                 <br>
-                </div>
+                <div class="panel-heading"><h4>{{current_warehouse.name}}</h4></div>
+                <div zingchart id="chart-1" zc-json="myJson" ng-load="openModal(warehouse)" zc-height="300px" zc-width="100%"></div>
                 </div>
             </div>
 
+            </div>
             <div class="row">
-        <div class="panel-group col-sm-13" style="table-layout: fixed;">
+            <div class="panel-group col-sm-13" style="table-layout: fixed;">
                 <div class="panel panel-warning">
                 <div class="panel-heading"><h4>{{selectedLanguage.home.labels.line}}</h4></div>
-                <br>
-                 <br>
-                 <br>
-                 <br>  
-                 <br>
-                 <br>
-                 <br>
-                 <br>
+                 <div zingchart id="chart-2" zc-values="myData"  zc-height="500px" zc-width="100%"></div>
+                           
                 </div>
+
                 </div>
             </div>
         </div>
@@ -119,14 +105,12 @@
 
 
 
-
-<!--to be changed  modal
+<!-- to be changed  modal 
 <div id="jeremy">
     <div class="modal fade" id="warehouseModal" role="dialog">
         <div class="modal-dialog">
-                    -->
-                <!-- Modal content-->
-                <!--
+                    
+                <!-- Modal content
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" style="text-align: center">{{current_warehouse.name}} <span class="glyphicon {{current_warehouse.icon}}" style="color: {{current_warehouse.color}};"></span></h4>

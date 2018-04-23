@@ -10,7 +10,7 @@ var config = require('config.json');
 var net = require('net'),
     JsonSocket = require('json-socket');
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://127.0.0.1:27017/";
+var url = "mongodb://192.168.223.65:27017/";
 var ObjectID = require('mongodb').ObjectID;
  
 //added by dyan0 --socket.io for realtime
@@ -39,7 +39,7 @@ app.use('/api/users', require('./controllers/api/users.controller'));
 app.use('/api/devices', require('./controllers/api/devices.controller'));
 app.use('/api/warehouses',require('./controllers/api/warehouse.controller'));
 app.use('/api/languages',require('./controllers/api/language.controller'));
- 
+app.use('/api/logs',require('./controllers/api/logs.controller'));
 //added by jeremy
 app.use('/api/assets', require('./controllers/api/assets.controller'));
 app.use('/api/fields', require('./controllers/api/fields.controller'));

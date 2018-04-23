@@ -40,7 +40,7 @@ router.get('/', function (req, res) {
             
             
             if(req.query.expired){
-                return res.render('login', {error: 'Your session has expired'});
+                return res.render('login', {error: 'Your session has expired', languages: selectedLanguage});
             }
             else{
                 return res.render('login', viewData);
@@ -71,7 +71,7 @@ router.post('/', function (req, res) {
                     json: true
                 }, function (error, response, body) {
                     if (error) {
-                        return res.render('login', { error: 'An error occurred' });
+                        return res.render('login', { error: 'An error occurred', languages: selectedLanguage});
                     }
             
                     if (!body.token) {

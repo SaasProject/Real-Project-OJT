@@ -1,5 +1,15 @@
 {
 	"nihongo" : {
+		"register":{
+			"userDefault":"ユーザーのデフォルト言語",
+			"firstName":"ファーストネーム",
+			"lastName":"苗字",
+			"email":"メールアドレス",
+			"password":"パスワード",
+			"confirmPass":"かくにんにゅうりょく",
+			"register":"登録",
+			"cancel":"キャンセル"
+		},
 		"commons" : {
 			"search" : "検索",
 			"itemsPerPage" : "各ページの項目数表示",
@@ -17,7 +27,9 @@
 			"confirmPass" : "新しいパスワードが一致しません。もう一度入力してください。",
 			"containPass" : "パスワードには、小文字、大文字、数字、少なくとも8文字",
 			"invalidEmail" : "有効なメールアドレスを入力してください。",
-			"invalidNo" : "番号は番号フィールドにのみ入力してください。"
+			"invalidNo" : "番号は番号フィールドにのみ入力してください。",
+			"hiUser1" : "こんにちは, ",
+			"hiUser2" : "さん!"
 		},
 		"loginPage" : {
 			"login": "ログイン",
@@ -180,6 +192,8 @@
                 "warehouse": "ウエアハウス",
                 "addField": "ここにフィールドを追加する",
 				"required": "必要",
+				"showTable": "ショーテーブル",
+                "tableShow": "ショーテーブル",
 				"notRequired": "不要",
                 "type": "フィールドの種類を選択",
                 "text": "テキスト",
@@ -194,7 +208,9 @@
 				"note1": "カンマで区切られた各のオプション値を入力してください",
                 "tableName": "名",
                 "tableType": "種類",
-                "default": "デフォルト"
+                "default": "デフォルト",
+                "showField": "見える",
+                "dontShow": "見えない"
             },
             "flashMessages":{
 				"added": "フィールドが追加された",
@@ -209,9 +225,6 @@
         },
         "home":{
             "labels":{
-            	"line": "折れ線グラフ",
-            	"pie": "円グラフ",
-            	"notifs": "通知",
                 "warehouses": "ウエアハウス",
                 "totalCap": "ウエアハウスの容量",
                 "totalStored": "資産合計",

@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "angular-chart.js": "^1.1.1",
     "bcryptjs": "^2.4.3",
     "client": "0.0.1",
     "ejs": "^2.5.7",
@@ -20,7 +19,9 @@
     "q": "^1.5.1",
     "request": "^2.83.0",
     "rootpath": "^0.1.2",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "zingchart": "^2.7.0",
+    "zingchart-angularjs": "^1.2.0"
   },
   "devDependencies": {},
   "scripts": {

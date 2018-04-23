@@ -13,7 +13,6 @@
 			<br>
 			<form ng-submit="addUpdateField()">
 				<input type="text" class="form-control" placeholder="{{selectedLanguage.fields.labels.addField}}" ng-model="newField.name" ng-required="true"><br>
-				<input type="text" class="form-control" placeholder="Field Title" ng-model="newField.title" ng-required="true"><br>
 				<input type="checkbox" class="form-check-input" id="exampleCheck1" ng-model="newField.required">
 				<label class="form-check-label" for="exampleCheck1">{{selectedLanguage.fields.labels.required}}</label><br><br>
 				<input type="checkbox" class="form-check-input" id="exampleCheck2" ng-model="newField.show">

@@ -166,7 +166,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>  
-                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id'" ng-class="sortClass(field.name)">{{field.title}}</th>       
+                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id'" ng-class="sortClass(field.name)">{{field.name}}</th>       
                         <th ng-click="setTo('updated_date')" ng-class="sortClass('updated_date')">updated_date</th>                    
                     </tr>
                     

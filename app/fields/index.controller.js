@@ -22,9 +22,11 @@
         //model for form
         $scope.newField = {
             name: "",
+            title: "",
             required: false,
             type: "text",
-            options:{}
+            options:{},
+            show: false
         };
         //name of document . defaults to user
         $scope.name = "user";
@@ -74,34 +76,36 @@
             Return: none
         */
         $scope.getAllFields = function(){
-			
+            
             $scope.newField = {
                 name: "",
+                title: "",
                 required: false,
-                type: "text"
+                type: "text",
+                show: false,
             };
             
             FieldsService.GetAll($scope.name).then(function(response){
                 //console.log(response);
                 $scope.fields = response.fields;
                 $scope.id = response._id;
-			
+            
             }).catch(function(){
                 //db error
                 FlashService.Error($rootScope.selectedLanguage.fields.flashMessages.dbError);
             });
         };
-		
-		
-		//function for sorting  fields
-		$scope.sortableOptions = {
-			axis: 'y',
+        
+        
+        //function for sorting  fields
+        $scope.sortableOptions = {
+            axis: 'y',
             update: function(e, ui) {
                 console.log($scope.fields);
-				
-				FieldsService.Update($scope.id, $scope.fields).then(function(){
+                
+                FieldsService.Update($scope.id, $scope.fields).then(function(){
                         //alert('sorted');
-						//FlashService.Success('Fields successfully updated');
+                        //FlashService.Success('Fields successfully updated');
                       
                     }).catch(function(){
                         //db error
@@ -110,7 +114,7 @@
             },
             
         };
-		
+        
         
         // get realtime changes
         socket.on('fieldsChange', function(){
@@ -174,9 +178,11 @@
                             //reset variables
                             $scope.newField = {
                                 name: "",
+                                title: "",
                                 required: false,
                                 type: "text",
-                                options: {}
+                                options: {},
+                                show: false
                             };
                             $scope.index = -1;
                             $scope.editable = false;

@@ -7,7 +7,7 @@ router.get('/getAll', getAllAssets);
 router.post('/addAsset', addAsset);
 router.put('/:_id', updateAsset);
 router.delete('/:_id', deleteAsset);
-
+router.get('/getAssetType', getAssetType);
 
 module.exports = router;
 /*
@@ -32,6 +32,30 @@ function getAllAssets(req, res){
         res.status(400).send(err);
     });
 }
+/*
+        Function name: get all asset types
+        Author(s): Ortaleza, Sherine
+        Date Modified: 02/27/2018
+        Description: getter function for retrieving all asset types
+        Parameter(s):
+        Return: none
+    */
+function getAssetType(req, res){
+    assetService.getAssetType().then(function(types){
+        //console.log('assets.controller');
+        console.log(types);
+        if(types){
+            res.send(types);
+        }
+        else{
+            res.send(404);
+        }
+    }).catch(function(err){
+        res.status(400).send(err);
+    });
+}
+
+
 /*
         Function name: add asset
         Author(s): Reccion, Jeremy

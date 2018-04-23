@@ -14,12 +14,14 @@
         .module('app')
         .controller('Home.IndexController', Controller);
  
-     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService) {
+     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService) {
  
         //initialization
         $scope.assets = [];
         $scope.warehouses = [];
-
+        
+        $scope.myData=[1,4,5,5,10,9,19,10,18];
+        
         $scope.current_warehouse = {};
         var isModalOpened = false;
         
@@ -34,6 +36,82 @@
             return size;
         };
         
+        $scope.name = 'user';
+      function getLogs(){
+            LogsService.getAllLogs($scope.name).then(function(response){
+                
+               console.log(response);
+               $scope.logss = response;
+                
+            }).catch(function(err){
+                alert(err.msg_error);
+            });
+        }
+        getLogs();
+
+
+        function getAssetType(asset_types){
+            var a_type = asset_types;
+            AssetService.GetAll().then(function(assets){
+
+                
+                if(assets.length > 0){               
+                        //store to array
+                    a_type = a_type.replace(/\s/g,'');
+                    $scope.assets = assets;
+                    $scope.assets_types = asset_types;
+                    var types = a_type.split(',');
+                    $scope.assetsLength = Object.size(assets);
+                    $scope.assetsTypeQuantityLength = Object.size(asset_types);
+                    console.log(types);
+                    $scope.quantityOfAssetTypes= [];
+                    $scope.types = [];
+                    var count = 0;
+                    
+                    var typeCount = 0;
+                    var container ="";
+                    var numberOfAssetTypes =1;
+                    var typeQuantity = 0;
+                    var assetCount = 0;
+                     $scope.myJson = {
+                        type: "pie",
+                        title: {
+                          textAlign: 'center',
+                          text: "Types of Assets",
+                          fontSize: 15,
+                          fontStyle: 'normal',
+                          fontFamily: "Verdana",
+                          fontWeight: "100"
+
+                        },
+                        legend:{
+                        },
+                        series: []
+                      };
+
+                      console.log($scope.myJson);  
+                        //get all asset types
+                    for (var typeCount = 0; typeCount < types.length; typeCount++){
+                         typeQuantity = 0;
+                        for (assetCount = 0; assetCount < $scope.assetsLength; assetCount++){
+                                if (types[typeCount] == $scope.assets[assetCount].type){
+                                    typeQuantity += 1;
+                                }       
+                        }
+                        $scope.quantityOfAssetTypes[typeCount] = typeQuantity;
+
+                        console.log(types[typeCount]);
+                        $scope.myJson['series'].push({values:[$scope.quantityOfAssetTypes[typeCount]],text: types[typeCount]});
+                    }
+                    console.log($scope.myJson);
+                        
+                }                                          
+                              
+            }).catch(function(err){
+                alert(err.msg_error);
+            });
+        }
+        getAssetType();
 
         /*
             Author: Jano, Jeremy
@@ -41,6 +119,7 @@
 			Date modified: 2-13-2018
 			Description: get all warehouse data for dashboard
 		*/
+        $scope.current_warehouse;
 		function getAllWHInfo() {
             WarehouseService.getAllWarehouse().then(function (warehouse) {
                 $scope.warehouses = warehouse;
@@ -99,6 +178,7 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                             console.log($scope.current_warehouse);
+                            
                             getAssetsByWarehouse();
                         }
                     }
@@ -110,6 +190,10 @@
 			});
         }
         getAllWHInfo();
+
+       
+
+       
 
         /*
             Function name: Get all assets
@@ -216,7 +300,7 @@
 
         //run this ALSO inside 'assetChange' event for real time update
         function getAssetsByWarehouse(){
-
+            $scope.myJson = ("[{}]");
             //console.log($scope.current_warehouse);
             //
             //getAllAssets();
@@ -238,14 +322,13 @@
             $scope.current_warehouse.asset_types = $scope.current_warehouse.asset_types.filter(function(value, index, self){
                 return (self.indexOf(value) == index && value != null && value != '');
             }).sort().toString().replace(/,/g, ', ');
+            //console.log($scope.current_warehouse.asset_types);
 
-
+            getAssetType($scope.current_warehouse.asset_types);
             //display only the first 5 elements
             $scope.latest_assets = $scope.latest_assets.slice(0, 5);
-            //console.log($scope.latest_assets);
-
+            //console.log($scope.latest_assets);            
         };
     };
 
 })();
-

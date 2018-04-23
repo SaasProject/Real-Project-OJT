@@ -235,7 +235,7 @@
 	<table class="table table-striped table-condensed table-hover">
 		<thread>
 			<tr>
-				<th ng-repeat="field in fields" ng-click='sortColumn(field.name)' ng-if='field.show' ng-class='setWidth(field.name) + " " + sortClass(field.name)'>{{field.title}}</th>
+				<th ng-repeat="field in fields" ng-click='sortColumn(field.name)' ng-if='field.show' ng-class='setWidth(field.name) + " " + sortClass(field.name)'>{{field.name}}</th>
 			</tr>
 		</thread>
 		<tbody>

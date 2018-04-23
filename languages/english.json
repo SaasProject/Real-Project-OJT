@@ -1,5 +1,15 @@
 {
 	"english" : {
+		"register":{
+			"userDefault":"User Default Language",
+			"firstName":"First Name",
+			"lastName":"Last Name",
+			"email":"E-mail",
+			"password":"Password",
+			"confirmPass":"Confirm Password",
+			"register":"Register",
+			"cancel":"Cancel"
+		},
 		"commons" : {
 			"search" : "Search",
 			"itemsPerPage" : "Items Per Page",
@@ -17,7 +27,9 @@
 			"confirmPass" : "Confirm Password doesn't match.",
 			"containPass" : "Passwords should contain lowercase, uppercase, numbers and at least 8 characters",
 			"invalidEmail" : "Please Input valid email.",
-			"invalidNo" : "Please Input numbers only to number fields."
+			"invalidNo" : "Please Input numbers only to number fields.",
+			"hiUser1" : "Hi ",
+			"hiUser2" : "!"
 		},
 		"loginPage" : {
 			"login": "Login",
@@ -176,9 +188,10 @@
                 "customize": "Customize Fields",
                 "user": "User",
                 "asset": "Asset",
+                "showTable": "Show Table",
+                "tableShow": "Show Table",
                 "rfid_scanner": "RFID Scanner",
                 "warehouse": "Warehouse",
-                "showTable": "Show Table",
                 "addField": "Add field here",
 				"required": "Required",
 				"notRequired": "Not Required",
@@ -195,10 +208,12 @@
 				"note1": "Enter option values separated by comma ','",
                 "tableName": "Name",
                 "tableType": "Type",
-                "default": "DEFAULT"
+                "default": "DEFAULT",
+                "showField": "Visible",
+                "dontShow": "Not Visible"
             },
             "flashMessages":{
-				"updated": "Field successfully added",
+				"added": "Field successfully added",
 				"deleted": "Field successfully deleted",
 				"dbError": "Failed to get fields",
 				"empty": "Field must not be empty",
@@ -209,9 +224,6 @@
         },
         "home":{
             "labels":{
-            	"line": "Line Graph",
-            	"pie": "Pie Chart",
-            	"notifs": "Notifications",
                 "warehouses": "Warehouses",
                 "totalCap": "Total Warehouse Capacity",
                 "totalStored": "Total Assets Stored",

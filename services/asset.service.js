@@ -8,11 +8,35 @@ db.bind('assets');
 var service = {};
 
 service.getAll = getAll;
+service.getAssetType = getAssetType;
 service.addAsset = addAsset;
 service.updateAsset = updateAsset;
 service.delete = _delete;
 
 module.exports = service;
+/*
+        Function name: getAssetType
+        Author(s): Ortaleza, Sherine
+        Date Modified: 04/19/2018
+        Description: service function for getting asset type
+        Parameter(s): 
+        Return: none
+    */
+
+function getAssetType() {
+     var deferred = Q.defer();
+    /*console.log('HI');
+   
+        db.collection('assets').aggregate([{$group : {"_id":"$type", "count":{ $sum : 1 }}}]).toArray(function(err, types){
+            console.log(types);
+            if(err) deferred.reject(err);
+            deferred.resolve(types);
+        }); */
+    return deferred.promise;
+}
+
+
+
 /*
         Function name: get all asset
         Author(s): Reccion, Jeremy
@@ -22,6 +46,7 @@ module.exports = service;
         Return: none
     */
 function getAll(){
+    console.log('hi');
     //imitate angular promise. start by initializing this
     var deferred = Q.defer();
 
@@ -66,7 +91,7 @@ function addAsset(assetParam){
             if (err) deferred.reject(err);
  
             if (asset) {
-                deferred.reject();
+                deferred.reject({exists: true});
             } else {
                 //if no duplicates, insert to database
                  db.assets.insert(assetParam, function(err){
@@ -104,19 +129,27 @@ function updateAsset(_id, assetParam){
             //use mongo.helper.toObjectID() when using '_id' in queries
             // use $set to apply changes while retaining existing information in the database
             //not using $set and passing an object to update() 's second parameter will rewrite the whole document
-                 db.assets.update({_id: mongo.helper.toObjectID(_id)}, {$set: set}, function(err){
-					if(err) {
-						deferred.reject(err);
-						console.log(err);
-					}
-				
-					deferred.resolve();
-				});
-            
+            //find if there is another document (different _id) with the same asset_tag
+            db.assets.findOne({asset_tag: assetParam.asset_tag, _id: {$not: { $eq: mongo.helper.toObjectID(_id)}}}, function(err, asset){
+                if(err){
+                    deferred.reject(err);
+                }
+                else if(asset){
+                    deferred.reject({exists: true});
+                }
+                else{
+                    db.assets.update({_id: mongo.helper.toObjectID(_id)}, {$set: set}, function(err){
+                        if(err) {
+                            deferred.reject(err);
+                            console.log(err);
+                        }
+                    
+                        deferred.resolve();
+                    });
+                }
+            });            
         
-        return deferred.promise;
-    
-      
+        return deferred.promise;    
     }
 
     /*
@@ -140,3 +173,5 @@ function _delete(_id) {
  
     return deferred.promise;
 }
+
+
