@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
  
 // use JWT auth to secure the api   // edited by dyan0: added '/api/users/emailOn'
-app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/users/authenticate', '/api/users/register', '/api/users/emailOn'] }));
+app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/access/saveaccess','/api/access/saverole', '/api/users/authenticate', '/api/users/register', '/api/users/emailOn', '/api/languages/saveDefaultLanguage'] }));
  
 // routes
 app.use('/login', require('./controllers/login.controller'));
@@ -43,6 +43,9 @@ app.use('/api/logs',require('./controllers/api/logs.controller'));
 //added by jeremy
 app.use('/api/assets', require('./controllers/api/assets.controller'));
 app.use('/api/fields', require('./controllers/api/fields.controller'));
+
+//added by rother
+app.use('/api/access', require('./controllers/api/access.controller'));
 
 //added by dyan0
 io.on('connection', function(socket){

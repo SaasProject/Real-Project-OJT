@@ -165,7 +165,7 @@ function addUser(req, res) {
 }
 
 function registerUser(req, res) {
-    userService.create(req.body)
+    userService.insert(req.body)
         .then(function () {
             res.sendStatus(200);
         })

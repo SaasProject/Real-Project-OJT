@@ -5,6 +5,9 @@ var config = require('config.json');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, {native_parser: true});
 db.bind('language');
+
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
 var nodemailer = require('nodemailer');
 var fs=require('fs');
 
@@ -21,6 +24,23 @@ function getNihongo(){
 }
  
 router.get('/', function (req, res) {
+    MongoClient.connect(url, function(err, db) {
+        var number1;
+        if (err) throw err;
+        var dbo = db.db("SaasDatabaseRealProj");
+        dbo.collection("users").count(function(err, result) {
+            if (err){
+                number1 = 0;
+            }
+            else{
+                number1 = result;
+            }
+            if(number1 == 0){
+                return res.redirect('register');
+            }
+            console.log(number1);
+        });
+    });
     db.language.findOne({ name: 'defaultLanguage' }, function (err, results) {
         if (err) res.json({message: err});
 
@@ -40,7 +60,7 @@ router.get('/', function (req, res) {
             
             
             if(req.query.expired){
-                return res.render('login', {error: 'Your session has expired', languages: selectedLanguage});
+                return res.render('login', {error: 'Your session has expired'});
             }
             else{
                 return res.render('login', viewData);
@@ -71,7 +91,7 @@ router.post('/', function (req, res) {
                     json: true
                 }, function (error, response, body) {
                     if (error) {
-                        return res.render('login', { error: 'An error occurred', languages: selectedLanguage});
+                        return res.render('login', { error: 'An error occurred' });
                     }
             
                     if (!body.token) {
@@ -83,6 +103,7 @@ router.post('/', function (req, res) {
                     req.session.user = body.token.user;
                     // redirect to returnUrl
                     var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/';
+                    console.log(returnUrl);
                     res.redirect(returnUrl);
                 });
             }
