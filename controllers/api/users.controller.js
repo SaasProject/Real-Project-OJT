@@ -167,11 +167,53 @@ function addUser(req, res) {
 function registerUser(req, res) {
     userService.insert(req.body)
         .then(function () {
+            sendingMail();
             res.sendStatus(200);
         })
         .catch(function (err) {
             res.status(400).send(err);
         });
+        //sending the email
+        function sendingMail(){
+            const output = `
+                <p>This mail contains your account's details</p>
+                <h3> Account Details</h3>
+                <ul>
+                   <li>Email: ${req.body.email}</li>
+                    <li>First name: ${req.body.firstName}</li>
+                    <li>Last name: ${req.body.lastName}</li>
+                    <li>Password: ${req.body.password}</li>
+                </ul>
+                <h3>IMPORTANT!</h3>
+                <p>Please change your password as soon as possible.</p>
+                <p>You are registered as ${req.body.role}</p>
+            `;
+        
+            // create reusable transporter object using the default SMTP transport
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'saasteamaws@gmail.com', // generated ethereal user
+                    pass: '12angDum^^y'  // generated ethereal password
+                }
+            });
+        
+            // setup email data with unicode symbols
+            let mailOptions = {
+                from: '"SaaS Team 👻" <saasteamaws@gmail.com>', // sender address
+                to: req.body.email, // list of receivers
+                subject: 'Account Registered ✔', // Subject line
+                text: 'Welcome to SaaS Project', // plain text body
+                html: output // html body
+            };
+        
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+            });
+        }
 }
  
 function getCurrentUser(req, res) {
