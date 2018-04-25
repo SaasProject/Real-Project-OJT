@@ -12,6 +12,7 @@ router.post('/emailOn', emailOn);       // added by dyan0
 router.post('/addUser', addUser);
 router.post('/register', registerUser);
 router.get('/current', getCurrentUser);
+router.get('/getUserType', getUserType);
 router.put('/:_id', updateUser);
 router.delete('/:_id', deleteUser);
 router.post('/upload', uploadPic);
@@ -43,6 +44,27 @@ function deleteProfilePic(req, res) {
     userService.deleteProfilePic(req, res)
        .then(function () {
             res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+/*
+    Function name: Get User Types
+    Author(s): Bobiles, Rother Jon
+    Date Modified: 2018/04/25
+    Description: Gets all user types
+    Parameter(s): request, response
+    Return: response.status
+*/
+function getUserType(req, res){
+        userService.getById(req.user.sub)
+        .then(function (user) {
+            if(user) {
+                res.send(user.role);
+            } else {
+                res.sendStatus(404);
+            }
         })
         .catch(function (err) {
             res.status(400).send(err);

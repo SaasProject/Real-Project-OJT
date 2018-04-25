@@ -28,18 +28,22 @@
                     <ul class="nav navbar-nav">
                     <!--    <li ng-class="{active: activeTab === 'home'}"><a ui-sref="home"><span class="glyphicon glyphicon-home"></span> Home</a></li> -->
                         <!--added by jeremy -->
-                        <li ng-class="{active: activeTab === 'asset'}"><a ui-sref="asset"><span class="glyphicon glyphicon-list-alt"></span> {{selectedLanguage.navBar.assets}}</a></li>  
-                        <li ng-class="{active: activeTab === 'manageUsers'}" ng-show="isAdmin"><a ui-sref="manageUsers"><span class="glyphicon glyphicon-tasks"></span> {{selectedLanguage.navBar.accounts}}</a></li>    
-                        <li ng-class="{active: activeTab === 'manageDevices'}" ng-show="isAdmin"><a ui-sref="manageDevices"><span class="glyphicon glyphicon-hdd"></span> {{selectedLanguage.navBar.devices}}</a></li>
-                        <li ng-class="{active: activeTab === 'manageWarehouses'}" ng-show="isAdmin"><a ui-sref="manageWarehouses"><img src = "whouse3.png"style = "margin-bottom:5px"/> {{selectedLanguage.navBar.warehouses}}</a></li>
-						<li ng-class="{active: activeTab === 'fields'}" ng-show="isAdmin"><a ui-sref="fields"><span class="glyphicon glyphicon-th-list"></span> {{selectedLanguage.navBar.fields}}</a></li>
+                        <li ng-show="asset" ng-class="{active: activeTab === 'asset'}"><a ui-sref="asset"><span class="glyphicon glyphicon-list-alt"></span> {{selectedLanguage.navBar.assets}}</a></li>  
+
+                        <li ng-class="{active: activeTab === 'manageUsers'}" ng-show="account"><a ui-sref="manageUsers"><span class="glyphicon glyphicon-tasks"></span> {{selectedLanguage.navBar.accounts}}</a></li> 
+
+                        <li ng-class="{active: activeTab === 'manageDevices'}" ng-show="devices"><a ui-sref="manageDevices"><span class="glyphicon glyphicon-hdd"></span> {{selectedLanguage.navBar.devices}}</a></li>
+
+                        <li ng-class="{active: activeTab === 'manageWarehouses'}" ng-show="warehouses"><a ui-sref="manageWarehouses"><img src = "whouse3.png"style = "margin-bottom:5px"/> {{selectedLanguage.navBar.warehouses}}</a></li>
+
+                        <li ng-class="{active: activeTab === 'fields'}" ng-show="fields"><a ui-sref="fields"><span class="glyphicon glyphicon-th-list"></span> {{selectedLanguage.navBar.fields}}</a></li>
                                          
                     </ul>
                     
                     <ul class="nav navbar-nav navbar-right">
                         <li ng-show="greet" class="noselect navbar-text hidden-xs">{{hiUser}}</li>
                     <!--    <li ng-class="{active: activeTab === 'account'}"><a style="padding-top: 10px;" class="a50px" ui-sref="account"><div class="avatar-circle" ng-style="bgColor"><span class="initials noselect" data-toggle="tooltip" title="View Account">{{initials}}</div></a></li> -->
-						<li class = "dropdown"><a style="padding-top: 10px; padding-right:25px" class="a50px dropdown-toggle" data-toggle = "dropdown" href = "#">
+                        <li class = "dropdown"><a style="padding-top: 10px; padding-right:25px" class="a50px dropdown-toggle" data-toggle = "dropdown" href = "#">
 
                             <div class="avatar-circle" ng-style="bgColor" ng-show="profilePic == ''">
                             <span class="initials noselect" data-toggle="tooltip" title="View Account">{{initials}}
@@ -47,21 +51,21 @@
                             <img class="avatar-image" ng-src="{{profilePic}}" ng-show="profilePic !== ''" class="initials noselect" data-toggle="tooltip" title="View Account">
 
                             <span class = "caret" style="position:absolute; margin-top:-15px; margin-left:35px;"></span></a>
-							<ul class = "dropdown-menu">
-								<li><a ui-sref="account">{{selectedLanguage.navBar.account.accountSettings}}</a></li>
-								<li><a href = "#" data-toggle = "modal" data-target = "#pwModal">{{selectedLanguage.navBar.account.changePassword}}</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href = "/login"><span class="glyphicon glyphicon-log-out" ng-click="logout()" data-toggle="tooltip" title="Log Out"></span> {{selectedLanguage.navBar.account.logout}}</a></li>
-							</ul>
-						</li>
+                            <ul class = "dropdown-menu">
+                                <li><a ui-sref="account">{{selectedLanguage.navBar.account.accountSettings}}</a></li>
+                                <li><a href = "#" data-toggle = "modal" data-target = "#pwModal">{{selectedLanguage.navBar.account.changePassword}}</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href = "/login"><span class="glyphicon glyphicon-log-out" ng-click="logout()" data-toggle="tooltip" title="Log Out"></span> {{selectedLanguage.navBar.account.logout}}</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-	
-	<!-- Modal for Change Password -->
-	<div class="modal fade" id="pwModal" role="dialog" ng-controller = "Account.IndexController as vm">
+    
+    <!-- Modal for Change Password -->
+    <div class="modal fade" id="pwModal" role="dialog" ng-controller = "Account.IndexController as vm">
       <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -69,38 +73,38 @@
         <div class="modal-header">
           <h4 class="modal-title">{{selectedLanguage.changePW.labels.title}}</h4>
         </div>
-		
+        
         <div class="modal-body">
-        	<div ng-show="changePasswordModal" class="flash-message" ng-if="flash">
-				<div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
-			</div>
-			
-			<form novalidate>
-			<div class="form-group">
-				<label for="oldPassword">{{selectedLanguage.changePW.labels.oldPW}}</label>
-				<input type="password" id="oldPassword" class="form-control" ng-model="vm.user.oldPassword" required/>
-			</div>
-			<div class="form-group">
-				<label for="password">{{selectedLanguage.changePW.labels.newPW}}</label>
-				<input type="password" id="password" class="form-control" ng-model="vm.user.password" required/>
-			</div>
-			<div class="form-group">
-				<label for="confirmPassword">{{selectedLanguage.changePW.labels.confirmPW}}</label>
-				<input type="password" id="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword" required/>
-			</div>
-			</form>
-			
-		</div>
-          	
+            <div ng-show="changePasswordModal" class="flash-message" ng-if="flash">
+                <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
+            </div>
+            
+            <form novalidate>
+            <div class="form-group">
+                <label for="oldPassword">{{selectedLanguage.changePW.labels.oldPW}}</label>
+                <input type="password" id="oldPassword" class="form-control" ng-model="vm.user.oldPassword" required/>
+            </div>
+            <div class="form-group">
+                <label for="password">{{selectedLanguage.changePW.labels.newPW}}</label>
+                <input type="password" id="password" class="form-control" ng-model="vm.user.password" required/>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">{{selectedLanguage.changePW.labels.confirmPW}}</label>
+                <input type="password" id="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword" required/>
+            </div>
+            </form>
+            
+        </div>
+            
         <div class="modal-footer">
-			<button type = "submit" class="btn btn-primary" ng-click="vm.saveUserPassword()">{{selectedLanguage.commons.save}}</button>
-			<button type="button" class="btn btn-danger"  data-dismiss="modal" ng-click = "closeModal()">{{selectedLanguage.commons.close}}</button>	
-		</div>
-		
-	  </div>
+            <button type = "submit" class="btn btn-primary" ng-click="vm.saveUserPassword()">{{selectedLanguage.commons.save}}</button>
+            <button type="button" class="btn btn-danger"  data-dismiss="modal" ng-click = "closeModal()">{{selectedLanguage.commons.close}}</button>    
+        </div>
+        
+      </div>
       
       </div>
-	</div>
+    </div>
 
     <!-- main -->
     
@@ -116,9 +120,9 @@
  
     <!-- external scripts -->
     <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-sortable/0.15.0/sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-sortable/0.15.0/sortable.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 
     <!-- added by jeremy to implement ng-csv (angular included above) -->
@@ -134,9 +138,9 @@
     <script src="app-services/flash.service.js"></script>
     <script src="home/index.controller.js"></script>
     <script src="account/index.controller.js"></script>
-	
-	<!-- added by glenn -->
-	<script src="manageUsers/index.controller.js"></script>
+    
+    <!-- added by glenn -->
+    <script src="manageUsers/index.controller.js"></script>
     <script src="manageDevices/index.controller.js"></script>
     <script src="app-services/device.service.js"></script>
     <script src="app-services/language.service.js"></script> 
@@ -151,16 +155,20 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="app-services/socket.service.js"></script>
     <script src="socket.js"></script>
-	
-	<script src = "warehouse/index.controller.js"></script>
-	<script src = "app-services/warehouse.service.js"></script>
-	<script src="app-services/logs.service.js"></script>
+
+    <!-- added by Rother -->
+    <script src="app-services/access.service.js"></script>
+    
+    <script src = "warehouse/index.controller.js"></script>
+    <script src = "app-services/warehouse.service.js"></script>
+    <script src="app-services/logs.service.js"></script>
+
 
     <script src="app-services/logs.service.js"></script>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/zingchart-angularjs/1.2.0/zingchart-angularjs.js"></script>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>	
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>  
     
 </body>
 </html>

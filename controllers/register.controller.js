@@ -8,6 +8,7 @@ var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, {native_parser: true});
 db.bind('language');
 db.bind('access');
+db.bind('fields');
 var language = getEnglish().english;
 var roles = [];
 
@@ -24,6 +25,7 @@ function getNihongo(){
     var languages=JSON.parse(file);
     return languages;
 }
+
 
 router.get('/', function (req, res) {
     db.language.findOne({ name: 'defaultLanguage' }, function (err, results) {
@@ -108,6 +110,7 @@ router.post('/', function (req, res, next){
                body += '{"type":"'+split[i]+'"},'; 
             }   
         }
+        
         request.post({
             url: config.apiUrl + '/access/saverole',
             form: {
@@ -131,25 +134,49 @@ router.post('/', function (req, res, next){
                 }
             });
         });
+
     }
     else if(req.body.formType == 'addAccess'){
+        var body = "";
+        var arrayType = [], arrayAccess = [], newType = [];
+        arrayType = req.body.type;
+        if(typeof arrayType == 'string'){
+            newType.push(arrayType);
+        }else{
+            for(var i = 0; i < arrayType.length; i++){
+                var name = arrayType[i];
+                if(req.body[name]){
+                newType.push(name);   
+            }
+        }
+        }
+
+        for(var i = 0; i < newType.length; i++){
+            var name = newType[i];
+            if(i == newType.length - 1){
+                body += '{"type":"'+name+'", "access":"'+req.body[name]+'"}';
+            }else{
+                body += '{"type":"'+name+'", "access":"'+req.body[name]+'"}+';
+            }
+        }
         request.post({
             url: config.apiUrl + '/access/saveaccess',
-            form: req.body,
+            form: {
+                query: body
+            },
             json: true
-        }, function (error, response, body) {
-            if (error) {
-                console.log(error);
+        }, function(error, response, body){
+            if(error) console.log(error);
+            if(response.statusCode !== 200){
+                console.log(response.statusCode);
             }
-            if (response.statusCode !== 200) {
-
-            }
-            
-            res.render('register.ejs',{next: 1, languages:language, role: roles});
-            
+            db.access.find({}).toArray(function(err, accessroles){
+                if(err) deferred.reject(err);
+                else{
+                    res.render('register.ejs',{next: 3, languages:language, role: roles});
+                }
+            });
         });
-        console.log(req.body);
-        res.render('register.ejs',{next: 3, languages:language, role: roles});
     }else if(req.body.formType == 'success'){
         res.redirect('login');
     }

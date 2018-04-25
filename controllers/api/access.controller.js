@@ -80,5 +80,15 @@ function getRole(req, res) {
     Return: none
 */
 function getAccess(req, res) {
-
+    console.log(req.query.type);
+    accessService.getAccess(req, res).then(function(access){
+        if(access){
+            res.send(access);
+        }
+        else{
+            res.send(404);
+        }
+    }).catch(function(err){
+        res.status(400).send(err);
+    });
 }

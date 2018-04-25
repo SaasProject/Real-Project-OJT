@@ -33,20 +33,24 @@ function getRoles(){
     });
 }
 
-function getAccess(){
+function getAccess(userParam){
     var deferred = Q.defer();
-
-    db.access.find({}).toArray(function(err, types){
-
+    var types = "";
+    var accesses
+    types = userParam.query.type;
+    console.log(types);
+    db.access.find({type: types},{_id: 0, access: 1}).toArray(function(err, accessList){
         if(err) deferred.reject(err);
-
-        if(assets.length > 0) {
-            deferred.resolve(types);
+        if(accessList[0]){
+            accesses = accessList[0].access;
+            deferred.resolve(accesses);
         }
         else{
             deferred.resolve([]);
-        }
+        } 
+
     });
+    return deferred.promise;
 }
 
 function saveRole(req){
@@ -75,11 +79,23 @@ function saveRole(req){
 
 function saveAccess(req){
     var deferred = Q.defer();
-    console.log(req.body.type[0]);
-    // db.access.updateOne({type: req.type}, {$set: {access: req.access}}, function(req, res){
-    //     if(err) deferred.reject(err);
-    //     deferred.resolve(res);
-    // });
+    var obj = [];
+    var valid = true;
+    var types = req.body.query.split('+');
+    for(var i = 0; i < types.length  && valid != false; i++){
+        var accesses = [];
+        var parsed = JSON.parse(types[i]);
+        var splitted = parsed.access.split(',');
+        for(var x = 0; x < splitted.length; x++){
+            accesses.push(splitted[x]);
+        }
+        db.access.updateOne({type: parsed.type}, {$set: {access: accesses}}, function(err, req, res){
+            if(err) valid = false;
+            else valid = true;
+        });
+    }
+    if(valid) deferred.reject();
+    else deferred.resolve([]);
     return deferred.promise;
 }
 
