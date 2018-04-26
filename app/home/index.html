@@ -112,7 +112,7 @@
                             <form name="myForm">
                             <label>Filter:</label>                            
                               
-                                <select name="repeatSelect" id="repeatSelect" ng-model="filterData.model" ng-change="ShowDiv(filterData.model)">
+                                <select name="filterData" id="filterData" ng-model="filterData.model" ng-change="ShowDiv(filterData.model)">
                                   <option ng-repeat="option in filterData.availableOptions" value="{{option.id}}" >{{option.name}}</option>
                                 </select>
                               </form>
@@ -120,34 +120,29 @@
                               <div ng-show="ngShowMonthly">
                                     <form name="myFormFromYear">
                                     <label>Year:</label>                            
-                                        <select name="repeatSelect" id="repeatSelect" ng-model="years.model" ng-change="">
-                                          <option ng-repeat="option in years" value="{{option.id}}" >{{option}}</option>
+                                        <select name="yearOfChoice" id="yearOfChoice" ng-model="yearOfChoice" ng-change="getYear(yearOfChoice)">
+                                          <option ng-selected="{{option}}" ng-repeat="option in years | orderBy: option" value="{{option}}" >{{option}}</option>
                                         </select>
                                     </form>
                                 </div>
                               <div ng-show="ngShowYearly" class="panel-body">
-                                    <form name="myFormFromYear">
+                                    <form name="myFormFromYear" ng-submit="submitYears()">
                                     <table>
                                     <tr>
                                     <td>
                                     <label>From:</label></td>                            
-                                        <td><select name="repeatSelect" id="repeatSelect" ng-model="years.model" ng-change="">
-                                          <option ng-repeat="option in years" value="{{option.id}}" >{{option}}</option>
-                                        </select></td><tr>
-                                    <td><label>To:</label></td><td>                            
-                                        <select name="repeatSelect" id="repeatSelect" ng-model="years.model" ng-change="">
-                                          <option ng-repeat="option in years" value="{{option.id}}" >{{option}}</option>
-                                        </select></td></tr>
-                                    </form>
-                                    <tr>
-                                    <td colspan="2">
-                                    <br>
-                                    <button class="btn-success" style="float: center; width: 100%" width="100%" value="Go">Go</button>
-                                    </td>
-                                    </tr>
+                                        <td><select name="fromYear" id="fromYear" ng-model="fromYear" ng-change="getFromYear(fromYear)">
+                                          <option ng-repeat="option in years | orderBy: option " value="{{option}}" >{{option}}</option>
+                                        </select></td>
+                                    <tr ng-show="ngShowtoYear">
+                                    <td ><label>To:</label></td><td>                            
+                                        <select name="toYear" id="toYear" ng-model="toYear" ng-change="getToYear(toYear)">
+                                          <option ng-repeat="option in years | orderBy: option " value="{{option}}" >{{option}}</option>
+                                        </select></td></tr>                                    
+                                   
                                     </table>
+                                    </form>
                                 </div>
-
                     </div>
                 </div>   
             </div>
