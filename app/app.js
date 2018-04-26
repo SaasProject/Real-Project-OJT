@@ -79,8 +79,8 @@
                 controllerAs: 'vm',
                 data: {activeTab: 'fields'}
             })
-			
-			.state('manageWarehouses', {
+            
+            .state('manageWarehouses', {
                 url: '/manageWarehouses',
                 templateUrl: 'warehouse/index.html',
                 controller: 'ManageWarehouses.IndexController',
@@ -95,20 +95,7 @@
             return {
                 'responseError': function(rejection){
                     var defer = $q.defer();
-
-                    //401 is unauthorized error, meaning token has expired 
                     if(rejection.status == 401){
-                        //this is done to imitate the returnUrl in app.controller.js 
-                        //when accessing pages that requires login
-
-                        //pathname only shows /app/ which is wrong
-                        //so get fullpath first then get substring starting from pathname
-                        //var fullpath = $window.location.href;
-                        //var returnUrl = fullpath.substring(fullpath.indexOf($window.location.pathname));
-                        //alert('error on responseError');
-
-                        //add expired query to explicitly state that the session has expired and not just trying to access via typing the address
-                        //$window.location.href = '/login?returnUrl=' + encodeURIComponent(returnUrl) + '&expired=true';
                         location.reload();
                     }
 
@@ -128,43 +115,49 @@
         Parameter(s): $http, $rootScope, $window, UserService, $state (dependencies)
         Return: none
     */
-    function run($http, $rootScope, $window, UserService, LanguageService, $state, socket) {
+    function run($http, $rootScope, $window, UserService, LanguageService, AccessService, $state, socket) {
         //initialize
         $rootScope.user = {};
         $rootScope.selectedLanguage = {};
         $rootScope.defaultLanguage = {};
         $rootScope.greet = false;
-		$rootScope.changePasswordModal = false;
+        $rootScope.changePasswordModal = false;
+        $rootScope.asset = false; 
+        $rootScope.account = false; 
+        $rootScope.devices = false; 
+        $rootScope.warehouses = false; 
+        $rootScope.fields = false; 
 
         // add JWT token as default auth header
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + $window.jwtToken;
-
-        //added by glenn
-        //get current user and set details to rootScope
-        /* $http.get('/api/users/isAdmin').success(function(response){
-            //response is true if user is admin from api/users.controller.js
-            console.log('first time');
-            $rootScope.isAdmin = response.data;
-            //console.log($rootScope.isAdmin);
-        }); */
  
         //added by jeremy
         // update active tab on state change
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            //console.log($rootScope.isAdmin);
-            //console.log(toState);
-            //restrict 'Users' when accessing states other than the specified and redirect to login page
+
+            $http.get('/api/users/getUserType').then(function(roles){
+                $rootScope.role = roles.data;
+                console.log(roles.data);
+                AccessService.getSpecificAccess($rootScope.role)
+                .then(function(res) {
+                    for(var i = 0; i < res.length; i++){
+                        if(res[i] == 'assets')$rootScope.asset = true;
+                        else if(res[i] == 'fields') $rootScope.fields = true; 
+                        else if(res[i] == 'warehouse') $rootScope.warehouses = true;
+                        else if(res[i] == 'devices') $rootScope.devices = true; 
+                        else if(res[i] == 'accounts') $rootScope.account = true; 
+                    }
+                })
+                .catch(function (error) {
+                });
+            });
+
 
 
             $http.get('/api/users/isAdmin').then(function(response){
-                //response is true if user is admin from api/users.controller.js
                 $rootScope.isAdmin = response.data;
-                //console.log($rootScope.isAdmin);
-
-                //need to place code here. putting it outside will not work
                 if(!$rootScope.isAdmin && (toState.name != 'asset' && toState.name != 'home' && toState.name != 'account')){
                     event.preventDefault();
-                    //alert('Unauthorized');
                     $state.transitionTo('home');
                 }
                 
@@ -172,35 +165,20 @@
 
             //get token from server every route change to determine if session in server is still alive
             $http.get('/app/token').then(function(res){
-                //console.log(res);
-                //if server restarts while app is in browser, clicking links will render the login page
-                //inside the index.html
-                //so check the res.data for '<html>'. if found, load whole login page
                 if(res.data.indexOf('<html>') != -1){
                         event.preventDefault();
-                        //alert('oi');
-                        //var fullpath = $window.location.href;
-                        //var returnUrl = fullpath.substring(fullpath.indexOf($window.location.pathname));
-                        //alert('error on @statechange');
-
-                        //add expired query to explicitly state that the session has expired and not just trying to access via typing the address
-                        //$window.location.href = '/login?returnUrl=' + encodeURIComponent(returnUrl) + '&expired=true';
                         location.reload();
                 }
             });
             
-            //change active tab for the nav bar
             $rootScope.activeTab = toState.data.activeTab;
         });
 
         function getLanguages(){
-            //get default language
             LanguageService.getDefaultLanguage()
                 .then(function(res) {
-                    //console.log(res);
                     $rootScope.defaultLanguage = res;
 
-                    //add this conditions when adding new language json files
                     if(res.value == 'nihongo'){
                         $rootScope.dropDefLangSel = '日本語';
                     }else if(res.value == 'english'){
@@ -226,7 +204,6 @@
                     $rootScope.hiUser = $rootScope.selectedLanguage.commons.hiUser1+$rootScope.user.firstName
                     +$rootScope.selectedLanguage.commons.hiUser2;
 
-                    //add this conditions when adding new language json files
                     if(option == 'nihongo'){
                         $rootScope.dropLangSel = '日本語';
                     } else if (option == 'english') {
@@ -237,7 +214,6 @@
                 })
                 .catch(function (error) {
                 });
-            //save selected language to database
             UserService.saveLanguage(option, $rootScope.user);
         }
 
@@ -246,10 +222,8 @@
         });
 
         $rootScope.changeDefaultLanguage = function(option) {
-            //save selected default language to database
             LanguageService.saveDefaultLanguage($rootScope.user, option);
 
-            //add this conditions when adding new language json files
             if(option == 'nihongo'){
                 $rootScope.dropDefLangSel = '日本語';
             } else if (option == 'english') {
@@ -279,6 +253,7 @@
                 getLanguages();
                 //get language settings from current user
                 var setLanguage = user.setLanguage;
+                console.log(setLanguage);
                 LanguageService.getSpecificLanguage(setLanguage)
                     .then(function(res) {
                         $rootScope.selectedLanguage = res[Object.keys(res)[0]];
@@ -337,12 +312,6 @@
         $.get('/app/token', function (token) {
             //alert(token);
             if(token.indexOf('<html>') != -1){
-                //if user logs out then presses the browser back button, 
-                //  the response is the login page (login.ejs) (rendered under ui-view in index.html)
-                //so check the response for '<html>'. if found, load whole login page
-                //alert('error on $function');
-
-                //window.location.href = '/login';
                 location.reload();
             }
             else{

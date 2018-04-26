@@ -1,38 +1,251 @@
 <%- include('partials/header') %>
-<div class="form-container">
-    <h2>Register</h2>
+<title>Register</title>
+<br><br><br>
+<div class="form-container text-center">
+    <h2>Welcome to Saas App's <br> Setup Wizard!</h2>
+     <a href="#languageSelect" data-toggle="modal" class="btn btn-primary pull-right">Next</a>
+</div>
+
+<div class="modal fade" id="languageSelect" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Language Select</h4>
+            </div>
+    <div class="form-container text-center">
+    <br><br><br><br>
+    <form method="post">
+    
+        <div class="form-group">
+            <label for="option">Set Default Language: </label>
+            <select name="option">
+              <option value="english">ENGLISH</option>
+              <option value="nihongo">JAPANESE</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="form-group">
+            <input type="hidden" name="formType" value="languageselect"/>
+            <button type="submit" class="btn btn-primary pull-right">Next</button>
+            <a href="/register" data-toggle="modal" class="btn btn pull-right">Cancel</a>
+        </div>
+    </form>
+    <br><br><br>
+    </div>
+
+        </div>
+    </div>
+</div>
+
+
+<% if(locals.next == 1) { %>
+
+<script>
+$(document).ready(function(){
+    $('#registration').modal('show');
+});
+</script>
+
+<% } %>
+
+
+<div class="modal fade" id="registration" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Register</h4>
+            </div>
     <% if(locals.error) { %>
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
-    <form method="post">
-        <div class="form-group">
-            <label for="role">Role</label>
-            <input type="text" name="role" id="role" class="form-control" value="Admin" readonly/>
+    <div class="form-container">
+    <form method="post" id="submission">
+    <br><br>
+        <div class="form-group text-center">
+            <label for="language">Set Default Language:  </label>
+            <select name="language">
+              <option value="english">ENGLISH</option>
+              <option value="nihongo">JAPANESE</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="firstName">First name</label>
-            <input type="text" name="firstName" id="firstName" class="form-control" value="<%= locals.firstName || '' %>" required />
+            <label for="email"><%= locals.languages.register.email %></label>
+            <input type="email" name="email" id="email" class="form-control" value="<%= locals.email || '' %>" required />
         </div>
         <div class="form-group">
-            <label for="lastName">Last name</label>
-            <input type="text" name="lastName" id="lastName" class="form-control" value="<%= locals.lastName || '' %>" required />
+            <label for="firstName"><%= locals.languages.register.firstName %></label>
+            <input type="text" name="firstName" id="firstName" class="form-control" value="<%= locals.firstName || '' %>" pattern="[a-zA-Z]{2,20}" required />
         </div>
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" value="<%= locals.username || '' %>" required />
+            <label for="lastName"><%= locals.languages.register.lastName %></label>
+            <input type="text" name="lastName" id="lastName" class="form-control" value="<%= locals.lastName || '' %>" pattern="[a-zA-Z]{2,20}" required />
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" required />
+            <label for="password"><%= locals.languages.register.password %></label>
+            <input type="password" name="password" id="password" class="form-control" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required />
         </div>
         <div class="form-group">
-            <label for="confirmPassword"> Confirm Password</label>
+            <label for="confirmPassword"><%= locals.languages.register.confirmPass %></label>
             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required />
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Register</button>
-            <a href="/login" class="btn btn-link">Cancel</a>
+            <input type="hidden" name="role" value="Admin"/>
+            <input type="hidden" name="formType" value="registeruser"/>
+            <button type="submit" class="btn btn-primary pull-right"><%= locals.languages.register.register %></button>
+            <a href="/register" class="btn btn-link pull-right"><%= locals.languages.register.cancel %></a><br><br>
         </div>
     </form>
+    <br><br>
+    </div>
+
+        </div>
+    </div>
 </div>
+
+
+<% if(locals.next == 2) { %>
+
+<script>
+$(document).ready(function(){
+    $('#accessRights').modal('show');
+});
+</script>
+
+<% } %>
+
+    
+
+<div class="modal fade" id="accessRights" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>User Access</h4>
+            </div>
+    <div class="form-container text-left">
+    <br><br><br><br>
+    <form method="post">
+        <div class="form-group">
+            Input roles separated by a comma ','.<br>
+            <textarea rows="4" cols="50" name = 'roles'></textarea>
+        </div>
+        <div class="form-group">
+             <input type="hidden" name="formType" value="addRole"/>
+             <button onclick="submit()" class="btn btn-primary pull-right"><%= locals.languages.commons.add %> </button>
+        </div>
+    </form>
+    <br><br>
+    <form method="post">
+        <div class="form-group">
+            <table>
+                <tr>
+                    <th width="150px"><%= locals.languages.navBar.roles %></th>
+                    <th width="150px"><%= locals.languages.navBar.assets %></th>
+                    <th width="150px"><%= locals.languages.navBar.devices %></th>
+                    <th width="150px"><%= locals.languages.navBar.warehouses %></th>
+                    <th width="150px"><%= locals.languages.navBar.fields %></th>
+                </tr>
+                <tr>
+                    <td>User</td>
+                    <td><input type="checkbox" disabled="disabled" checked/></td>
+                    <td><input type="checkbox" disabled="disabled"/></td>
+                    <td><input type="checkbox" disabled="disabled"/></td>
+                    <td><input type="checkbox" disabled="disabled"/></td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td><input type="checkbox" disabled="disabled" checked/></td>
+                    <td><input type="checkbox" disabled="disabled" checked/></td>
+                    <td><input type="checkbox" disabled="disabled" checked/></td>
+                    <td><input type="checkbox" disabled="disabled" checked/></td>
+                </tr>
+                <% for(var i = 0; i < role.length; i++){%>
+                <tr>
+                    <input type="hidden" name="type" value="<%= role[i].type %>"/>
+                    <td><%= role[i].type %></td>
+                    <td><input type="checkbox" name="<%= role[i].type %>" value="assets"/></td>
+                    <td><input type="checkbox" name="<%= role[i].type %>" value="devices"/></td>
+                    <td><input type="checkbox" name="<%= role[i].type %>" value="warehouse"/></td>
+                    <td><input type="checkbox" name="<%= role[i].type %>" value="fields"/></td>
+                </tr>
+
+                <%}%>
+            </table>
+        </div>
+        <div class="form-group">
+             <input type="hidden" name="formType" value="addAccess"/>
+             <button onclick="submit()" class="btn btn-primary pull-right"> <%= locals.languages.commons.save %> </button>
+        </div>
+    </form>
+
+    <br><br><br>
+    </div>
+
+        </div>
+    </div>
+</div>
+
+
+<% if(locals.next == 3) { %>
+
+<script>
+$(document).ready(function(){
+    $('#finalPage').modal('show');
+});
+</script>
+
+<% } %>
+
+<div class="modal fade" id="finalPage" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Completion Page</h4>
+            </div>
+    <div class="form-container text-center">
+    <br><br><br><br>
+    <form method="post">
+    
+        <div class="form-group">
+            <h4> You've Successfully Registered an Account</h4>
+            <h4> Your Password has been sent to you E-Mail</h4>
+        </div>
+        <br><br>
+        <div class="form-group">
+            <input type="hidden" name="formType" value="success"/>
+            <button type="submit" class="btn btn-primary pull-right">Ok</button>
+        </div>
+    </form>
+    <br><br><br>
+    </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+var password = document.getElementByName("password")
+  , confirmPassword = document.getElementByName("confirmPassword");
+
+function validatePassword(){
+  if(password.value != confirmPassword.value) {
+    confirmPassword.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirmPassword.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirmPassword.onkeyup = validatePassword;
+</script>
+
+
+
+
 <%- include('partials/footer') %>
