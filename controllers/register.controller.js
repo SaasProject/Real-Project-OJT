@@ -111,7 +111,6 @@ router.post('/', function (req, res, next){
 //-------------------------------------------------------------------------------------------------------
 
     else if(req.body.formType == 'addRole'){
-        console.log(req.body.roles);
 
         if(req.body.roles == ''){
             return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: roles});

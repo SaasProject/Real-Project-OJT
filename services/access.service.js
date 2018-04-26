@@ -98,7 +98,7 @@ function saveAccess(req){
             else valid = true;
         });
     }
-    if(valid) deferred.reject();
+    if(!valid) deferred.reject();
     else deferred.resolve([]);
     return deferred.promise;
 }

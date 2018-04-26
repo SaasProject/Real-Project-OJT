@@ -152,16 +152,43 @@
                 });
             });
 
+            // Checking if next state is allowed for the user
 
-
-            $http.get('/api/users/isAdmin').then(function(response){
-                $rootScope.isAdmin = response.data;
-                if(!$rootScope.isAdmin && (toState.name != 'asset' && toState.name != 'home' && toState.name != 'account')){
+            if(toState.name == 'asset' && $rootScope.asset == false){
                     event.preventDefault();
                     $state.transitionTo('home');
-                }
+            }
+
+            if(toState.name == 'fields' && $rootScope.fields == false){
+                    event.preventDefault();
+                    $state.transitionTo('home');
+            }
+
+            if(toState.name == 'manageWarehouses' && $rootScope.warehouses == false){
+                    event.preventDefault();
+                    $state.transitionTo('home');
+            }
+
+
+            if(toState.name == 'manageDevices' && $rootScope.devices == false){
+                    event.preventDefault();
+                    $state.transitionTo('home');
+            }
+
+            if(toState.name == 'manageUsers' && $rootScope.account == false){
+                    event.preventDefault();
+                    $state.transitionTo('home');
+            }
+
+
+            // $http.get('/api/users/isAdmin').then(function(response){
+            //     $rootScope.isAdmin = response.data;
+            //     if(!$rootScope.isAdmin && (toState.name != 'asset' && toState.name != 'home' && toState.name != 'account')){
+            //         event.preventDefault();
+            //         $state.transitionTo('home');
+            //     }
                 
-            });
+            // });
 
             //get token from server every route change to determine if session in server is still alive
             $http.get('/app/token').then(function(res){
