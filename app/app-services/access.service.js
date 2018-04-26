@@ -9,6 +9,7 @@
         var service = {};
 
         service.getSpecificAccess = getSpecificAccess;
+        service.getRoles = getRoles;
  
         return service;
 
@@ -16,6 +17,10 @@
             return $http({url: '/api/access/getaccess', 
                 method: "GET", params: {type: option}}).then(handleSuccess, handleError);
 
+        }
+
+        function getRoles() {
+            return $http.get('/api/access/getrole').then(handleSuccess, handleError);
         }
  
         // private functions

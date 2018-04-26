@@ -46,7 +46,6 @@ function getAssetType() {
         Return: none
     */
 function getAll(){
-    console.log('hi');
     //imitate angular promise. start by initializing this
     var deferred = Q.defer();
 

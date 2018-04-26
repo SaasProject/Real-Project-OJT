@@ -43,7 +43,10 @@ router.get('/', function (req, res) {
 
  
 router.post('/', function (req, res, next){
-    // register using api to maintain clean separation between layers
+
+//-------------------------------------------------------------------------------------------------------
+
+
     if(req.body.formType == 'registeruser'){
         request.post({
             url: config.apiUrl + '/users/register',
@@ -58,17 +61,18 @@ router.post('/', function (req, res, next){
             json: true
         }, function (error, response, body) {
             if (error) {
-                return res.render('register', { error: 'An error occurred', languages: language });
+                return res.render('register', {next: 1, error: 'An error occurred', languages: language });
             }
      
             if (response.statusCode !== 200) {
                 return res.render('register', {
-                    error: response.body,
+                    error: 'Error',
                     role: req.body.role,
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     username: req.body.username, 
-                    languages: language
+                    languages: language,
+                    next : 1
                 });
             }
 
@@ -76,7 +80,11 @@ router.post('/', function (req, res, next){
             req.session.success = 'Registration successful';
             return res.render('register',{next: 2, languages: language, role: roles});
         });
-    }else if(req.body.formType == 'languageselect'){
+    }
+
+//-------------------------------------------------------------------------------------------------------
+
+    else if(req.body.formType == 'languageselect'){
         request.post({
             url: config.apiUrl + '/languages/saveDefaultLanguage',
             form: req.body,
@@ -86,12 +94,11 @@ router.post('/', function (req, res, next){
             else language = getEnglish().english;
             if (error) {
                 console.log(error);
-
                 return res.render('register', { error: 'An error occurred' , languages:language, role: roles });
             }
      
             if (response.statusCode !== 200) {
-                return res.render('register', { error: "Error", languages:language , role: roles});
+                return res.render('register', {next: 0, error: "Error", languages:language , role: roles});
             }
 
             
@@ -100,7 +107,15 @@ router.post('/', function (req, res, next){
         });
 
     }
+    
+//-------------------------------------------------------------------------------------------------------
+
     else if(req.body.formType == 'addRole'){
+
+        if(req.body.roles == ''){
+            return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: roles});
+        }
+
         var split = req.body.roles.split(',');
         var body = "";
         for(var i = 0; i < split.length; i++){
@@ -136,19 +151,29 @@ router.post('/', function (req, res, next){
         });
 
     }
+    
+//-------------------------------------------------------------------------------------------------------
+
     else if(req.body.formType == 'addAccess'){
         var body = "";
         var arrayType = [], arrayAccess = [], newType = [];
         arrayType = req.body.type;
+        //Checks if the user clicked only one type
         if(typeof arrayType == 'string'){
             newType.push(arrayType);
-        }else{
+        }
+        //Checks if the user clicked anything
+        else if(!arrayType){ 
+            return res.render('register.ejs',{next: 3, languages:language, role: roles});
+        }
+        //Multiple Accesses per Role
+        else{
             for(var i = 0; i < arrayType.length; i++){
                 var name = arrayType[i];
                 if(req.body[name]){
-                newType.push(name);   
+                    newType.push(name);   
+                }
             }
-        }
         }
 
         for(var i = 0; i < newType.length; i++){
@@ -177,7 +202,11 @@ router.post('/', function (req, res, next){
                 }
             });
         });
-    }else if(req.body.formType == 'success'){
+    }
+
+//-------------------------------------------------------------------------------------------------------
+
+    else if(req.body.formType == 'success'){
         res.redirect('login');
     }
 });
