@@ -3,7 +3,7 @@
         <img src="loader.gif"/>
 </div>
 
-<div style="width:90%; margin-left: auto; margin-right: auto;" ng-hide = "loading">
+<div style="width:90%; margin-left: auto; margin-right: auto;" ng-hide = "loading" ng-init="openModal(warehouses[0])">
     <div class="container">
         <div class="row">
             <div class="panel-group col-sm-7" style="table-layout: fixed;">
@@ -84,22 +84,74 @@
             <div class="panel-group col-sm-5" style="table-layout: fixed;">
                 <div class="panel panel-success">
                 <div class="panel-heading"><h4>{{current_warehouse.name}}</h4></div>
-                <div zingchart id="chart-1" zc-json="myJson" ng-load="openModal(warehouse)" zc-height="300px" zc-width="100%"></div>
+                <div zingchart id="chart-1" zc-json="myJson" ng-load="openModal(warehouse)" zc-height="300px" zc-width="100%">
+                    
+                </div>
+                <h5 align="center" style="font-weight: bold ">{{selectedLanguage.home.labels.quantity}}<h5>
+                    <table class="table">
+                    <tr ng-repeat="item in quantityData">
+                    <td style="padding-left: 140px">{{item.text}} </td>
+                    <td style="padding-right: 120px">{{item.values}} </td>
+                    </tr>
+                    </table>
                 </div>
             </div>
 
             </div>
             <div class="row">
-            <div class="panel-group col-sm-13" style="table-layout: fixed;">
                 <div class="panel panel-warning">
-                <div class="panel-heading"><h4>{{selectedLanguage.home.labels.line}}</h4></div>
-                 <div zingchart id="chart-2" zc-values="myData"  zc-height="500px" zc-width="100%"></div>
-                           
-                </div>
+                    <div class="panel-heading"><h4>{{selectedLanguage.home.labels.line}}</h4></div>
+                    <div class="row">
+                        <div class="panel-group col-sm-10" style="table-layout: fixed;">
+                            <div id="chart-div" height="500px" width="100%">
+                            </div>
+                        </div>
+                        <br><br><br> 
+                        <div class="panel-group col-sm-2" style="table-layout: fixed;">
+                            <div>
+                            <form name="myForm">
+                            <label>Filter:</label>                            
+                              
+                                <select name="repeatSelect" id="repeatSelect" ng-model="filterData.model" ng-change="ShowDiv(filterData.model)">
+                                  <option ng-repeat="option in filterData.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                                </select>
+                              </form>
+                              <hr>
+                              <div ng-show="ngShowMonthly">
+                                    <form name="myFormFromYear">
+                                    <label>Year:</label>                            
+                                        <select name="repeatSelect" id="repeatSelect" ng-model="years.model" ng-change="">
+                                          <option ng-repeat="option in years" value="{{option.id}}" >{{option}}</option>
+                                        </select>
+                                    </form>
+                                </div>
+                              <div ng-show="ngShowYearly" class="panel-body">
+                                    <form name="myFormFromYear">
+                                    <table>
+                                    <tr>
+                                    <td>
+                                    <label>From:</label></td>                            
+                                        <td><select name="repeatSelect" id="repeatSelect" ng-model="years.model" ng-change="">
+                                          <option ng-repeat="option in years" value="{{option.id}}" >{{option}}</option>
+                                        </select></td><tr>
+                                    <td><label>To:</label></td><td>                            
+                                        <select name="repeatSelect" id="repeatSelect" ng-model="years.model" ng-change="">
+                                          <option ng-repeat="option in years" value="{{option.id}}" >{{option}}</option>
+                                        </select></td></tr>
+                                    </form>
+                                    <tr>
+                                    <td colspan="2">
+                                    <br>
+                                    <button class="btn-success" style="float: center; width: 100%" width="100%" value="Go">Go</button>
+                                    </td>
+                                    </tr>
+                                    </table>
+                                </div>
 
-                </div>
+                    </div>
+                </div>   
             </div>
-        </div>
+            </div>
     </div>
 </div>
 

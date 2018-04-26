@@ -224,6 +224,9 @@
         },
         "home":{
             "labels":{
+            	"quantity": "Quantity",
+            	"notifs": "Notifications",
+            	"line": "Line Graph",
                 "warehouses": "Warehouses",
                 "totalCap": "Total Warehouse Capacity",
                 "totalStored": "Total Assets Stored",
