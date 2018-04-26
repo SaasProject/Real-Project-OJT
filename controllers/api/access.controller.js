@@ -60,7 +60,7 @@ function saveAccess(req, res) {
 */
 function getRole(req, res) {
     accessService.getRoles().then(function(roles){
-        if(assets){
+        if(roles){
             res.send(roles);
         }
         else{
@@ -80,7 +80,6 @@ function getRole(req, res) {
     Return: none
 */
 function getAccess(req, res) {
-    console.log(req.query.type);
     accessService.getAccess(req, res).then(function(access){
         if(access){
             res.send(access);

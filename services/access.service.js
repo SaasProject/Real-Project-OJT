@@ -19,18 +19,23 @@ module.exports = service;
 
 function getRoles(){
     var deferred = Q.defer();
+    var rolesList = [];
 
-    db.access.find({}).toArray(function(err, roles){
+     db.access.find({}, {_id: 0, type : 1}).toArray(function(err, roles){
 
         if(err) deferred.reject(err);
 
-        if(assets.length > 0) {
-            deferred.resolve(roles);
+        if(roles.length > 0) {
+            for(var i = 0; i < roles.length; i++){
+                rolesList.push(roles[i].type);
+            }
+            deferred.resolve(rolesList);
         }
         else{
             deferred.resolve([]);
         }
     });
+    return deferred.promise;
 }
 
 function getAccess(userParam){
@@ -38,7 +43,6 @@ function getAccess(userParam){
     var types = "";
     var accesses
     types = userParam.query.type;
-    console.log(types);
     db.access.find({type: types},{_id: 0, access: 1}).toArray(function(err, accessList){
         if(err) deferred.reject(err);
         if(accessList[0]){

@@ -121,6 +121,9 @@ $(document).ready(function(){
             <div class="modal-header">
                 <h4>User Access</h4>
             </div>
+                <% if(locals.error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+    <% } %>
     <div class="form-container text-left">
     <br><br><br><br>
     <form method="post">

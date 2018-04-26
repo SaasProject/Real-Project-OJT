@@ -226,16 +226,13 @@
         },
         "home":{
             "labels":{
-<<<<<<< HEAD
             	"quantity": "量",
             	"notifs": "通知",
             	"line": "折れ線グラフ",
                 "warehouses": "ウエアハウス",
                 "totalCap": "ウエアハウスの容量",
-=======
                 "warehouses": "ウェアハウス",
                 "totalCap": "ウェアハウスの容量",
->>>>>>> 76572c8c3e0ec3ff89a76916b110f294046e4603
                 "totalStored": "資産合計",
                 "types": "資産の種類",
                 "latest": "最新の資産",

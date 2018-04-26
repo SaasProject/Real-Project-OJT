@@ -49,12 +49,13 @@
             };
         });
  
-    function Controller(UserService, $scope, FlashService, FieldsService, socket, $rootScope) {
+    function Controller(UserService, $scope, FlashService, FieldsService, socket, $rootScope, AccessService) {
         var vm = this;
  
         vm.user = [];
-		
-		$scope.loading = true;
+
+        
+        $scope.loading = true;
         $scope.confirmPassword = {};
 
         /*
@@ -210,14 +211,34 @@
                 $scope.allUsers = user;
                 $scope.userLength = Object.size(user);
             }).finally(function() {
-				$scope.loading = false;
-			});
+                $scope.loading = false;
+            });
         }
 
         $scope.id = "";
         $scope.fields = [];
+        $scope.roleData = [];
         $scope.name = 'user';
-		
+
+
+        /*
+            Function name: getAllRoles 
+            Author(s): Rother Jon Bobiles
+            Date Modified: April 2018
+            Description: Retrieves all Roles from the access collection
+            Parameter(s): none
+            Return: none
+        */
+        function getAllRoles(){
+            AccessService.getRoles().then(function(response){
+                $scope.roleData = response;
+                console.log($scope.roleData);
+            }).catch(function(err){
+                alert(err);
+            });
+        }
+        getAllRoles();
+        
         /*
             Function name: Get all user fields 
             Author(s):
@@ -227,7 +248,7 @@
             Return: none
         */
         function getAllFields(){
-			
+            
             FieldsService.GetAll($scope.name).then(function(response){
     
                $scope.fields = response.fields;
@@ -728,20 +749,20 @@
             $scope.shw = false;
             $scope.aUsers = angular.copy(filterIndexById($scope.allUsers, index));
         };
-		
-		vm.cancelEdit = function() {
-			
-			$scope.aUsers = {};			
-			initController();
-		}
-		
-		/*
+        
+        vm.cancelEdit = function() {
+            
+            $scope.aUsers = {};         
+            initController();
+        }
+        
+        /*
             Function name: Update User Function
             Author(s): Sanchez, Macku
             Date Modified: January 2018
             Description: Update User
         */
-		vm.updateUser = function() {
+        vm.updateUser = function() {
             $scope.aUsers.password="qwe";
             var requiredTextField=0;
             var forDataBase=0;
@@ -786,30 +807,30 @@
                         resetModalFlash();
                 }
             }
-        }		
-		
-		/*
+        }       
+        
+        /*
             Function name: Delete User Function
             Author(s): Sanchez, Macku
             Date Modified: January 2018
             Description: Delet eUser
         */
-		vm.deleteUser = function(index) {
-			
-			
-			var toDel = filterIndexById($scope.allUsers, index);
+        vm.deleteUser = function(index) {
+            
+            
+            var toDel = filterIndexById($scope.allUsers, index);
 
                 if (confirm($rootScope.selectedLanguage.manageAccounts.flashMessages.confirmMessage)){deleteUserino();}
-    				
+                    
                 
                 function deleteUserino(){
 
                  UserService.Delete(toDel._id)
                      .then(function () {
-    					resetModalFlash();
+                        resetModalFlash();
                         FlashService.Success($rootScope.selectedLanguage.manageAccounts.flashMessages.userDeleted);
                         socket.emit('userChange');
-    					 
+                         
                     })
                     .catch(function (error) {
                         if(error.self_delete){
