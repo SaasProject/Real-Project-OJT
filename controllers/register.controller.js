@@ -27,9 +27,9 @@ function getNihongo(){
     return languages;
 }
 
-function checkIfAvailable(){
+function checkIfAvailable(request){
         db.access.find({}, {_id: 0, type: 1}).toArray(function(err, roles){
-            var splitted = req.body.roles.split(',');
+            var splitted = request.split(',');
             for(var i = 0; i < splitted.length; i++){
                 for(var x = 0; x < roles.length; x ++){
                     if(splitted[i].toLowerCase() == roles[x].type.toLowerCase()){
@@ -38,6 +38,7 @@ function checkIfAvailable(){
                 }
             }
         });
+        return false;
 }
 
 
@@ -128,7 +129,7 @@ router.post('/', function (req, res, next){
     else if(req.body.formType == 'addRole'){
         if(req.body.roles == ''){
             return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: roles});
-        }else if(checkIfAvailable){
+        }else if(checkIfAvailable(req.body.roles)){
             return res.render('register.ejs', {next: 2, error: 'Role Already Available', languages:language, role: []});
         }else{
             var split = req.body.roles.split(',');
