@@ -11,6 +11,7 @@ db.bind('access');
 db.bind('fields');
 var language = getEnglish().english;
 var roles = [];
+var selectedLanguage;
 
 
 
@@ -24,6 +25,19 @@ function getNihongo(){
     var file=fs.readFileSync(__dirname + '/../languages/nihongo.json', 'utf8');
     var languages=JSON.parse(file);
     return languages;
+}
+
+function checkIfAvailable(){
+        db.access.find({}, {_id: 0, type: 1}).toArray(function(err, roles){
+            var splitted = req.body.roles.split(',');
+            for(var i = 0; i < splitted.length; i++){
+                for(var x = 0; x < roles.length; x ++){
+                    if(splitted[i].toLowerCase() == roles[x].type.toLowerCase()){
+                        return true;
+                    }
+                }
+            }
+        });
 }
 
 
@@ -48,6 +62,7 @@ router.post('/', function (req, res, next){
 
 
     if(req.body.formType == 'registeruser'){
+        console.log(req.body.language);
         request.post({
             url: config.apiUrl + '/users/register',
             form: {
@@ -102,7 +117,7 @@ router.post('/', function (req, res, next){
             }
 
             
-            return res.render('register.ejs',{next: 1, languages:language, role: roles});
+            return res.render('register.ejs',{next: 1, languages:language, role: roles, chosenLanguage: req.body.option});
             
         });
 
@@ -111,45 +126,45 @@ router.post('/', function (req, res, next){
 //-------------------------------------------------------------------------------------------------------
 
     else if(req.body.formType == 'addRole'){
-
         if(req.body.roles == ''){
             return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: roles});
-        }
-
-        var split = req.body.roles.split(',');
-        var body = "";
-        for(var i = 0; i < split.length; i++){
-            if(i == split.length - 1){
-                body += '{"type":"'+split[i]+'"}';
-            }else{
-               body += '{"type":"'+split[i]+'"},'; 
-            }   
-        }
-        
-        request.post({
-            url: config.apiUrl + '/access/saverole',
-            form: {
-                query: body
-            },
-            json: true
-        }, function(error, response, body){
-            if(error) console.log(error);
-            if(response.statusCode !== 200){
-                console.log(response.statusCode);
+        }else if(checkIfAvailable){
+            return res.render('register.ejs', {next: 2, error: 'Role Already Available', languages:language, role: []});
+        }else{
+            var split = req.body.roles.split(',');
+            var body = "";
+            for(var i = 0; i < split.length; i++){
+                if(i == split.length - 1){
+                    body += '{"type":"'+split[i]+'"}';
+                }else{
+                   body += '{"type":"'+split[i]+'"},'; 
+                }   
             }
-            db.access.find({}).toArray(function(err, accessroles){
-                if(err) deferred.reject(err);
-                if(accessroles.length > 0) {
-                    accessroles.splice(0,2);
-                    roles = accessroles;
-                    res.render('register.ejs',{next: 2, languages:language, role: roles});
+            
+            request.post({
+                url: config.apiUrl + '/access/saverole',
+                form: {
+                    query: body
+                },
+                json: true
+            }, function(error, response, body){
+                if(error) console.log(error);
+                if(response.statusCode !== 200){
+                    console.log(response.statusCode);
                 }
-                else{
-                    res.render('register.ejs',{next: 2, languages:language, role: roles});
-                }
+                db.access.find({}).toArray(function(err, accessroles){
+                    if(err) deferred.reject(err);
+                    if(accessroles.length > 0) {
+                        accessroles.splice(0,2);
+                        roles = accessroles;
+                        res.render('register.ejs',{next: 2, languages:language, role: roles});
+                    }
+                    else{
+                        res.render('register.ejs',{next: 2, languages:language, role: roles});
+                    }
+                });
             });
-        });
-
+        }
     }
     
 //-------------------------------------------------------------------------------------------------------
