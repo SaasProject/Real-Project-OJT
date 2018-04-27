@@ -14,7 +14,7 @@
         .module('app')
         .controller('Home.IndexController', Controller);
  
-     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService) {
+     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService,LanguageService) {
         //initialization
         $scope.assets = [];
         $scope.warehouses = [];
@@ -31,9 +31,7 @@
                 if (obj.hasOwnProperty(key)) size++;
             }
             return size;
-        }; 
-
-        
+        };  
 
         /*
             Author: Jano, Jeremy
@@ -60,7 +58,6 @@
                         //store to array
                         $scope.assets = assets;
                         $scope.assetsLength = Object.size(assets);
-
                     
                         //loop warehouse
                         for (var warehouseQnty = 0; warehouseQnty<$scope.warehouseLength; warehouseQnty++){
@@ -338,10 +335,11 @@
                     for (var typeCount = 0; typeCount < types.length; typeCount++){
                          typeQuantity = 0;
                         for (assetCount = 0; assetCount < $scope.assetsLength; assetCount++){
-                                if (types[typeCount] == $scope.assets[assetCount].type){
+                                if (types[typeCount] == $scope.assets[assetCount].type && $scope.current_warehouse.name == $scope.assets[assetCount].location ){
                                     typeQuantity += 1;
                                 }       
                         }
+                        console.log($scope.current_warehouse);
                         //push type quantity to array
                         $scope.quantityOfAssetTypes[typeCount] = typeQuantity;
                         //add info to json for pie chart
@@ -424,6 +422,14 @@
                     qtyPerMonth.push(monthQuantity);
 
                 }
+
+                $scope.yAxis = [];
+
+                if(qtyPerMonth.length > parseInt($scope.cp_warehouse)){
+                    $scope.yAxis = [];
+
+                }
+
 
                 //push name of month and the quantity of the assets of the certain month to $scope.quantity array
                  for (var x = 0; x < monthNameList.length; x++){
