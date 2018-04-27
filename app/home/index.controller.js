@@ -275,6 +275,7 @@
         */
 
         function getLogs(){
+                //get all info in logs collection in db
                 LogsService.getAllLogs($scope.name).then(function(response){
                 $scope.logss = response;
                 
@@ -295,26 +296,27 @@
 
         function getAssetType(asset_types){
             var a_type = asset_types;
+            //get all assets
             AssetService.GetAll().then(function(assets){
-                
                 if(assets.length > 0){               
-                        //store to array
+                    //store to array
                     a_type = a_type.replace(/\s/g,'');
                     $scope.assets = assets;
                     $scope.assets_types = asset_types;
+                    //initialization
                     var types = a_type.split(',');
                     $scope.assetsLength = Object.size(assets);
                     $scope.assetsTypeQuantityLength = Object.size(asset_types);
                     $scope.quantityOfAssetTypes= [];
                     $scope.quantityData = [];
                     $scope.types = [];
-                    var count = 0;
-                    
+                    var count = 0;                    
                     var typeCount = 0;
                     var container ="";
                     var numberOfAssetTypes =1;
                     var typeQuantity = 0;
                     var assetCount = 0;
+                    //info json for pie chart 
                      $scope.myJson = {
                         type: "pie",
                         title: {
@@ -332,8 +334,7 @@
                         },
                         series: []
                       };
-
-                        //get all asset types
+                        //get all asset types and get quantity per type
                     for (var typeCount = 0; typeCount < types.length; typeCount++){
                          typeQuantity = 0;
                         for (assetCount = 0; assetCount < $scope.assetsLength; assetCount++){
@@ -341,7 +342,9 @@
                                     typeQuantity += 1;
                                 }       
                         }
+                        //push type quantity to array
                         $scope.quantityOfAssetTypes[typeCount] = typeQuantity;
+                        //add info to json for pie chart
                         $scope.myJson['series'].push({values:[$scope.quantityOfAssetTypes[typeCount]],text: types[typeCount]});
                         $scope.quantityData.push({values:$scope.quantityOfAssetTypes[typeCount],text: types[typeCount]});
                     }
@@ -362,6 +365,7 @@
         */
 
         function getCapacityAndQuantity(pm_warehouse, c_warehouse){
+            //initialization
             var monthQuantity = 0;
             var containerYear = 0;
             var yearQuantity =0;
@@ -377,10 +381,13 @@
             var rangeOfYears = [];
             $scope.quantity = [];  
             $scope.capacity = [];
+            $scope.ngShowtoYear = false;
+            $scope.ngShowfromYear = false;
             $scope.ngShowYearly = false;
             $scope.ngShowMonthly = false;
             $scope.cp_warehouse  = c_warehouse;
             $scope.pmm_warehouse = pm_warehouse;
+            //info for line chart
             var myConfig = {  
             type: 'line',
             title: {
@@ -403,6 +410,7 @@
             series: []
             };
 
+            //get all assets per month and add quantity to array per month    
             for(var y=1; y<=12; y++){
                     monthQuantity =0;
                     for(var x=0; x<=pm_warehouse.length; x++){
@@ -417,24 +425,27 @@
 
                 }
 
+                //push name of month and the quantity of the assets of the certain month to $scope.quantity array
                  for (var x = 0; x < monthNameList.length; x++){
                     $scope.quantity.push([monthNameList[x], qtyPerMonth[x]]); 
                 }
 
-
+                //push name of month and capacity of asset of current warehouse to $scope.capacity array
                 for (var x = 0; x < monthNameList.length; x++){
                     $scope.capacity.push([monthNameList[x], parseInt($scope.cp_warehouse)]); 
                 }
-            
+                    
+                //push $scope.capacity array and $scope.quantity array to myConfig info to create line graph
                 myConfig['series'].push({values:$scope.quantity,text: 'Quantity'});
                 myConfig['series'].push({values:$scope.capacity,text: 'Capacity'});
                 myConfig['title'].text= "Quantity and Capacity per Month of Current Year";
+                //render for default chart onload
                 zingchart.render({
                 id: 'chart-div',
                 data: myConfig
             });      
 
-            //get distinct years
+            //get all distinct years of assets
             for(var x=0; x<pm_warehouse.length; x++){
                     date = new Date(pm_warehouse[x]);
                     year = date.getFullYear();
@@ -445,7 +456,7 @@
             }
             $scope.years = years;
 
-             
+            // info for select element of filter
             $scope.filterData = {
             availableOptions: [
               {id: '1', name: 'Monthly'},
@@ -453,59 +464,34 @@
             ]
             };
 
-            var myNewLine = {  
-            type: 'line',
-            title: {
-                  textAlign: 'center',
-                  fontSize: 20,
-                  fontStyle: 'normal',
-                  fontFamily: "Verdana",
-                  fontWeight: "100"
-            },
-
-            legend:{
-                layout: "float",
-                backgroundColor: "none",
-                borderWidth: 0,
-                shadow: 0,
-                paddingTop: 0,
-                align:"left"
-
-            },
-            series: [
-            {
-                values: $scope.quantity,
-                text: 'Quantity'
-              },
-              {
-                values: $scope.capacity,
-                text: 'Capacity'
-              }
-              ]
-            };
-            
+            //gets monthly or yearly option from filter and shows corresponding div
             $scope.ShowDiv = function(x) {
-
+                    //if monthly
                     if( x == 1){
+                        //shows monthly select element and hides yearly div
                         $scope.ngShowYearly = false;
-                        $scope.ngShowMonthly = true;                      
+                        $scope.ngShowMonthly = true;
+                        //gets year and passes year to getQuantityOfYearMonthly function                      
                         $scope.getYear = function(yy){
                         getQuantityOfYearMonthly(yy);
                     }
-                       
+                    //if yearly
                     } else{
+                        //hides monthly select element and shows yearly div
                         $scope.ngShowYearly = true;
                         $scope.ngShowtoYear = false;
                         $scope.ngShowMonthly = false;
+
+                        //gets from year from from select element and shows To: select element
                         $scope.getFromYear= function(fromYearSelected){
                             fromYear = fromYearSelected;
-                            console.log(fromYear);
                             $scope.ngShowtoYear = true;
                         }
 
+                        //gets to year element from to select element and passes from year to year and number of assets to getQuantity per year method
                         $scope.getToYear= function(toYearSelected){
                             toYear = toYearSelected;
-                            console.log(toYear);
+                            //if from year is lesser that to year pass parameters from year and to year to getQuantityPer year
                             if(fromYear < toYear){
                                 myConfig['series'] = [];
                                 qtyPerYear = [];
@@ -514,38 +500,43 @@
                                 $scope.capacity = [];
                                 $scope.numberOfAssets = $scope.pmm_warehouse.length;
                                 getQuantityPerYear(fromYear, toYear, $scope.pmm_warehouse);
+                                
 
+
+                            //if from year and greater than or equal to to year element alert invalid
                             }else{
                               alert("Invalid! From Year cannot be more than or equal to To Year. ");
+                                    $scope.ngShowtoYear = false;
+                                    $scope.ngShowfromYear = false;
                             }
                             
                         }
 
                     }
             }; 
-            var containerr = 0;
-            $scope.numberOfAssets = 0
-            $scope.numberOfAssets = $scope.pmm_warehouse.length;
-            //console.log($scope.numberOfAssets);
 
             //get asset quantity per year of the range of year selected
             function getQuantityPerYear(fromY, toY, allAssets){ 
+                $scope.ngShowtoYear = false;
+                $scope.ngShowfromYear = false;
                 myConfig['series'] = [];
                 qtyPerYear = [];
                 rangeOfYears = [];
                 $scope.quantity = [];  
                 $scope.capacity = [];
 
+
+                //get the range of year from the passed to year and from year and save it to rangeofyears array
                 for(var x=0; x<=allAssets.length; x++){
                     date = new Date(allAssets[x]);
                     year = date.getFullYear();
                     if(year >= fromY && year <= toY ) {
                          rangeOfYears.push(year);
                     }
-                }   
-                console.log(rangeOfYears);
+                }
 
-                for(var y = 0; y<=allAssets.length; y++){
+                //get all assets per year in rangeofyears
+                for(var y = 0; y<=rangeOfYears.length; y++){
                     yearQuantity =0;
                     for(var x=0; x<=pm_warehouse.length; x++){
                         date = new Date(allAssets[x]);
@@ -557,15 +548,17 @@
                     qtyPerYear.push(yearQuantity);
                 }
 
+                //push quantity per year based on rangeofyears to $scope.quantity
                  for (var x = 0; x < rangeOfYears.length; x++){
                     $scope.quantity.push([rangeOfYears[x], qtyPerYear[x]]); 
                 }
 
-
+                //push capacity per year based on rangeofyears to $scope.capacity
                 for (var x = 0; x < rangeOfYears.length; x++){
                     $scope.capacity.push([rangeOfYears[x], parseInt($scope.cp_warehouse)]); 
                 }
-            
+                    
+                //add capacity and quantity to info of line chart and render chart based on range
                 myConfig['series'].push({values:$scope.quantity,text: 'Quantity'});
                 myConfig['series'].push({values:$scope.capacity,text: 'Capacity'});
                 myConfig['title'].text= "Quantity and Capacity per Year ";
@@ -574,6 +567,7 @@
                 data: myConfig
             });  
                 $scope.ngShowtoYear = false;
+                $scope.ngShowfromYear = false;
             }
 
 
@@ -585,7 +579,7 @@
                 $scope.quantity = [];  
                 $scope.capacity = [];
                 
-
+                //get quantity of assets per month
                 for(var y=1; y<=12; y++){
                     monthQuantity =0;
                     for(var x=0; x<=pm_warehouse.length; x++){
@@ -600,22 +594,24 @@
 
                 }
 
+                //push name of month and the quantity of the assets of the certain month to $scope.quantity array
                  for (var x = 0; x < monthNameList.length; x++){
                     $scope.quantity.push([monthNameList[x], qtyPerMonth[x]]); 
                 }
              
-
+                //push name of month and capacity of asset of current warehouse to $scope.capacity array
                 for (var x = 0; x < monthNameList.length; x++){
                     $scope.capacity.push([monthNameList[x], parseInt($scope.cp_warehouse)]); 
                 }
-            
+                
+                //push $scope.capacity array and $scope.quantity array to myConfig info to create line graph 
                 myConfig['series'].push({values:$scope.quantity,text: 'Quantity'});
                 myConfig['series'].push({values:$scope.capacity,text: 'Capacity'});
                 myConfig['title'].text= "Quantity and Capacity per Month of "+selectedYear;
                 zingchart.render({
                 id: 'chart-div',
                 data: myConfig
-            });  
+            });
 
             }
                   
