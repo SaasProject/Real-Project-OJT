@@ -196,9 +196,15 @@
 				          	<input data="{{field.type}}" type="date" ng-show="showDate(field.type) && shw==true" ng-model="tempDate" ng-change="pushDateToAUsers(field.name, this.tempDate)" class="form-control addTicketDateInput" ng-readonly="shw==false || field.name == 'email'" ng-required=field.required>
 
 				          	<!-- show dropdown -->
-				          	<select class="form-control" data="{{field.type}}" ng-show="showDropDown(field.type)" ng-model="aUsers[field.name]" ng-disabled="shw==false || field.name == 'email'">
+				          	<select class="form-control" data="{{field.type}}" ng-show="showDropDown(field.type) && field.name != 'role'" ng-model="aUsers[field.name]">
 								<option value="" ng-if="!field.required"></option>
 								<option ng-repeat="option in field.options">{{option}}</option>
+							</select>
+
+							<!-- show roles -->
+				          	<select class="form-control" data="{{roleData}}" ng-show="showDropDown(field.type) && field.name == 'role'" ng-model="aUsers[field.name]">
+								<option value="" ng-if="!field.required"></option>
+								<option ng-repeat="option in roleData">{{option}}</option>
 							</select>
           				</div>
 						<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span> {{selectedLanguage.commons.requiredLabel2}}</i></small>
