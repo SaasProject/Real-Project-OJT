@@ -110,6 +110,7 @@
                         <div class="panel-group col-sm-2" style="table-layout: fixed;">
                             <div>
                             <form name="myForm">
+                    <div class="panel-heading"><h4>{{selectedLanguage.home.labels.filter}}</h4></div>
                             <label>Filter:</label>                            
                               
                                 <select name="filterData" id="filterData" ng-model="filterData.model" ng-change="ShowDiv(filterData.model)">
@@ -119,6 +120,7 @@
                               <hr>
                               <div ng-show="ngShowMonthly">
                                     <form name="myFormFromYear">
+                    <div class="panel-heading"><h4>{{selectedLanguage.home.labels.year}}</h4></div>
                                     <label>Year:</label>                            
                                         <select name="yearOfChoice" id="yearOfChoice" ng-model="yearOfChoice" ng-change="getYear(yearOfChoice)">
                                           <option ng-selected="{{option}}" ng-repeat="option in years | orderBy: option" value="{{option}}" >{{option}}</option>
@@ -130,11 +132,13 @@
                                     <table>
                                     <tr>
                                     <td>
+                    <div class="panel-heading"><h4>{{selectedLanguage.home.labels.from}}</h4></div>
                                     <label>From:</label></td>                            
                                         <td><select name="fromYear" id="fromYear" ng-model="fromYear" ng-change="getFromYear(fromYear)">
                                           <option ng-repeat="option in years | orderBy: option " value="{{option}}" >{{option}}</option>
                                         </select></td>
                                     <tr ng-show="ngShowtoYear">
+                    <div class="panel-heading"><h4>{{selectedLanguage.home.labels.to}}</h4></div>
                                     <td ><label>To:</label></td><td>                            
                                         <select name="toYear" id="toYear" ng-model="toYear" ng-change="getToYear(toYear)">
                                           <option ng-repeat="option in years | orderBy: option " value="{{option}}" >{{option}}</option>

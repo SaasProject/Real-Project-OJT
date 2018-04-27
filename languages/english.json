@@ -225,6 +225,10 @@
         },
         "home":{
             "labels":{
+            	"filter" : "Filter:",
+            	"year" : "Year:",
+            	"to" : "To:",
+            	"from" : "From:",
             	"quantity": "Quantity",
             	"notifs": "Notifications",
             	"line": "Line Graph",

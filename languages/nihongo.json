@@ -226,7 +226,11 @@
             }
         },
         "home":{
-            "labels":{
+            "labels":
+            	"year" : "年:",
+            	"to" : "へ:",
+            	"from" : "から:",
+            	"filter" : "フィルタ："
             	"quantity": "量",
             	"notifs": "通知",
             	"line": "折れ線グラフ",
