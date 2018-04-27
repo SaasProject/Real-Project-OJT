@@ -11,6 +11,7 @@
 			"cancel":"Cancel"
 		},
 		"commons" : {
+			"back" : "Back",
 			"search" : "Search",
 			"itemsPerPage" : "Items Per Page",
 			"viewDetails" : "View Details",

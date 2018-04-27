@@ -62,11 +62,7 @@ $(document).ready(function(){
     <form method="post" id="submission">
     <br><br>
         <div class="form-group text-center">
-            <label for="language">Set Default Language:  </label>
-            <select name="language">
-              <option value="english">ENGLISH</option>
-              <option value="nihongo">JAPANESE</option>
-            </select>
+        <input type = "hidden" name = "language" value="<%= locals.chosenLanguage %>"/>
         </div>
         <div class="form-group">
             <label for="email"><%= locals.languages.register.email %></label>
@@ -124,8 +120,8 @@ $(document).ready(function(){
                 <% if(locals.error) { %>
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
+    <br><br>
     <div class="form-container text-left">
-    <br><br><br><br>
     <form method="post">
         <div class="form-group">
             Input roles separated by a comma ','.<br>
@@ -177,6 +173,7 @@ $(document).ready(function(){
         <div class="form-group">
              <input type="hidden" name="formType" value="addAccess"/>
              <button onclick="submit()" class="btn btn-primary pull-right"> <%= locals.languages.commons.save %> </button>
+             <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#registration" data-dismiss="modal"><%= locals.languages.commons.back %></button>
         </div>
     </form>
 
