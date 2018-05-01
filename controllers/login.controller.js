@@ -5,49 +5,16 @@ var config = require('config.json');
 var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, {native_parser: true});
 db.bind('language');
-db.bind('warehouses');
-db.bind('assets');
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 var nodemailer = require('nodemailer');
 var fs=require('fs');
 
-function getWarehouses(){
-    var wh = [];
-        db.warehouses.find({}, {name: 1, quantity: 1, capacity: 1}).toArray(function(err, warehouses){
-        if(err) return err;
-        else{ 
-            wh = warehouses;
-        }
-    });
-        return wh;
-}
-
-function getAssets(){
-    var asset = [];
-    db.assets.find({}, {asset_tag:1, updated_date: 1, location: 1}).toArray(function(err, assets){
-        if(err) return err;
-        else{
-            asset = assets;
-        }
-    });
-    return asset;
-}
-
 function getEnglish(){
     var file=fs.readFileSync(__dirname + '/../languages/english.json', 'utf8');
     var languages=JSON.parse(file);
     return languages;
-}
-
-function addToLogs(){
-    var warehouseData = [];
-    var assetsData = [];
-    warehouseData = getWarehouses();
-    assetsData = getAssets();
-    console.log(warehouseData);
-    console.log(assetsData);
 }
 
 function getNihongo(){
@@ -96,8 +63,6 @@ router.get('/', function (req, res) {
                 return res.render('login', {error: 'Your session has expired'});
             }
             else{
-                addToLogs();
-                //success
                 return res.render('login', viewData);
             }
         } else {

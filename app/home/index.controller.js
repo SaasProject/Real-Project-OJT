@@ -14,7 +14,7 @@
         .module('app')
         .controller('Home.IndexController', Controller);
  
-     function Controller($window, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService,LanguageService) {
+     function Controller($window, $rootScope, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService) {
         //initialization
         $scope.assets = [];
         $scope.warehouses = [];
@@ -31,7 +31,9 @@
                 if (obj.hasOwnProperty(key)) size++;
             }
             return size;
-        };  
+        }; 
+
+        console.log($rootScope.selectedLanguage.home.labels.notifs); 
 
         /*
             Author: Jano, Jeremy

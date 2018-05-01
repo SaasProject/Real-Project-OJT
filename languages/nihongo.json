@@ -11,7 +11,6 @@
 			"cancel":"キャンセル"
 		},
 		"commons" : {
-			"back" : "裏面",
 			"search" : "検索",
 			"itemsPerPage" : "各ページの項目数表示",
 			"viewDetails" : "詳細を表示",
@@ -226,11 +225,30 @@
             }
         },
         "home":{
-            "labels":
-            	"year" : "年:",
+            "labels":{
+            	"jan": "一月",
+            	"feb": "二月",
+            	"mar": "三月",
+            	"apr": "四月",
+            	"may": "五月",
+            	"jun": "六月",
+            	"jul": "七月",
+            	"aug": "八月",
+            	"sep": "九月",
+            	"oct": "十月",
+            	"nov": "十一月",
+            	"dec": "十二月",
+            	"typeassets": "資産の種類",
+            	"yearly":"毎年",
+            	"monthly":"毎月",
+            	"capacity":"容量",
+            	"currentyear":"現在の月の数量と容量",
+            	"selectedyear":"1か月あたりの量と容量",
+            	"rangeyear":"年間の生産能力と生産能力",
+            	"year": "年:",
             	"to" : "へ:",
             	"from" : "から:",
-            	"filter" : "フィルタ："
+            	"filter" : "フィルタ：",
             	"quantity": "量",
             	"notifs": "通知",
             	"line": "折れ線グラフ",
