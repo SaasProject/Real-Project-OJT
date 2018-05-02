@@ -10,7 +10,7 @@ var config = require('config.json');
 var net = require('net'),
     JsonSocket = require('json-socket');
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://192.168.223.65:27017/";
+var url = "mongodb://localhost:27017/";
 var ObjectID = require('mongodb').ObjectID;
  
 //added by dyan0 --socket.io for realtime
@@ -123,6 +123,7 @@ var server = http.listen(3000, function () {
             message.updated_date=displayDate;
             
             var assetParam = message;
+            console.log(assetParam);
             var set;
             var assettg;
             //console.log(assetParam);
@@ -135,7 +136,7 @@ var server = http.listen(3000, function () {
             */
             MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
-                    var dbo = db.db("SaasDatabaseRealProj");
+                    var dbo = db.db("SaasDatabaseRealProj-OJT");
                     dbo.collection("devices").findOne({device_id: assetParam.device_id}, 
                         function(err, result) {
                             if (err) throw err;
@@ -161,7 +162,7 @@ var server = http.listen(3000, function () {
             function searchForAssets(){
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
-                    var dbo = db.db("SaasDatabaseRealProj");
+                    var dbo = db.db("SaasDatabaseRealProj-OJT");
                     dbo.collection("assets").findOne({asset_tag: assetParam.asset_tag}, 
                         function(err, result) {
                             if (err) throw err;
@@ -186,7 +187,7 @@ var server = http.listen(3000, function () {
             function checkAssetforAdd(){
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
-                    var dbo = db.db("SaasDatabaseRealProj");
+                    var dbo = db.db("SaasDatabaseRealProj-OJT");
 
                     dbo.collection("devices").findOne({device_id: assetParam.device_id}, 
                             function(err, deviceResult) {
@@ -217,7 +218,7 @@ var server = http.listen(3000, function () {
             function checkAssetforUpdate(){
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
-                    var dbo = db.db("SaasDatabaseRealProj");
+                    var dbo = db.db("SaasDatabaseRealProj-OJT");
                     dbo.collection("devices").findOne({device_id: assetParam.device_id}, 
                             function(err, deviceResult) {
                                 if (err) throw err;
@@ -233,6 +234,7 @@ var server = http.listen(3000, function () {
                                             
                                             set={location: "",
                                                 Status:  assetParam.status,
+                                                type: assetParam.type,
                                                 updated_date: assetParam.updated_date
                                                 };
                                                 updateDB();
@@ -241,14 +243,14 @@ var server = http.listen(3000, function () {
                                             if(wQ>=wC){
                                                 
                                                 set={location: deviceResult.location,
-                                                     //Status:  assetParam.status,
+                                                     type: assetParam.type,
                                                      updated_date: assetParam.updated_date
                                                 };
                                                 updateDB();
                                             }else{
                                                
                                                 set={location: deviceResult.location,
-                                                    // Status:  assetParam.status,
+                                                    type: assetParam.type,
                                                      updated_date: assetParam.updated_date
                                                 };
                                                 updateDB();
@@ -275,7 +277,7 @@ var server = http.listen(3000, function () {
 
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
-                    var dbo = db.db("SaasDatabaseRealProj");
+                    var dbo = db.db("SaasDatabaseRealProj-OJT");
                     dbo.collection("devices").findOne({device_id: assetParam.device_id}, 
                             function(err, deviceResult) {
                                 if (err) throw err;
@@ -300,7 +302,7 @@ var server = http.listen(3000, function () {
                 
                 MongoClient.connect(url, function(err, db) {
                     if (err) throw err;
-                    var dbo = db.db("SaasDatabaseRealProj");
+                    var dbo = db.db("SaasDatabaseRealProj-OJT");
                     dbo.collection("assets").updateOne(
                             { asset_tag: assetParam.asset_tag }, 
                             { $set: set },
