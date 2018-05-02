@@ -31,9 +31,7 @@
                 if (obj.hasOwnProperty(key)) size++;
             }
             return size;
-        }; 
-
-        console.log($rootScope.selectedLanguage.home.labels.notifs); 
+        };  
 
         /*
             Author: Jano, Jeremy
@@ -320,7 +318,7 @@
                         type: "pie",
                         title: {
                           textAlign: 'center',
-                          text: "Types of Assets",
+                          text: $rootScope.selectedLanguage.home.labels.typeassets,
                           fontSize: 15,
                           fontStyle: 'normal',
                           fontFamily: "Verdana",
@@ -341,7 +339,6 @@
                                     typeQuantity += 1;
                                 }       
                         }
-                        console.log($scope.current_warehouse);
                         //push type quantity to array
                         $scope.quantityOfAssetTypes[typeCount] = typeQuantity;
                         //add info to json for pie chart
@@ -367,6 +364,7 @@
         function getCapacityAndQuantity(pm_warehouse, c_warehouse){
             //initialization
             var monthQuantity = 0;
+            var containerRangeYear = 0;
             var containerYear = 0;
             var yearQuantity =0;
             var date = "";
@@ -377,7 +375,18 @@
             var qtyPerYear = [];
             var toYear = "";
             var fromYear = "";
-            var monthNameList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var monthNameList = [$rootScope.selectedLanguage.home.labels.jan, 
+            $rootScope.selectedLanguage.home.labels.feb, 
+            $rootScope.selectedLanguage.home.labels.mar, 
+            $rootScope.selectedLanguage.home.labels.apr, 
+            $rootScope.selectedLanguage.home.labels.may, 
+            $rootScope.selectedLanguage.home.labels.jun, 
+            $rootScope.selectedLanguage.home.labels.jul, 
+            $rootScope.selectedLanguage.home.labels.aug, 
+            $rootScope.selectedLanguage.home.labels.sep, 
+            $rootScope.selectedLanguage.home.labels.oct, 
+            $rootScope.selectedLanguage.home.labels.nov, 
+            $rootScope.selectedLanguage.home.labels.dec];
             var rangeOfYears = [];
             $scope.quantity = [];  
             $scope.capacity = [];
@@ -444,9 +453,9 @@
                 }
                     
                 //push $scope.capacity array and $scope.quantity array to myConfig info to create line graph
-                myConfig['series'].push({values:$scope.quantity,text: 'Quantity'});
-                myConfig['series'].push({values:$scope.capacity,text: 'Capacity'});
-                myConfig['title'].text= "Quantity and Capacity per Month of Current Year";
+                myConfig['series'].push({values:$scope.quantity,text: $rootScope.selectedLanguage.home.labels.quantity});
+                myConfig['series'].push({values:$scope.capacity,text: $rootScope.selectedLanguage.home.labels.capacity});
+                myConfig['title'].text= $rootScope.selectedLanguage.home.labels.currentyear;
                 //render for default chart onload
                 zingchart.render({
                 id: 'chart-div',
@@ -467,8 +476,8 @@
             // info for select element of filter
             $scope.filterData = {
             availableOptions: [
-              {id: '1', name: 'Monthly'},
-              {id: '2', name: 'Yearly'}
+              {id: '1', name: $rootScope.selectedLanguage.home.labels.monthly},
+              {id: '2', name: $rootScope.selectedLanguage.home.labels.yearly}
             ]
             };
 
@@ -513,7 +522,7 @@
 
                             //if from year and greater than or equal to to year element alert invalid
                             }else{
-                              alert("Invalid! From Year cannot be more than or equal to To Year. ");
+                              alert($rootScope.selectedLanguage.home.labels.invalidyrmsg);
                                     $scope.ngShowtoYear = false;
                                     $scope.ngShowfromYear = false;
                             }
@@ -538,10 +547,11 @@
                 for(var x=0; x<=allAssets.length; x++){
                     date = new Date(allAssets[x]);
                     year = date.getFullYear();
-                    if(year >= fromY && year <= toY ) {
+                    if(year >= fromY && year <= toY && year!=containerRangeYear) {
                          rangeOfYears.push(year);
                     }
-                }
+                    containerRangeYear = year;
+                }    
 
                 //get all assets per year in rangeofyears
                 for(var y = 0; y<=rangeOfYears.length; y++){
@@ -567,13 +577,15 @@
                 }
                     
                 //add capacity and quantity to info of line chart and render chart based on range
-                myConfig['series'].push({values:$scope.quantity,text: 'Quantity'});
-                myConfig['series'].push({values:$scope.capacity,text: 'Capacity'});
-                myConfig['title'].text= "Quantity and Capacity per Year ";
+                myConfig['series'].push({values:$scope.quantity,text: $rootScope.selectedLanguage.home.labels.quantity});
+                myConfig['series'].push({values:$scope.capacity,text: $rootScope.selectedLanguage.home.labels.capacity});
+                myConfig['title'].text= $rootScope.selectedLanguage.home.labels.rangeyear;
+                
                 zingchart.render({
                 id: 'chart-div',
                 data: myConfig
-            });  
+                });  
+
                 $scope.ngShowtoYear = false;
                 $scope.ngShowfromYear = false;
             }
@@ -613,9 +625,9 @@
                 }
                 
                 //push $scope.capacity array and $scope.quantity array to myConfig info to create line graph 
-                myConfig['series'].push({values:$scope.quantity,text: 'Quantity'});
-                myConfig['series'].push({values:$scope.capacity,text: 'Capacity'});
-                myConfig['title'].text= "Quantity and Capacity per Month of "+selectedYear;
+                myConfig['series'].push({values:$scope.quantity,text: $rootScope.selectedLanguage.home.labels.quantity});
+                myConfig['series'].push({values:$scope.capacity,text: $rootScope.selectedLanguage.home.labels.capacity});
+                myConfig['title'].text= $rootScope.selectedLanguage.home.labels.selectedyear + " "+selectedYear;
                 zingchart.render({
                 id: 'chart-div',
                 data: myConfig

@@ -238,6 +238,7 @@
             	"oct": "十月",
             	"nov": "十一月",
             	"dec": "十二月",
+            	"invalidyrmsg": "無効！ 年から年まではできません。",
             	"typeassets": "資産の種類",
             	"yearly":"毎年",
             	"monthly":"毎月",

@@ -237,6 +237,7 @@
             	"oct": "Oct",
             	"nov": "Nov",
             	"dec": "Dec",
+            	"invalidyrmsg": "Invalid! From Year cannot be more than or equal to To Year.",
             	"typeassets": "Type of Assets",
             	"yearly":"Yearly",
             	"monthly":"Monthly",
