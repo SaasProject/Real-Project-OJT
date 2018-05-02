@@ -27,22 +27,29 @@ function getNihongo(){
     return languages;
 }
 
-function checkIfAvailable(request){
-        db.access.find({}, {_id: 0, type: 1}).toArray(function(err, roles){
-            var splitted = request.split(',');
-            for(var i = 0; i < splitted.length; i++){
-                for(var x = 0; x < roles.length; x ++){
-                    if(splitted[i].toLowerCase() == roles[x].type.toLowerCase()){
-                        return true;
-                    }
+function checkIfAvailable(requestList){
+    var splitted = requestList.split(',');
+        for(var i = 0; i < splitted.length; i++){
+            for(var x = 0; x < roles.length; x ++){
+                if(splitted[i].toLowerCase() == roles[x].type.toLowerCase()){
+                    return true;
                 }
+                    
             }
-        });
-        return false;
+        }
+
 }
 
 
 router.get('/', function (req, res) {
+
+    db.access.find({}, {_id: 0, type: 1}).toArray(function(err, rolesList){
+        if (err){
+            res.json({message: err});
+        }else{
+            roles = rolesList;
+        }
+    });
     db.language.findOne({ name: 'defaultLanguage' }, function (err, results) {
         if (err) res.json({message: err});
 
@@ -82,11 +89,11 @@ router.post('/', function (req, res, next){
      
             if (response.statusCode !== 200) {
                 return res.render('register', {
-                    error: 'Error',
+                    error: 'Error: Invalid E-mail Address',
                     role: req.body.role,
+                    email: req.body.email,
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
-                    username: req.body.username, 
                     languages: language,
                     next : 1
                 });
@@ -130,7 +137,8 @@ router.post('/', function (req, res, next){
         if(req.body.roles == ''){
             return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: roles});
         }else if(checkIfAvailable(req.body.roles)){
-            return res.render('register.ejs', {next: 2, error: 'Role Already Available', languages:language, role: []});
+            console.log('pumasok');
+            return res.render('register.ejs',{next: 2, error: 'Role Already Available', languages:language, role: roles});
         }else{
             var split = req.body.roles.split(',');
             var body = "";
