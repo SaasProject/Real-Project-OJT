@@ -215,6 +215,7 @@
             },
             "flashMessages":{
 				"added": "Field successfully added",
+				"updated": "Field successfully updated",
 				"deleted": "Field successfully deleted",
 				"dbError": "Failed to get fields",
 				"empty": "Field must not be empty",
