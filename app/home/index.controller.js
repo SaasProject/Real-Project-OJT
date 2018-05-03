@@ -14,8 +14,9 @@
         .module('app')
         .controller('Home.IndexController', Controller);
  
-     function Controller($window, $rootScope, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService) {
+     function Controller($window, $rootScope, FlashService, AssetService, $scope, $interval, $filter, socket, WarehouseService, LogsService, FieldsService) {
         //initialization
+        $scope.created_date="";
         $scope.assets = [];
         $scope.warehouses = [];
         $scope.years = [];
@@ -23,6 +24,7 @@
         var isModalOpened = false;
 		$scope.loading = true;
         $scope.name = 'user';
+        $scope.newNotifs = {};
         
         // function to convert object to array
         Object.size = function(obj) {
@@ -76,7 +78,12 @@
                             //check percentage
                             if (quantity > ($scope.warehouses[warehouseQnty].capacity)){
                                 color = "red";
-                                icon = "glyphicon-remove-sign";
+                                icon = "glyphicon-remove-sign";   
+
+
+                                
+
+
                             }
                             else if (quantity >= ($scope.warehouses[warehouseQnty].capacity * 0.90)){
                                 color = "orangered";
@@ -143,7 +150,20 @@
                         //check percentage
                         if (quantity > ($scope.warehouses[warehouseQnty].capacity)){
                             color = "red";
-                            icon = "glyphicon-remove-sign";
+                            icon = "glyphicon-remove-sign";      
+
+
+                            $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+                                $scope.newNotifs.message = $scope.current_warehouse.name+ " is over the limit";
+
+                                console.log($scope.newNotifs);
+
+                                LogsService.addNotifs($scope.newNotifs).then(function(){
+                    
+                                }).catch(function(err){
+                                 //   alert(err.msg_error);
+                                });             
+
                         }
                         else if (quantity >= ($scope.warehouses[warehouseQnty].capacity * 0.90)){
                             color = "orangered";
@@ -222,7 +242,7 @@
         function getAssetsByWarehouse(){
             $scope.quantity = [];  
             $scope.capacity = [];
-            $scope.myJson = ("[{}]");
+            $scope.myJson = [];
             $scope.latest_assets =[];
 
             //filter by warehouse and updated_date (desc)
@@ -288,7 +308,6 @@
             Parameter(s): none
             Return: none
         */
-
         function getAssetType(asset_types){
             var a_type = asset_types;
             //get all assets
@@ -373,7 +392,8 @@
             var qtyPerYear = [];
             var toYear = "";
             var fromYear = "";
-            var monthNameList = [$rootScope.selectedLanguage.home.labels.jan, 
+            var monthNameList = [
+            $rootScope.selectedLanguage.home.labels.jan, 
             $rootScope.selectedLanguage.home.labels.feb, 
             $rootScope.selectedLanguage.home.labels.mar, 
             $rootScope.selectedLanguage.home.labels.apr, 

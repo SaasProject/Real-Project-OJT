@@ -8,14 +8,12 @@ var db = mongo.db(config.connectionString, { native_parser: true });
 var multer = require('multer');
 var fs=require('fs');
 db.bind('logs');
-
 var fs = require('fs');
-
-
 var service = {};
 
 //Added by Glenn
 service.getAll = getAll;
+service.insertOverLimit = insertOverLimit;
 
 module.exports = service;
 
@@ -36,5 +34,16 @@ function getAll() {
         }
     });
     
-    return deferred.promise;var config = require('config.json');
+    return deferred.promise;
+    var config = require('config.json');
 }
+
+
+function insertOverLimit(messageParam){
+    var deferred = Q.defer();
+    
+        db.logs.insert(messageParam, function(err){
+            if (err) deferred.reject(err);
+            deferred.resolve();
+        });            
+    }

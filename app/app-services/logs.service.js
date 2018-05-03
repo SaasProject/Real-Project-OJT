@@ -10,17 +10,17 @@
  
 
         service.getAllLogs = getAllLogs;
-        
+        service.addNotifs = addNotifs;
  
         return service;
         
         
         
         /*
-            Function name: User App Service Get Admin
-            Author(s): Flamiano, Glenn
+            Function name: Notifications
+            Author(s): Ortaleza, Sherine
             Date Modified: 2018/03/01
-            Description: Retrieves all the users
+            Description: Retrieves all the logs
             Parameter(s): none
             Return: none
         */
@@ -28,7 +28,9 @@
             return $http.get('/api/logs/all').then(handleSuccess, handleError);
         }
         
-        
+        function addNotifs(notif) {
+            return $http.post('/api/logs/addNotif', notif).then(handleSuccess, handleError);
+        }
  
         // private functions
  

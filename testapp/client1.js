@@ -2,9 +2,9 @@
 
 var possibleLocation = ["MKT","ALB","CBU","JPN"];
 var possibleType = ["Parcel","Box","Package"];
-var possibleStatus = ["Not Ok","Ok"];
+var possibleStatus = ["Ok","Ok"];
 var possibleLocationNumbers = "012";
-var possibleWarehouse = "1234567890";
+var possibleWarehouse = "1";
 
 var tag = "";
 var lctn = "device ";
