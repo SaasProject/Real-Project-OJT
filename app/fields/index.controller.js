@@ -105,7 +105,7 @@
                 
                 FieldsService.Update($scope.id, $scope.fields).then(function(){
                         //alert('sorted');
-                        //FlashService.Success('Fields successfully updated');
+                        FlashService.Success($rootScope.selectedLanguage.fields.flashMessages.updated);
                       
                     }).catch(function(){
                         //db error

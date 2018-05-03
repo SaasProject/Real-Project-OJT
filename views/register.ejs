@@ -5,6 +5,21 @@
     <h2>Welcome to Saas App's <br> Setup Wizard!</h2>
      <a href="#languageSelect" data-toggle="modal" class="btn btn-primary pull-right">Next</a>
 </div>
+<script>
+
+function validatePassword(){
+    var password = document.getElementsByName("password");
+    var confirmPassword = document.getElementsByName("confirmPassword");
+  if(password[0].value != confirmPassword[0].value) {
+    alert("Passwords Don't Match");
+    return false;
+  } else {
+    return true;
+  }
+}
+</script>
+
+
 
 <div class="modal fade" id="languageSelect" role="dialog">
     <div class="modal-dialog">
@@ -59,7 +74,7 @@ $(document).ready(function(){
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
     <div class="form-container">
-    <form method="post" id="submission">
+    <form method="post" id="submission" onsubmit = "return validatePassword();">
     <br><br>
         <div class="form-group text-center">
         <input type = "hidden" name = "language" value="<%= locals.chosenLanguage %>"/>
@@ -70,25 +85,26 @@ $(document).ready(function(){
         </div>
         <div class="form-group">
             <label for="firstName"><%= locals.languages.register.firstName %></label>
-            <input type="text" name="firstName" id="firstName" class="form-control" value="<%= locals.firstName || '' %>" pattern="[a-zA-Z]{2,20}" required />
+            <input type="text" oninvalid="setCustomValidity('Input is Invalid')" name="firstName" id="firstName" class="form-control" value="<%= locals.firstName || '' %>" pattern="[a-zA-Z\s]{2,20}" required />
         </div>
         <div class="form-group">
             <label for="lastName"><%= locals.languages.register.lastName %></label>
-            <input type="text" name="lastName" id="lastName" class="form-control" value="<%= locals.lastName || '' %>" pattern="[a-zA-Z]{2,20}" required />
+            <input type="text" oninvalid="setCustomValidity('Input is Invalid')" name="lastName" id="lastName" class="form-control" value="<%= locals.lastName || '' %>" pattern="[a-zA-Z\s]{2,20}" required />
         </div>
         <div class="form-group">
             <label for="password"><%= locals.languages.register.password %></label>
-            <input type="password" name="password" id="password" class="form-control" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required />
+            <input type="password" name="password" id="password" class="form-control" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" oninvalid="setCustomValidity('8-12 Characters, At least 1 Capital Letter, Symbol and Number')" oninput="setCustomValidity('')" required />
         </div>
         <div class="form-group">
             <label for="confirmPassword"><%= locals.languages.register.confirmPass %></label>
             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required />
         </div>
+
         <div class="form-group">
             <input type="hidden" name="role" value="Admin"/>
             <input type="hidden" name="formType" value="registeruser"/>
             <button type="submit" class="btn btn-primary pull-right"><%= locals.languages.register.register %></button>
-            <a href="/register" class="btn btn-link pull-right"><%= locals.languages.commons.back %></a><br><br>
+            <button type="button" class="btn btn-link pull-right" data-toggle="modal" data-target="#languageSelect" data-dismiss="modal"><%= locals.languages.commons.back %></button><br><br>
         </div>
     </form>
     <br><br>
@@ -228,22 +244,6 @@ $(document).ready(function(){
 
 
 
-
-<script>
-var password = document.getElementByName("password")
-  , confirmPassword = document.getElementByName("confirmPassword");
-
-function validatePassword(){
-  if(password.value != confirmPassword.value) {
-    confirmPassword.setCustomValidity("Passwords Don't Match");
-  } else {
-    confirmPassword.setCustomValidity('');
-  }
-}
-
-password.onchange = validatePassword;
-confirmPassword.onkeyup = validatePassword;
-</script>
 
 
 
