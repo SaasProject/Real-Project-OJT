@@ -169,7 +169,7 @@ router.post('/', function (req, res, next){
                         res.render('register.ejs',{next: 2, languages:language, role: roles});
                     }
                     else{
-                        res.render('register.ejs',{next: 2, languages:language, role: roles});
+                        res.render('register.ejs',{next: 2, languages:language, role: []});
                     }
                 });
             });
