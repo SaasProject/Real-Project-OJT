@@ -96,9 +96,7 @@
                         if(isModalOpened){
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
-                            
-                            
-                            getAssetsByWarehouse();
+                                getAssetsByWarehouse();
                         }
                     }
                 })
@@ -435,12 +433,9 @@
                 }
 
                 $scope.yAxis = [];
-
                 if(qtyPerMonth.length > parseInt($scope.cp_warehouse)){
                     $scope.yAxis = [];
-
                 }
-
 
                 //push name of month and the quantity of the assets of the certain month to $scope.quantity array
                  for (var x = 0; x < monthNameList.length; x++){
@@ -517,8 +512,6 @@
                                 $scope.capacity = [];
                                 $scope.numberOfAssets = $scope.pmm_warehouse.length;
                                 getQuantityPerYear(fromYear, toYear, $scope.pmm_warehouse);
-                                
-
 
                             //if from year and greater than or equal to to year element alert invalid
                             }else{
@@ -541,7 +534,6 @@
                 rangeOfYears = [];
                 $scope.quantity = [];  
                 $scope.capacity = [];
-
 
                 //get the range of year from the passed to year and from year and save it to rangeofyears array
                 for(var x=0; x<=allAssets.length; x++){
@@ -589,8 +581,6 @@
                 $scope.ngShowtoYear = false;
                 $scope.ngShowfromYear = false;
             }
-
-
 
             //get asset quantity per month of a certain year selected
             function getQuantityOfYearMonthly(selectedYear){
