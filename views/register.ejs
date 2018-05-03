@@ -81,7 +81,7 @@ $(document).ready(function(){
         </div>
         <div class="form-group">
             <label for="email"><%= locals.languages.register.email %></label>
-            <input type="email" oninvalid="setCustomValidity('E-MAIL is Invalid')" name="email" id="email" class="form-control" value="<%= locals.email || '' %>" required />
+            <input type="email" name="email" id="email" class="form-control" value="<%= locals.email || '' %>" required />
         </div>
         <div class="form-group">
             <label for="firstName"><%= locals.languages.register.firstName %></label>

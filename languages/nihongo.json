@@ -11,6 +11,7 @@
 			"cancel":"キャンセル"
 		},
 		"commons" : {
+			"back" : "戻る",
 			"search" : "検索",
 			"itemsPerPage" : "各ページの項目数表示",
 			"viewDetails" : "詳細を表示",
