@@ -70,7 +70,6 @@ router.post('/', function (req, res, next){
 
 
     if(req.body.formType == 'registeruser'){
-        console.log(req.body.language);
         request.post({
             url: config.apiUrl + '/users/register',
             form: {
@@ -135,10 +134,9 @@ router.post('/', function (req, res, next){
 
     else if(req.body.formType == 'addRole'){
         if(req.body.roles == ''){
-            return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: roles});
+            return res.render('register.ejs',{next: 2, error: 'No Role/s Added', languages:language, role: []});
         }else if(checkIfAvailable(req.body.roles)){
-            console.log('pumasok');
-            return res.render('register.ejs',{next: 2, error: 'Role Already Available', languages:language, role: roles});
+            return res.render('register.ejs',{next: 2, error: 'Role Already Available', languages:language, role: []});
         }else{
             var split = req.body.roles.split(',');
             var body = "";
@@ -149,7 +147,7 @@ router.post('/', function (req, res, next){
                    body += '{"type":"'+split[i]+'"},'; 
                 }   
             }
-            
+    
             request.post({
                 url: config.apiUrl + '/access/saverole',
                 form: {
@@ -166,7 +164,7 @@ router.post('/', function (req, res, next){
                     if(accessroles.length > 0) {
                         accessroles.splice(0,2);
                         roles = accessroles;
-                        res.render('register.ejs',{next: 2, languages:language, role: roles});
+                        res.render('register.ejs',{next: 2, languages:language, role: accessroles});
                     }
                     else{
                         res.render('register.ejs',{next: 2, languages:language, role: []});

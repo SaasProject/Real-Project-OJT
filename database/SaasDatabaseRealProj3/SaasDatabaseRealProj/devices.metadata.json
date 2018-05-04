@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"SaasDatabaseRealProj.devices"},{"v":2,"key":{"device_id":1},"name":"deviceId_1","ns":"SaasDatabaseRealProj.devices"}],"uuid":"1809da6c3e444e3c90ea499c3b3e85d3"}
