@@ -438,8 +438,8 @@
             };
 
             //get all assets per month and add quantity to array per month    
-            for(var y=1; y<=12; y++){
-                    monthQuantity =0;
+            for(var y = 1; y <= 12; y++ ){
+                    monthQuantity = 0;
                     for(var x=0; x<=pm_warehouse.length; x++){
                         date = new Date(pm_warehouse[x]);
                         month = date.getMonth()+1;
@@ -478,10 +478,10 @@
             });      
 
             //get all distinct years of assets
-            for(var x=0; x<pm_warehouse.length; x++){
+            for(var x = 0; x < pm_warehouse.length; x++){
                     date = new Date(pm_warehouse[x]);
                     year = date.getFullYear();
-                    if (year!=containerYear){
+                    if (year != containerYear){
                         years.push(year);
                     }
                     containerYear = year;
