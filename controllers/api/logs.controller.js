@@ -6,7 +6,7 @@ var logsService = require('services/logs.service');
  
 // routes
 router.get('/all', getAllLogs);
-router.get('/addNotif', addNotif);
+router.post('/addNotification', addNotif);
 module.exports = router;
 
 
@@ -28,10 +28,9 @@ function getAllLogs(req, res) {
 
   function addNotif(req, res){
     logsService.insertOverLimit(req.body).then(function(){
-
             res.sendStatus(200);
-        })
+    })
         .catch(function (err) {
             res.status(400).send(err);
-        });
+    });
 }

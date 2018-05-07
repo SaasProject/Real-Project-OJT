@@ -38,12 +38,14 @@ function getAll() {
     var config = require('config.json');
 }
 
-
-function insertOverLimit(messageParam){
+function insertOverLimit(req, res){
     var deferred = Q.defer();
     
-        db.logs.insert(messageParam, function(err){
-            if (err) deferred.reject(err);
-            deferred.resolve();
-        });            
-    }
+    db.logs.insert(req, function(err){
+        if (err) deferred.reject(err);
+        deferred.resolve();
+
+        return deferred.promise;
+    });
+    return deferred.promise;
+ }

@@ -29,7 +29,7 @@
         }
         
         function addNotifs(notif) {
-            return $http.post('/api/logs/addNotif', notif).then(handleSuccess, handleError);
+            return $http.post('/api/logs/addNotification', notif).then(handleSuccess, handleError);
         }
  
         // private functions
