@@ -41,9 +41,11 @@ function getAll() {
 
 function insertOverLimit(messageParam){
     var deferred = Q.defer();
-    
+        console.log(messageParam);
         db.logs.insert(messageParam, function(err){
             if (err) deferred.reject(err);
             deferred.resolve();
-        });            
+        });
+
+        return deferred.promise;            
     }

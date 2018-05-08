@@ -4,6 +4,7 @@
     Author(s):
                Omugtong, Jano
                Reccion, Jeremy
+               Ortaleza, Sherine
     
  */
 
@@ -48,12 +49,12 @@
                 $scope.warehouseLength = Object.size(warehouse);
                 
                 //loop warehouse
-                for (var warehouseQnty = 0; warehouseQnty<$scope.warehouseLength; warehouseQnty++){
+                for (var warehouseQnty = 0; warehouseQnty < $scope.warehouseLength; warehouseQnty ++){
                     $scope.warehouses[warehouseQnty].quantity = 0;
                     $scope.warehouses[warehouseQnty].color = "green";
                     $scope.warehouses[warehouseQnty].icon = "glyphicon-ok-sign";
+                    
                 }
-
                 //get all assets
                 AssetService.GetAll().then(function(assets){
                     if(assets.length > 0){               
@@ -156,8 +157,6 @@
                             $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
                                 $scope.newNotifs.message = $scope.current_warehouse.name+ " is over the limit";
 
-                                console.log($scope.newNotifs);
-
                                 LogsService.addNotifs($scope.newNotifs).then(function(){
                     
                                 }).catch(function(err){
@@ -215,12 +214,6 @@
             getAssetsByWarehouse();
         };
 
-        $scope.openModal = function(warehouse){
-            $scope.current_warehouse = warehouse;
-            //console.log($scope.current_warehouse.icon);
-            isModalOpened = true;
-            getAssetsByWarehouse();
-        };
 
         //reset variables just to be sure
         $scope.closeModal = function(){
@@ -252,8 +245,8 @@
              $scope.latest_assets_permonth = $scope.latest_assets.map(function(x){
                 return x['updated_date'];
             });
-
             //get number of assets in warehouse
+
             $scope.current_warehouse.quantity = $scope.latest_assets.length;
 
             //get asset types
