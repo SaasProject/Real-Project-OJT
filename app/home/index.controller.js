@@ -100,7 +100,7 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                                 getAssetsByWarehouse();
-                                addNotification($scope.warehouses);
+                                //addNotification($scope.warehouses);
                         }
                     }
                 })
@@ -179,7 +179,7 @@
                         //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                         $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                         getAssetsByWarehouse();
-                        addNotification($scope.warehouses);
+                        //addNotification($scope.warehouses);
                     }
                 }
             }).catch(function(error){
@@ -209,7 +209,7 @@
             //console.log($scope.current_warehouse.icon);
             isModalOpened = true;
             getAssetsByWarehouse();
-            addNotification($scope.warehouses);
+            //addNotification($scope.warehouses);
         };
 
         //reset variables just to be sure
@@ -279,37 +279,37 @@
             Return: none
         */
 
-        function addNotification(warehouselist){
-            //filter by warehouse and updated_date (desc)
-            //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
+        // function addNotification(warehouselist){
+        //     //filter by warehouse and updated_date (desc)
+        //     //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
 
 
-            for( var x=0; x<=warehouselist.length; x++){
-                if(warehouselist[x].quantity > parseInt(warehouselist[x].capacity)){
-                     $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                     $scope.newNotifs.message = warehouselist[x].name+" "+$rootScope.selectedLanguage.home.labels.isover;
-                     console.log( $scope.newNotifs.message);
-                     LogsService.addNotifs($scope.newNotifs).then(function(){
+        //     for( var x=0; x<=warehouselist.length; x++){
+        //         if(warehouselist[x].quantity > parseInt(warehouselist[x].capacity)){
+        //              $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+        //              $scope.newNotifs.message = warehouselist[x].name+" "+$rootScope.selectedLanguage.home.labels.isover;
+        //              console.log( $scope.newNotifs.message);
+        //              LogsService.addNotifs($scope.newNotifs).then(function(){
     
-                }).catch(function(err){
-                  // alert(err.msg_error);
-                }); 
+        //         }).catch(function(err){
+        //           // alert(err.msg_error);
+        //         }); 
 
-                } else if (warehouselist[x].quantity == 0){
-                    $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                     $scope.newNotifs.message = warehouselist[x].name+ " " +$rootScope.selectedLanguage.home.labels.isempty;
-                     console.log($scope.newNotifs.message);
-                     LogsService.addNotifs($scope.newNotifs).then(function(){
+        //         } else if (warehouselist[x].quantity == 0){
+        //             $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+        //              $scope.newNotifs.message = warehouselist[x].name+ " " +$rootScope.selectedLanguage.home.labels.isempty;
+        //              console.log($scope.newNotifs.message);
+        //              LogsService.addNotifs($scope.newNotifs).then(function(){
     
-                }).catch(function(err){
-                  // alert(err.msg_error);
-                }); 
-                } else{
+        //         }).catch(function(err){
+        //           // alert(err.msg_error);
+        //         }); 
+        //         } else{
 
-                }
-             }
+        //         }
+        //      }
 
-        }
+        // }
 
         /*
             Function name: Notifications
@@ -329,7 +329,7 @@
                 alert(err.msg_error);
             });
         }
-        getLogs();
+        
 
         /*
             Function name: Pie Chart

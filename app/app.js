@@ -157,27 +157,32 @@
             if(toState.name == 'asset' && $rootScope.asset == false){
                     event.preventDefault();
                     $state.transitionTo('home');
+                    window.alert('Unauthorized');
             }
 
             if(toState.name == 'fields' && $rootScope.fields == false){
                     event.preventDefault();
                     $state.transitionTo('home');
+                    window.alert('Unauthorized');
             }
 
             if(toState.name == 'manageWarehouses' && $rootScope.warehouses == false){
                     event.preventDefault();
                     $state.transitionTo('home');
+                    window.alert('Unauthorized');
             }
 
 
             if(toState.name == 'manageDevices' && $rootScope.devices == false){
                     event.preventDefault();
                     $state.transitionTo('home');
+                    window.alert('Unauthorized');
             }
 
             if(toState.name == 'manageUsers' && $rootScope.account == false){
                     event.preventDefault();
                     $state.transitionTo('home');
+                    window.alert('Unauthorized');
             }
 
 
