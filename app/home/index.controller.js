@@ -4,6 +4,7 @@
     Author(s):
                Omugtong, Jano
                Reccion, Jeremy
+               Ortaleza, Sherine
     
  */
 
@@ -48,12 +49,12 @@
                 $scope.warehouseLength = Object.size(warehouse);
                 
                 //loop warehouse
-                for (var warehouseQnty = 0; warehouseQnty<$scope.warehouseLength; warehouseQnty++){
+                for (var warehouseQnty = 0; warehouseQnty < $scope.warehouseLength; warehouseQnty ++){
                     $scope.warehouses[warehouseQnty].quantity = 0;
                     $scope.warehouses[warehouseQnty].color = "green";
                     $scope.warehouses[warehouseQnty].icon = "glyphicon-ok-sign";
+                    
                 }
-
                 //get all assets
                 AssetService.GetAll().then(function(assets){
                     if(assets.length > 0){               
@@ -152,8 +153,6 @@
                             $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
                                 $scope.newNotifs.message = $scope.current_warehouse.name+ " is over the limit";
 
-                                console.log($scope.newNotifs);
-
                                 LogsService.addNotifs($scope.newNotifs).then(function(){
                     
                                 }).catch(function(err){
@@ -212,6 +211,8 @@
             getAssetsByWarehouse();
         };
 
+<<<<<<< HEAD
+=======
         $scope.openModal = function(warehouse){
             $scope.current_warehouse = warehouse;
             //console.log($scope.current_warehouse.icon);
@@ -219,6 +220,7 @@
             getAssetsByWarehouse();
             addNotification($scope.warehouses);
         };
+>>>>>>> b0e565099e69f62e7cc025f4232ef3d020641091
 
         //reset variables just to be sure
         $scope.closeModal = function(){
@@ -250,8 +252,8 @@
              $scope.latest_assets_permonth = $scope.latest_assets.map(function(x){
                 return x['updated_date'];
             });
-
             //get number of assets in warehouse
+
             $scope.current_warehouse.quantity = $scope.latest_assets.length;
 
             //get asset types
@@ -475,8 +477,8 @@
             };
 
             //get all assets per month and add quantity to array per month    
-            for(var y=1; y<=12; y++){
-                    monthQuantity =0;
+            for(var y = 1; y <= 12; y++ ){
+                    monthQuantity = 0;
                     for(var x=0; x<=pm_warehouse.length; x++){
                         date = new Date(pm_warehouse[x]);
                         month = date.getMonth()+1;
@@ -515,10 +517,10 @@
             });      
 
             //get all distinct years of assets
-            for(var x=0; x<pm_warehouse.length; x++){
+            for(var x = 0; x < pm_warehouse.length; x++){
                     date = new Date(pm_warehouse[x]);
                     year = date.getFullYear();
-                    if (year!=containerYear){
+                    if (year != containerYear){
                         years.push(year);
                     }
                     containerYear = year;

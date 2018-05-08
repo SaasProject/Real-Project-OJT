@@ -166,7 +166,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>  
-                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id'" ng-class="sortClass(field.name)">{{field.name}}</th>       
+                        <th ng-repeat="field in fields" ng-click='setTo(field.name)' ng-if="field.name != '_id' && field.show" ng-class="sortClass(field.name)">{{field.name}}</th>       
                         <th ng-click="setTo('updated_date')" ng-class="sortClass('updated_date')">updated_date</th>                    
                     </tr>
                     
@@ -178,7 +178,7 @@
                         </td>
                     </tr> -->
                     <tr ng-repeat="asset in filtered_assets | pagination: (currentPage - 1) * pageSize | limitTo: pageSize">
-                        <td ng-repeat="field in fields" ng-if="field.name != '_id'" class="cutOverflow">{{(!$parent.asset[field.name]) ? ($parent.asset[field.name] = '') : $parent.asset[field.name]}}</td>                        
+                        <td ng-repeat="field in fields" ng-if="field.name != '_id' && field.show" class="cutOverflow">{{(!$parent.asset[field.name]) ? ($parent.asset[field.name] = '') : $parent.asset[field.name]}}</td>                        
                          <td>{{asset['updated_date']}}</td>
                         <td>
                             <a><i class="fa fa-list-alt" aria-hidden="true" ng-click="editModal(asset); declareSelected()" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" title="{{selectedLanguage.commons.viewDetails}}"></i><a>

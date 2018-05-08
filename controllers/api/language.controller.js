@@ -45,6 +45,7 @@ function saveDefaultLanguage(req, res) {
             res.sendStatus(200);
         })
         .catch(function (err) {
+            console.log("Error");
             res.status(400).send(err);
         });
 }

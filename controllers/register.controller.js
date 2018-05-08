@@ -100,7 +100,7 @@ router.post('/', function (req, res, next){
 
             // return to login page with success message
             req.session.success = 'Registration successful';
-            return res.render('register',{next: 2, languages: language, role: roles});
+            return res.render('register',{next: 2, languages: language, role: []});
         });
     }
 

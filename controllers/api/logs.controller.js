@@ -27,6 +27,7 @@ function getAllLogs(req, res) {
 }
 
   function addNotif(req, res){
+    console.log(req.body);
     logsService.insertOverLimit(req.body).then(function(){
             res.sendStatus(200);
     })
