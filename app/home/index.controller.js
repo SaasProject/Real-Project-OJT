@@ -312,8 +312,6 @@
                 }).catch(function(err){
                   // alert(err.msg_error);
                 }); 
-                } else{
-
                 }
              }
 
