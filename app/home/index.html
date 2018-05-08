@@ -115,7 +115,8 @@
                             <label>{{selectedLanguage.home.labels.filter}}</label>                            
                               
                                 <select name="filterData" id="filterData" ng-model="filterData.model" ng-change="ShowDiv(filterData.model)">
-                                  <option ng-repeat="option in filterData.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                                  <option value="1" >{{selectedLanguage.home.labels.monthly}}</option>
+                                  <option value="2" >{{selectedLanguage.home.labels.yearly}}</option>
                                 </select>
                               </form>
                               <hr>

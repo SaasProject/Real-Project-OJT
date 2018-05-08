@@ -239,6 +239,8 @@
             	"oct": "十月",
             	"nov": "十一月",
             	"dec": "十二月",
+            	"isover": "限界を超えています。",
+            	"isempty": "空です。",
             	"invalidyrmsg": "無効！ 年から年まではできません。",
             	"typeassets": "資産の種類",
             	"yearly":"毎年",

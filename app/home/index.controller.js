@@ -80,11 +80,6 @@
                             if (quantity > ($scope.warehouses[warehouseQnty].capacity)){
                                 color = "red";
                                 icon = "glyphicon-remove-sign";   
-
-
-                                
-
-
                             }
                             else if (quantity >= ($scope.warehouses[warehouseQnty].capacity * 0.90)){
                                 color = "orangered";
@@ -105,6 +100,7 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                                 getAssetsByWarehouse();
+                                addNotification($scope.warehouses);
                         }
                     }
                 })
@@ -183,6 +179,7 @@
                         //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                         $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                         getAssetsByWarehouse();
+                        addNotification($scope.warehouses);
                     }
                 }
             }).catch(function(error){
@@ -214,6 +211,16 @@
             getAssetsByWarehouse();
         };
 
+<<<<<<< HEAD
+=======
+        $scope.openModal = function(warehouse){
+            $scope.current_warehouse = warehouse;
+            //console.log($scope.current_warehouse.icon);
+            isModalOpened = true;
+            getAssetsByWarehouse();
+            addNotification($scope.warehouses);
+        };
+>>>>>>> b0e565099e69f62e7cc025f4232ef3d020641091
 
         //reset variables just to be sure
         $scope.closeModal = function(){
@@ -272,6 +279,47 @@
             $scope.latest_assets = $scope.latest_assets.slice(0, 5);
             //console.log($scope.latest_assets);            
         };
+
+        /*
+            Function name: Add Notifications
+            Author(s): Ortaleza, Sherine Marie
+            Date Modified: 04/24/2018
+            Description: Adds notifications to the logs collection in database
+            Parameter(s): none
+            Return: none
+        */
+
+        function addNotification(warehouselist){
+            //filter by warehouse and updated_date (desc)
+            //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
+
+
+            for( var x=0; x<=warehouselist.length; x++){
+                if(warehouselist[x].quantity > parseInt(warehouselist[x].capacity)){
+                     $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+                     $scope.newNotifs.message = warehouselist[x].name+" "+$rootScope.selectedLanguage.home.labels.isover;
+                     console.log( $scope.newNotifs.message);
+                     LogsService.addNotifs($scope.newNotifs).then(function(){
+    
+                }).catch(function(err){
+                  // alert(err.msg_error);
+                }); 
+
+                } else if (warehouselist[x].quantity == 0){
+                    $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+                     $scope.newNotifs.message = warehouselist[x].name+ " " +$rootScope.selectedLanguage.home.labels.isempty;
+                     console.log($scope.newNotifs.message);
+                     LogsService.addNotifs($scope.newNotifs).then(function(){
+    
+                }).catch(function(err){
+                  // alert(err.msg_error);
+                }); 
+                } else{
+
+                }
+             }
+
+        }
 
         /*
             Function name: Notifications
@@ -481,13 +529,7 @@
             }
             $scope.years = years;
 
-            // info for select element of filter
-            $scope.filterData = {
-            availableOptions: [
-              {id: '1', name: $rootScope.selectedLanguage.home.labels.monthly},
-              {id: '2', name: $rootScope.selectedLanguage.home.labels.yearly}
-            ]
-            };
+            
 
             //gets monthly or yearly option from filter and shows corresponding div
             $scope.ShowDiv = function(x) {

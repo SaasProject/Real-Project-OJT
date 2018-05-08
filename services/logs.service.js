@@ -38,9 +38,9 @@ function getAll() {
     var config = require('config.json');
 }
 
-
-function insertOverLimit(messageParam){
+function insertOverLimit(req, res){
     var deferred = Q.defer();
+<<<<<<< HEAD
         console.log(messageParam);
         db.logs.insert(messageParam, function(err){
             if (err) deferred.reject(err);
@@ -49,3 +49,14 @@ function insertOverLimit(messageParam){
 
         return deferred.promise;            
     }
+=======
+    
+    db.logs.insert(req, function(err){
+        if (err) deferred.reject(err);
+        deferred.resolve();
+
+        return deferred.promise;
+    });
+    return deferred.promise;
+ }
+>>>>>>> b0e565099e69f62e7cc025f4232ef3d020641091
