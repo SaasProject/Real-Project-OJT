@@ -209,18 +209,8 @@
             //console.log($scope.current_warehouse.icon);
             isModalOpened = true;
             getAssetsByWarehouse();
-        };
-
-<<<<<<< HEAD
-=======
-        $scope.openModal = function(warehouse){
-            $scope.current_warehouse = warehouse;
-            //console.log($scope.current_warehouse.icon);
-            isModalOpened = true;
-            getAssetsByWarehouse();
             addNotification($scope.warehouses);
         };
->>>>>>> b0e565099e69f62e7cc025f4232ef3d020641091
 
         //reset variables just to be sure
         $scope.closeModal = function(){
