@@ -51,11 +51,8 @@ function insertOverLimit(req, res){
     return deferred.promise;
  }
 
-
 function deleteAll(req, res){
     var deferred = Q.defer();
-    
-    return deferred.promise;
 
     db.logs.remove({},
         function (err) {

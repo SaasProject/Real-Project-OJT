@@ -100,12 +100,8 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                                 getAssetsByWarehouse();
-<<<<<<< HEAD
                                 clearNotifiPanel();
                                 addNotification($scope.warehouses);
-=======
-                                //addNotification($scope.warehouses);
->>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
                         }
                     }
                 })
@@ -174,11 +170,7 @@
                         //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                         $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                         getAssetsByWarehouse();
-<<<<<<< HEAD
                         
-=======
-                        //addNotification($scope.warehouses);
->>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
                     }
                 }
             }).catch(function(error){
@@ -209,17 +201,11 @@
             //console.log($scope.current_warehouse.icon);
             isModalOpened = true;
             getAssetsByWarehouse();
-<<<<<<< HEAD
             clearNotifiPanel();
             addNotification($scope.warehouses);
         };
 
 
-=======
-            //addNotification($scope.warehouses);
-        };
-
->>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
         //reset variables just to be sure
         $scope.closeModal = function(){
             $scope.current_warehouse = {};
@@ -300,7 +286,7 @@
                      $scope.addNotification($scope.newNotifs);
 
 
-                }else if (warehouselist[x].quantity >= (parseInt(warehouselist[x].capacity) * 0.80)){
+                    }else if (warehouselist[x].quantity >= (parseInt(warehouselist[x].capacity) * 0.80)){
                     $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
                     warehousenum = warehouselist[x].name;
                     $scope.newNotifs.message = warehousenum+ " " +$rootScope.selectedLanguage.home.labels.isalmostfull;
@@ -336,10 +322,9 @@
         function clearNotifiPanel(){
              LogsService.delNotifs().then(function () {
                 }).catch(function(err){
-                  // alert(err.msg_error);
+                  alert(err.msg_error);
                 }); 
         }
-
 
 
         /*
@@ -360,7 +345,7 @@
                 alert(err.msg_error);
             });
         }
-        
+        getLogs();
 
         /*
             Function name: Pie Chart
