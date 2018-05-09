@@ -42,10 +42,6 @@ function getAll() {
 function insertOverLimit(req, res){
     var deferred = Q.defer();
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
     db.logs.insert(req, function(err){
         if (err) deferred.reject(err);
         deferred.resolve();
@@ -54,7 +50,7 @@ function insertOverLimit(req, res){
     });
     return deferred.promise;
  }
-<<<<<<< HEAD
+
 
 function deleteAll(req, res){
     var deferred = Q.defer();
@@ -71,5 +67,3 @@ function deleteAll(req, res){
     return deferred.promise;
 }
 
-=======
->>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
