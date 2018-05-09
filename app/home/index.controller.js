@@ -100,8 +100,12 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                                 getAssetsByWarehouse();
+<<<<<<< HEAD
                                 clearNotifiPanel();
                                 addNotification($scope.warehouses);
+=======
+                                //addNotification($scope.warehouses);
+>>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
                         }
                     }
                 })
@@ -170,7 +174,11 @@
                         //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                         $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                         getAssetsByWarehouse();
+<<<<<<< HEAD
                         
+=======
+                        //addNotification($scope.warehouses);
+>>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
                     }
                 }
             }).catch(function(error){
@@ -201,11 +209,17 @@
             //console.log($scope.current_warehouse.icon);
             isModalOpened = true;
             getAssetsByWarehouse();
+<<<<<<< HEAD
             clearNotifiPanel();
             addNotification($scope.warehouses);
         };
 
 
+=======
+            //addNotification($scope.warehouses);
+        };
+
+>>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
         //reset variables just to be sure
         $scope.closeModal = function(){
             $scope.current_warehouse = {};
@@ -273,6 +287,7 @@
             Return: none
         */
 
+<<<<<<< HEAD
         function addNotification(warehouselist){
             //filter by warehouse and updated_date (desc)
             //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
@@ -325,6 +340,39 @@
                   // alert(err.msg_error);
                 }); 
         }
+=======
+        // function addNotification(warehouselist){
+        //     //filter by warehouse and updated_date (desc)
+        //     //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
+
+
+        //     for( var x=0; x<=warehouselist.length; x++){
+        //         if(warehouselist[x].quantity > parseInt(warehouselist[x].capacity)){
+        //              $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+        //              $scope.newNotifs.message = warehouselist[x].name+" "+$rootScope.selectedLanguage.home.labels.isover;
+        //              console.log( $scope.newNotifs.message);
+        //              LogsService.addNotifs($scope.newNotifs).then(function(){
+    
+        //         }).catch(function(err){
+        //           // alert(err.msg_error);
+        //         }); 
+
+        //         } else if (warehouselist[x].quantity == 0){
+        //             $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+        //              $scope.newNotifs.message = warehouselist[x].name+ " " +$rootScope.selectedLanguage.home.labels.isempty;
+        //              console.log($scope.newNotifs.message);
+        //              LogsService.addNotifs($scope.newNotifs).then(function(){
+    
+        //         }).catch(function(err){
+        //           // alert(err.msg_error);
+        //         }); 
+        //         } else{
+
+        //         }
+        //      }
+
+        // }
+>>>>>>> 44175839f6f808862f796bc5e74a939d42e7757a
 
 
         /*
@@ -345,7 +393,7 @@
                 alert(err.msg_error);
             });
         }
-        getLogs();
+        
 
         /*
             Function name: Pie Chart

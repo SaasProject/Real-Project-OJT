@@ -204,7 +204,7 @@
 							<!-- show roles -->
 				          	<select class="form-control" data="{{roleData}}" ng-show="showDropDown(field.type) && field.name == 'role'" ng-model="aUsers[field.name]">
 								<option value="" ng-if="!field.required"></option>
-								<option ng-repeat="option in roleData">{{option}}</option>
+								<option ng-repeat="option1 in roleData">{{option1}}</option>
 							</select>
           				</div>
 						<small><i>{{selectedLanguage.commons.requiredLabel1}}<span style = "color:red">*</span> {{selectedLanguage.commons.requiredLabel2}}</i></small>

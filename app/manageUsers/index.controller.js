@@ -53,6 +53,8 @@
         var vm = this;
  
         vm.user = [];
+        $scope.roleData = [];
+        getAllRoles();
 
         
         $scope.loading = true;
@@ -217,7 +219,6 @@
 
         $scope.id = "";
         $scope.fields = [];
-        $scope.roleData = [];
         $scope.name = 'user';
 
 
@@ -237,7 +238,7 @@
                 alert(err);
             });
         }
-        getAllRoles();
+       
         
         /*
             Function name: Get all user fields 
