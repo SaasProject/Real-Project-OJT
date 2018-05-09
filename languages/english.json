@@ -238,6 +238,7 @@
             	"oct": "Oct",
             	"nov": "Nov",
             	"dec": "Dec",
+            	"isalmostfull": "is almost full.",
             	"isover": "is over the limit.",
             	"isempty": "is empty.",
             	"invalidyrmsg": "Invalid! From Year cannot be more than or equal to To Year.",

@@ -7,6 +7,7 @@ var logsService = require('services/logs.service');
 // routes
 router.get('/all', getAllLogs);
 router.post('/addNotification', addNotif);
+router.delete('/deleteNotification', deleteNotifs);
 module.exports = router;
 
 
@@ -27,11 +28,20 @@ function getAllLogs(req, res) {
 }
 
   function addNotif(req, res){
-    console.log(req.body);
     logsService.insertOverLimit(req.body).then(function(){
             res.sendStatus(200);
     })
         .catch(function (err) {
             res.status(400).send(err);
     });
+}
+
+function deleteNotifs(req, res) {
+        logsService.deleteAll()
+        .then(function () {
+            res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
 }

@@ -26,7 +26,7 @@
 		$scope.loading = true;
         $scope.name = 'user';
         $scope.newNotifs = {};
-        
+        $scope.newNotifss = {};
         // function to convert object to array
         Object.size = function(obj) {
             var size = 0, key;
@@ -100,6 +100,7 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                                 getAssetsByWarehouse();
+                                clearNotifiPanel();
                                 addNotification($scope.warehouses);
                         }
                     }
@@ -147,17 +148,7 @@
                         //check percentage
                         if (quantity > ($scope.warehouses[warehouseQnty].capacity)){
                             color = "red";
-                            icon = "glyphicon-remove-sign";      
-
-
-                            $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                                $scope.newNotifs.message = $scope.current_warehouse.name+ " is over the limit";
-
-                                LogsService.addNotifs($scope.newNotifs).then(function(){
-                    
-                                }).catch(function(err){
-                                 //   alert(err.msg_error);
-                                });             
+                            icon = "glyphicon-remove-sign";               
 
                         }
                         else if (quantity >= ($scope.warehouses[warehouseQnty].capacity * 0.90)){
@@ -179,7 +170,7 @@
                         //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                         $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                         getAssetsByWarehouse();
-                        addNotification($scope.warehouses);
+                        
                     }
                 }
             }).catch(function(error){
@@ -190,6 +181,7 @@
         // get realtime changes
         socket.on('assetChange', function(){
             getAssetUpdate();
+
         });
         socket.on('whouseChange', function(){
             getAllWHInfo();
@@ -209,18 +201,10 @@
             //console.log($scope.current_warehouse.icon);
             isModalOpened = true;
             getAssetsByWarehouse();
-        };
-
-<<<<<<< HEAD
-=======
-        $scope.openModal = function(warehouse){
-            $scope.current_warehouse = warehouse;
-            //console.log($scope.current_warehouse.icon);
-            isModalOpened = true;
-            getAssetsByWarehouse();
+            clearNotifiPanel();
             addNotification($scope.warehouses);
         };
->>>>>>> b0e565099e69f62e7cc025f4232ef3d020641091
+
 
         //reset variables just to be sure
         $scope.closeModal = function(){
@@ -292,32 +276,56 @@
         function addNotification(warehouselist){
             //filter by warehouse and updated_date (desc)
             //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
-
-
+            var warehousenum= "";
             for( var x=0; x<=warehouselist.length; x++){
+                warehousenum= "";
                 if(warehouselist[x].quantity > parseInt(warehouselist[x].capacity)){
                      $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                     $scope.newNotifs.message = warehouselist[x].name+" "+$rootScope.selectedLanguage.home.labels.isover;
-                     console.log( $scope.newNotifs.message);
-                     LogsService.addNotifs($scope.newNotifs).then(function(){
-    
-                }).catch(function(err){
-                  // alert(err.msg_error);
-                }); 
+                     warehousenum = warehouselist[x].name;
+                     $scope.newNotifs.message = warehousenum+" "+$rootScope.selectedLanguage.home.labels.isover;
+                     $scope.addNotification($scope.newNotifs);
+
+
+                }else if (warehouselist[x].quantity >= (parseInt(warehouselist[x].capacity) * 0.80)){
+                    $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
+                    warehousenum = warehouselist[x].name;
+                    $scope.newNotifs.message = warehousenum+ " " +$rootScope.selectedLanguage.home.labels.isalmostfull;
+                    $scope.addNotification($scope.newNotifs);
 
                 } else if (warehouselist[x].quantity == 0){
                     $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                     $scope.newNotifs.message = warehouselist[x].name+ " " +$rootScope.selectedLanguage.home.labels.isempty;
-                     console.log($scope.newNotifs.message);
-                     LogsService.addNotifs($scope.newNotifs).then(function(){
-    
+                    warehousenum = warehouselist[x].name;
+                     $scope.newNotifs.message = warehousenum+ " " +$rootScope.selectedLanguage.home.labels.isempty;
+                     $scope.addNotification($scope.newNotifs);
+                
+                
+
+             }
+         }
+        }
+
+
+
+        $scope.addNotification = function (newNotif){
+            $scope.newNotifs = {};
+             LogsService.addNotifs(newNotif).then(function(){
+                        FlashService.Success($rootScope.selectedLanguage.warehouse.labels.flash_add);
+                        
+                         }).catch(function(err){
+                  // alert(err.msg_error);
+                }); 
+
+        }
+
+
+
+        function clearNotifiPanel(){
+             LogsService.delNotifs().then(function () {
                 }).catch(function(err){
                   // alert(err.msg_error);
                 }); 
-                }
-             }
-
         }
+
 
         /*
             Function name: Notifications

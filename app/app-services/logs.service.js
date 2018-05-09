@@ -11,6 +11,7 @@
 
         service.getAllLogs = getAllLogs;
         service.addNotifs = addNotifs;
+        service.delNotifs = delNotifs;
  
         return service;
         
@@ -30,6 +31,10 @@
         
         function addNotifs(notif) {
             return $http.post('/api/logs/addNotification', notif).then(handleSuccess, handleError);
+        }
+        
+        function delNotifs() {
+            return $http.delete('/api/logs/deleteNotification').then(handleSuccess, handleError);
         }
  
         // private functions
