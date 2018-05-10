@@ -4,7 +4,7 @@ var possibleLocation = ["MKT","ALB","CBU","JPN"];
 var possibleType = ["Parcel","Box","Package"];
 var possibleStatus = ["Ok","Ok"];
 var possibleLocationNumbers = "012";
-var possibleWarehouse = "67";
+var possibleWarehouse = "3";
 
 var tag = "";
 var lctn = "device ";

@@ -100,8 +100,10 @@
                             //update the warehouse for the icon change. since $eval returns an array, and it is assumed that there are no duplicates, get the first element
                             $scope.current_warehouse = $scope.$eval('warehouses | filter: current_warehouse.name')[0];
                                 getAssetsByWarehouse();
+                                //getAssetsForGraph();
                                 clearNotifiPanel();
-                                addNotification($scope.warehouses);
+                                addNotification();
+
                         }
                     }
                 })
@@ -202,7 +204,7 @@
             isModalOpened = true;
             getAssetsByWarehouse();
             clearNotifiPanel();
-            addNotification($scope.warehouses);
+            addNotification();
         };
 
 
@@ -254,12 +256,11 @@
                 return (self.indexOf(value) == index && value != null && value != '');
             }).sort().toString().replace(/,/g, ', ');
 
-            //pass types of assets array to getAssetType method
+            //pass types of assets array to getAssetType method (for Pie Chart)
             getAssetType($scope.current_warehouse.asset_types);
-
-            //pass warehouse capacity and asset dates array to getCapacityAndQuantity method
+            //pass per months arrar and capacity to getCapacityAndQuantity method (for Line Graph)
             getCapacityAndQuantity($scope.latest_assets_permonth, $scope.current_warehouse.capacity);
-            //display only the first 5 elements
+            
             $scope.latest_assets = $scope.latest_assets.slice(0, 5);
             //console.log($scope.latest_assets);            
         };
@@ -268,33 +269,36 @@
             Function name: Add Notifications
             Author(s): Ortaleza, Sherine Marie
             Date Modified: 04/24/2018
-            Description: Adds notifications to the logs collection in database
+            Description: Save message and date to newNotifs array
             Parameter(s): none
             Return: none
         */
 
-        function addNotification(warehouselist){
+        function addNotification(){
             //filter by warehouse and updated_date (desc)
             //$scope.latest_assets = $scope.$eval("assets | filter: current_warehouse.name | orderBy: '-updated_date'");
+
             var warehousenum= "";
-            for( var x=0; x<=warehouselist.length; x++){
+            for( var x=0; x<=$scope.warehouses.length; x++){
                 warehousenum= "";
-                if(warehouselist[x].quantity > parseInt(warehouselist[x].capacity)){
+                //if quantity is over the limit
+                if($scope.warehouses[x].quantity > parseInt($scope.warehouses[x].capacity)){
                      $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                     warehousenum = warehouselist[x].name;
+                     warehousenum = $scope.warehouses[x].name;
                      $scope.newNotifs.message = warehousenum+" "+$rootScope.selectedLanguage.home.labels.isover;
                      $scope.addNotification($scope.newNotifs);
 
-
-                    }else if (warehouselist[x].quantity >= (parseInt(warehouselist[x].capacity) * 0.80)){
+                //if quantity is almost full
+                } else if ($scope.warehouses[x].quantity >= (parseInt($scope.warehouses[x].capacity) * 0.80)){
                     $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                    warehousenum = warehouselist[x].name;
+                    warehousenum = $scope.warehouses[x].name;
                     $scope.newNotifs.message = warehousenum+ " " +$rootScope.selectedLanguage.home.labels.isalmostfull;
                     $scope.addNotification($scope.newNotifs);
 
-                } else if (warehouselist[x].quantity == 0){
+                //if quantity is zero
+                } else if ($scope.warehouses[x].quantity == 0){
                     $scope.newNotifs.date = $filter('date')(new Date(), "yyyy-MM-dd HH:mm:ss");
-                    warehousenum = warehouselist[x].name;
+                    warehousenum = $scope.warehouses[x].name;
                      $scope.newNotifs.message = warehousenum+ " " +$rootScope.selectedLanguage.home.labels.isempty;
                      $scope.addNotification($scope.newNotifs);
                 
@@ -304,7 +308,14 @@
          }
         }
 
-
+         /*
+            Function name: Save Notification
+            Author(s): Ortaleza, Sherine Marie
+            Date Modified: 05/10/2018
+            Description: add notification to logs collection
+            Parameter(s): none
+            Return: none
+        */
 
         $scope.addNotification = function (newNotif){
             $scope.newNotifs = {};
@@ -317,9 +328,17 @@
 
         }
 
-
+        /*
+            Function name: Clear Notifications Panel
+            Author(s): Ortaleza, Sherine Marie
+            Date Modified: 05/10/2018
+            Description: clear all contents of logs
+            Parameter(s): none
+            Return: none
+        */
 
         function clearNotifiPanel(){
+            //delete all data in logs collection
              LogsService.delNotifs().then(function () {
                 }).catch(function(err){
                   alert(err.msg_error);
@@ -416,6 +435,13 @@
             });
         }
 
+
+        $scope.getCurrentyear = function(){
+            var date = new Date();
+            var year = date.getFullYear();
+            return year;
+        }
+
         /*
             Function name: Line Chart
             Author(s): Ortaleza, Sherine Marie
@@ -424,6 +450,9 @@
             Parameter(s): none
             Return: none
         */
+        //var selectedyear=;
+
+        
 
         function getCapacityAndQuantity(pm_warehouse, c_warehouse){
             //initialization
@@ -439,6 +468,7 @@
             var qtyPerYear = [];
             var toYear = "";
             var fromYear = "";
+            //for months is line chart
             var monthNameList = [
             $rootScope.selectedLanguage.home.labels.jan, 
             $rootScope.selectedLanguage.home.labels.feb, 
@@ -498,7 +528,7 @@
                     qtyPerMonth.push(monthQuantity);
 
                 }
-
+                //get components for y axis
                 $scope.yAxis = [];
                 if(qtyPerMonth.length > parseInt($scope.cp_warehouse)){
                     $scope.yAxis = [];
@@ -519,10 +549,7 @@
                 myConfig['series'].push({values:$scope.capacity,text: $rootScope.selectedLanguage.home.labels.capacity});
                 myConfig['title'].text= $rootScope.selectedLanguage.home.labels.currentyear;
                 //render for default chart onload
-                zingchart.render({
-                id: 'chart-div',
-                data: myConfig
-            });      
+                
 
             //get all distinct years of assets
             for(var x = 0; x < pm_warehouse.length; x++){
@@ -539,40 +566,46 @@
 
             //gets monthly or yearly option from filter and shows corresponding div
             $scope.ShowDiv = function(x) {
+                        $scope.ngShowYearly = false;
+                        $scope.ngShowMonthly = false;
+                        $scope.ngShowtoYear = false;
                     //if monthly
                     if( x == 1){
                         //shows monthly select element and hides yearly div
                         $scope.ngShowYearly = false;
                         $scope.ngShowMonthly = true;
+
                         //gets year and passes year to getQuantityOfYearMonthly function                      
                         $scope.getYear = function(yy){
                         getQuantityOfYearMonthly(yy);
                     }
                     //if yearly
-                    } else{
+                    } else if(x == 2){
                         //hides monthly select element and shows yearly div
+
                         $scope.ngShowYearly = true;
                         $scope.ngShowtoYear = false;
                         $scope.ngShowMonthly = false;
-
+                    }
                         //gets from year from from select element and shows To: select element
                         $scope.getFromYear= function(fromYearSelected){
                             fromYear = fromYearSelected;
                             $scope.ngShowtoYear = true;
+                            
                         }
 
                         //gets to year element from to select element and passes from year to year and number of assets to getQuantity per year method
                         $scope.getToYear= function(toYearSelected){
-                            toYear = toYearSelected;
+                            toYear  = toYearSelected;
                             //if from year is lesser that to year pass parameters from year and to year to getQuantityPer year
-                            if(fromYear < toYear){
+                            if(fromYear< toYear ){
                                 myConfig['series'] = [];
                                 qtyPerYear = [];
                                 rangeOfYears = [];
                                 $scope.quantity = [];  
                                 $scope.capacity = [];
                                 $scope.numberOfAssets = $scope.pmm_warehouse.length;
-                                getQuantityPerYear(fromYear, toYear, $scope.pmm_warehouse);
+                                getQuantityPerYear(fromYear, $scope.toYear , $scope.pmm_warehouse);
 
                             //if from year and greater than or equal to to year element alert invalid
                             }else{
@@ -583,13 +616,12 @@
                             
                         }
 
-                    }
+                    
             }; 
 
             //get asset quantity per year of the range of year selected
             function getQuantityPerYear(fromY, toY, allAssets){ 
-                $scope.ngShowtoYear = false;
-                $scope.ngShowfromYear = false;
+
                 myConfig['series'] = [];
                 qtyPerYear = [];
                 rangeOfYears = [];
@@ -643,8 +675,12 @@
                 $scope.ngShowfromYear = false;
             }
 
+
+        
+
             //get asset quantity per month of a certain year selected
-            function getQuantityOfYearMonthly(selectedYear){
+        function getQuantityOfYearMonthly(selectedYear){
+           
                 myConfig['series'] = [];
                 qtyPerMonth = [];
                 $scope.quantity = [];  
