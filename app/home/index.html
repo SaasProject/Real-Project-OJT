@@ -113,7 +113,8 @@
                             <div>
                             <label>{{selectedLanguage.home.labels.filter}}</label>                            
                               
-                                <select name="filterData"  ng-model="filterData.model" ng-selected ="ShowDiv(filterData.model)" ng-init="filterData.model = '1'">
+                                <select name="filterData"  ng-model="filterData.model" ng-selected ="ShowDiv(filterData.model)" >
+                                  <option value="1"></option>
                                   <option value="1" >{{selectedLanguage.home.labels.monthly}}</option>
                                   <option value="2" >{{selectedLanguage.home.labels.yearly}}</option>
                                 </select>
@@ -121,8 +122,9 @@
                               <div ng-show="ngShowMonthly">
                                     <form name="myFormFromYear">
                                     <label>{{selectedLanguage.home.labels.year}}</label>                            
-                                        <select name="yearOfChoice" id="yearOfChoice" ng-model="yearOfChoice" ng-change="getYear(yearOfChoice)" ng-init="yearOfChoice=$scope.getCurrentyear">
-                                          <option ng-selected="$first" ng-repeat="option in years | orderBy: option" value="{{option}}" >{{option}}</option>
+                                        <select name="yearOfChoice" id="yearOfChoice" ng-model="yearOfChoice" ng-change="getYear(yearOfChoice)">
+                                            <option value="$scope.getCurrentyear"></option>
+                                          <option ng-repeat="option in years | orderBy: option" value="{{option}}" >{{option}}</option>
                                         </select>
                                     </form>
                                 </div>
@@ -132,6 +134,7 @@
                                     <td>
                                     <label>{{selectedLanguage.home.labels.from}}</label></td>                            
                                         <td><select name="fromYear" id="fromYear" ng-model="fromYear" ng-change="getFromYear(fromYear)" ng-init= "fromYear=years[0]">
+                                            <option value="$scope.getCurrentyear"></option>
                                           <option ng-repeat="option in years | orderBy: option " value="{{option}}">{{option}}</option>
                                         </select></td>
                                         </tr>
@@ -141,6 +144,7 @@
                                     <label>{{selectedLanguage.home.labels.to}}</label></td>
                                     <td>                       
                                         <select name="toYear" id="toYear" ng-model="toYear" ng-change="getToYear(toYear)">
+                                            <option value="$scope.getCurrentyear"></option>
                                           <option ng-repeat="option in years | orderBy: option " value="{{option}}" >{{option}}</option>
                                         </select>
 

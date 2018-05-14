@@ -27,6 +27,27 @@
         $scope.name = 'user';
         $scope.newNotifs = {};
         $scope.newNotifss = {};
+        $scope.reset = {  
+            type: 'line',
+            title: {
+                  textAlign: 'center',
+                  fontSize: 20,
+                  fontStyle: 'normal',
+                  fontFamily: "Verdana",
+                  fontWeight: "100"
+            },
+
+            legend:{
+                layout: "float",
+                backgroundColor: "none",
+                borderWidth: 0,
+                shadow: 0,
+                paddingTop: 0,
+                align:"left"
+
+            },
+            series: []
+            };
         // function to convert object to array
         Object.size = function(obj) {
             var size = 0, key;
@@ -202,6 +223,10 @@
             $scope.current_warehouse = warehouse;
             //console.log($scope.current_warehouse.icon);
             isModalOpened = true;
+            zingchart.render({
+                id: 'chart-div',
+                data: $scope.reset
+            });
             getAssetsByWarehouse();
             clearNotifiPanel();
             addNotification();
@@ -667,8 +692,8 @@
                 myConfig['title'].text= $rootScope.selectedLanguage.home.labels.rangeyear;
                 
                 zingchart.render({
-                id: 'chart-div',
-                data: myConfig
+                    id: 'chart-div',
+                    data: myConfig
                 });  
 
                 $scope.ngShowtoYear = false;
@@ -716,9 +741,9 @@
                 myConfig['series'].push({values:$scope.capacity,text: $rootScope.selectedLanguage.home.labels.capacity});
                 myConfig['title'].text= $rootScope.selectedLanguage.home.labels.selectedyear + " "+selectedYear;
                 zingchart.render({
-                id: 'chart-div',
-                data: myConfig
-            });
+                    id: 'chart-div',
+                    data: myConfig
+                });
 
             }
                   
